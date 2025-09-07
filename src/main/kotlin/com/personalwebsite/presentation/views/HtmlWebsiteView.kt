@@ -47,7 +47,7 @@ class HtmlWebsiteView : WebsiteView {
             appendLine("            <a class=\"nav-link\" href=\"#personal-projects\">Projects</a>")
             appendLine("            <a class=\"nav-link\" href=\"#contact\">Contact</a>")
             appendLine("        </div>")
-            appendLine("        <a href=\"/static/files/Mohamed_ElSherbini_Resume.pdf\" class=\"resume-button\" target=\"_blank\" download=\"Mohamed_ElSherbini_Resume.pdf\">Resume</a>")
+            appendLine("        <a href=\"#contact\" class=\"resume-button\">Resume</a>")
             appendLine("    </header>")
             
             appendLine("    <main>")
@@ -178,15 +178,6 @@ class HtmlWebsiteView : WebsiteView {
             appendLine("                    </a>")
             appendLine("                    <a href=\"${viewModel.personalInfo.github}\" target=\"_blank\" class=\"contact-item contact-button\">")
             appendLine("                        <h3>💻 GitHub</h3>")
-            appendLine("                    </a>")
-            appendLine("                </div>")
-            
-            // Resume Download
-            appendLine("                <div class=\"resume-section\">")
-            appendLine("                    <h2 class=\"section-title\">Resume</h2>")
-            appendLine("                    <p class=\"section-subtitle\">Download my resume to learn more about my experience and qualifications.</p>")
-            appendLine("                    <a href=\"/static/files/Mohamed_ElSherbini_Resume.pdf\" class=\"resume-download-button\" target=\"_blank\" download=\"Mohamed_ElSherbini_Resume.pdf\">")
-            appendLine("                        📄 Download Resume")
             appendLine("                    </a>")
             appendLine("                </div>")
             

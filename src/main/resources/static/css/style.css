@@ -753,36 +753,6 @@ main {
   color: var(--text-primary);
 }
 
-/* Resume Section */
-.resume-section {
-  margin-top: 48px;
-  padding-top: 32px;
-  border-top: 1px solid var(--surface-secondary);
-  text-align: center;
-}
-
-.resume-download-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 16px 32px;
-  background: var(--primary-color);
-  color: var(--background);
-  text-decoration: none;
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  margin-top: 24px;
-}
-
-.resume-download-button:hover {
-  background: var(--primary-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(56, 224, 123, 0.3);
-}
-
 /* Languages Section */
 .languages-section {
   margin-top: 48px;
