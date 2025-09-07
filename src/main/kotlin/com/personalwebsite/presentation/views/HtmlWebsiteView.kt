@@ -47,7 +47,7 @@ class HtmlWebsiteView : WebsiteView {
             appendLine("            <a class=\"nav-link\" href=\"#personal-projects\">Projects</a>")
             appendLine("            <a class=\"nav-link\" href=\"#contact\">Contact</a>")
             appendLine("        </div>")
-            appendLine("        <a href=\"#contact\" class=\"resume-button\">Resume</a>")
+            appendLine("        <a href=\"/static/files/Mohamed_ElSherbini_Resume.txt\" class=\"resume-button\" target=\"_blank\" download=\"Mohamed_ElSherbini_Resume.txt\">Resume</a>")
             appendLine("    </header>")
             
             appendLine("    <main>")
