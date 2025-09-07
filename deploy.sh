@@ -6,7 +6,7 @@
 set -e
 
 # Configuration
-DROPLET_IP="YOUR_DROPLET_IP_HERE"
+DROPLET_IP="161.35.20.4"
 DROPLET_USER="root"
 APP_NAME="personal-website"
 CONTAINER_NAME="personal-website-container"
