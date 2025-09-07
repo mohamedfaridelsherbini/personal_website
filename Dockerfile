@@ -1,5 +1,5 @@
-# Use OpenJDK 17 as base image
-FROM openjdk:17-jdk-slim
+# Use OpenJDK 17 as base image for AMD64 platform
+FROM --platform=linux/amd64 openjdk:17-jdk-slim
 
 # Set working directory
 WORKDIR /app
@@ -25,4 +25,4 @@ RUN ./gradlew build --no-daemon
 EXPOSE 8080
 
 # Run the application
-CMD ["java", "-jar", "build/libs/personal-website-1.0-SNAPSHOT.jar"]
+CMD ["java", "-jar", "build/libs/app-all.jar"]
