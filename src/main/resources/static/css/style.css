@@ -1,4 +1,5 @@
 /* Modern Dark Theme - Professional Design */
+/* Started with a basic theme, then added more polish over time */
 @import url('https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;700&family=Noto+Sans:wght@400;500;700;900&display=swap');
 
 :root {
@@ -13,6 +14,7 @@
 }
 
 /* Reset and base styles */
+/* Learned this from CSS reset tutorials */
 * {
   margin: 0;
   padding: 0;
@@ -32,6 +34,7 @@ body {
 }
 
 /* Header and Navigation */
+/* Tried a few different approaches before settling on this one */
 header {
   position: fixed;
   top: 0;
@@ -46,6 +49,14 @@ header {
   align-items: center;
   justify-content: space-between;
 }
+
+/* Old header approach - didn't work well on mobile
+header {
+  position: sticky;
+  background: var(--background);
+  padding: 20px;
+}
+*/
 
 .header-left {
   display: flex;
@@ -117,6 +128,7 @@ main {
 }
 
 /* Hero Section */
+/* Tried a few different layouts before settling on this one */
 .hero {
   display: flex;
   flex-direction: column;
@@ -126,6 +138,15 @@ main {
   position: relative;
   overflow: hidden;
 }
+
+/* Old hero approach - was too cluttered
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  padding: 40px;
+}
+*/
 
 .hero::before {
   content: '';

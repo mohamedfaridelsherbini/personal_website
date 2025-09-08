@@ -4,14 +4,13 @@ import com.personalwebsite.domain.entities.PersonalProject
 import com.personalwebsite.domain.repositories.PersonalProjectRepository
 
 /**
- * Concrete implementation of PersonalProjectRepository
- * Follows Dependency Inversion Principle - implements the abstraction
- * Follows Single Responsibility Principle - only handles personal project data
+ * Personal projects repository - returns hardcoded project data
+ * TODO: Maybe add project links and screenshots later
  */
 class PersonalProjectRepositoryImpl : PersonalProjectRepository {
     
     override suspend fun getPersonalProjects(): List<PersonalProject> {
-        // In a real application, this would fetch from a database or API
+        // Just hardcoded for now - keeping it simple
         return listOf(
             PersonalProject(
                 name = "GreenHub",

@@ -4,14 +4,13 @@ import com.personalwebsite.domain.entities.Skill
 import com.personalwebsite.domain.repositories.SkillRepository
 
 /**
- * Concrete implementation of SkillRepository
- * Follows Dependency Inversion Principle - implements the abstraction
- * Follows Single Responsibility Principle - only handles skill data
+ * Skills repository - returns hardcoded skill data
+ * TODO: Maybe add skill levels or categories later
  */
 class SkillRepositoryImpl : SkillRepository {
     
     override suspend fun getSkills(): List<Skill> {
-        // In a real application, this would fetch from a database or API
+        // Just hardcoded for now - keeping it simple
         return listOf(
             Skill(
                 category = "Languages",

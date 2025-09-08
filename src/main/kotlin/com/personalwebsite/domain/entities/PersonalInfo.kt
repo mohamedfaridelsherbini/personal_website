@@ -1,8 +1,8 @@
 package com.personalwebsite.domain.entities
 
 /**
- * Domain entity representing personal information
- * Follows Single Responsibility Principle - only contains personal info data
+ * Personal info data class
+ * Simple data holder for now
  */
 data class PersonalInfo(
     val name: String,

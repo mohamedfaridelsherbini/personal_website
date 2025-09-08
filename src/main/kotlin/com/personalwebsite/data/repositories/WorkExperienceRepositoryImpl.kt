@@ -4,14 +4,13 @@ import com.personalwebsite.domain.entities.WorkExperience
 import com.personalwebsite.domain.repositories.WorkExperienceRepository
 
 /**
- * Concrete implementation of WorkExperienceRepository
- * Follows Dependency Inversion Principle - implements the abstraction
- * Follows Single Responsibility Principle - only handles work experience data
+ * Work experience repository - just returns hardcoded data
+ * TODO: Maybe add a way to update this from an admin panel
  */
 class WorkExperienceRepositoryImpl : WorkExperienceRepository {
     
     override suspend fun getWorkExperience(): List<WorkExperience> {
-        // In a real application, this would fetch from a database or API
+        // Just hardcoded for now - keeping it simple
         return listOf(
             WorkExperience(
                 company = "Check24 Vergleich GmbH",

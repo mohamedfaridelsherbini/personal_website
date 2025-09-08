@@ -7,9 +7,8 @@ import mu.KotlinLogging
 
 /**
  * Controller for the website
- * Follows Single Responsibility Principle - only handles business logic coordination
- * Follows Dependency Inversion Principle - depends on use case abstractions
- * Follows Open/Closed Principle - can be extended without modification
+ * Handles getting all the data and passing it to the view
+ * TODO: Maybe add caching here later if performance becomes an issue
  */
 class WebsiteController(
     private val getPersonalInfoUseCase: GetPersonalInfoUseCase,
@@ -24,17 +23,21 @@ class WebsiteController(
     
     /**
      * Loads all website data and renders the view
-     * Follows Single Responsibility Principle - only handles data loading and view rendering
+     * This used to be much simpler but I added more sections over time
      */
     suspend fun loadWebsite(): String {
         logger.info { "Loading website data" }
         
         return try {
+            // Get all the data we need - this could probably be optimized
             val personalInfo = getPersonalInfoUseCase()
             val skills = getSkillsUseCase()
             val workExperience = getWorkExperienceUseCase()
             val personalProjects = getPersonalProjectsUseCase()
             val languages = getLanguagesUseCase()
+            
+            // Debug: log some stats
+            logger.debug { "Loaded ${skills.size} skill categories, ${workExperience.size} work experiences, ${personalProjects.size} projects" }
             
             val viewModel = WebsiteViewModel(
                 personalInfo = personalInfo,
@@ -47,7 +50,7 @@ class WebsiteController(
             logger.info { "Website data loaded successfully for ${personalInfo.name}" }
             websiteView.render(viewModel)
         } catch (e: Exception) {
-            logger.error(e) { "Failed to load website data" }
+            logger.error(e) { "Failed to load website data - ${e.message}" }
             websiteView.renderError("Failed to load website data: ${e.message}")
         }
     }

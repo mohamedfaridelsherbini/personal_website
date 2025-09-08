@@ -10,29 +10,29 @@ import org.koin.dsl.module
 
 /**
  * Koin module for dependency injection
- * Significantly reduces boilerplate code compared to manual DI
- * Follows Single Responsibility Principle - only handles dependency configuration
+ * Much cleaner than manual DI - learned this from the Koin docs
+ * TODO: Maybe split this into smaller modules if it gets too big
  */
 val appModule = module {
     
-    // Repository implementations
+    // Repository implementations - keeping it simple with hardcoded data for now
     single<PersonalInfoRepository> { PersonalInfoRepositoryImpl() }
     single<SkillRepository> { SkillRepositoryImpl() }
     single<WorkExperienceRepository> { WorkExperienceRepositoryImpl() }
     single<PersonalProjectRepository> { PersonalProjectRepositoryImpl() }
     single<LanguageRepository> { LanguageRepositoryImpl() }
     
-    // Use cases
+    // Use cases - these are pretty straightforward
     single { GetPersonalInfoUseCase(get()) }
     single { GetSkillsUseCase(get()) }
     single { GetWorkExperienceUseCase(get()) }
     single { GetPersonalProjectsUseCase(get()) }
     single { GetLanguagesUseCase(get()) }
     
-    // View
+    // View - only have HTML view for now, might add others later
     single<WebsiteView> { HtmlWebsiteView() }
     
-    // Controller
+    // Controller - wires everything together
     single { 
         WebsiteController(
             getPersonalInfoUseCase = get(),

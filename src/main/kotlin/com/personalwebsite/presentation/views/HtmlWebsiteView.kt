@@ -5,9 +5,8 @@ import kotlinx.html.*
 
 /**
  * HTML implementation of WebsiteView
- * Follows Single Responsibility Principle - only handles HTML rendering
- * Follows Dependency Inversion Principle - implements the abstraction
- * Follows Open/Closed Principle - can be extended without modification
+ * This is where all the HTML magic happens
+ * TODO: Maybe add a template engine later if this gets too complex
  */
 class HtmlWebsiteView : WebsiteView {
     
@@ -29,11 +28,12 @@ class HtmlWebsiteView : WebsiteView {
             appendLine("                alert('Copied to clipboard: ' + text);")
             appendLine("            });")
             appendLine("        }")
+            // TODO: Add more interactive features later
             appendLine("    </script>")
             appendLine("</head>")
             appendLine("<body class=\"bg-[#111714] font-['Spline_Sans']\">")
             
-            // Header
+            // Header - kept it simple, might add animations later
             appendLine("    <header>")
             appendLine("        <div class=\"header-left\">")
             appendLine("            <svg class=\"logo\" fill=\"none\" viewBox=\"0 0 48 48\" xmlns=\"http://www.w3.org/2000/svg\">")
@@ -52,7 +52,7 @@ class HtmlWebsiteView : WebsiteView {
             
             appendLine("    <main>")
             
-            // Home Section
+            // Home Section - this took a few iterations to get right
             appendLine("        <section class=\"hero\">")
             appendLine("            <div id=\"home\"></div>")
             appendLine("            <div class=\"hero-content\">")
@@ -62,10 +62,14 @@ class HtmlWebsiteView : WebsiteView {
             appendLine("                    <a href=\"#personal-projects\" class=\"cta-button\">Explore My Work</a>")
             appendLine("                    <a href=\"#contact\" class=\"cta-button-secondary\">Get in Touch</a>")
             appendLine("                </div>")
+            // TODO: Maybe add a typing animation to the title
+            // appendLine("                <script>")
+            // appendLine("                    // Typing animation code here")
+            // appendLine("                </script>")
             appendLine("            </div>")
             appendLine("        </section>")
             
-            // What I Do Section
+            // What I Do Section - might add more features later
             appendLine("        <section class=\"features\">")
             appendLine("            <div class=\"feature-grid\">")
             appendLine("                <div class=\"feature\">")
@@ -80,10 +84,11 @@ class HtmlWebsiteView : WebsiteView {
             appendLine("                    <h3>Performance</h3>")
             appendLine("                    <p>I optimize for speed and efficiency, delivering fast load times and smooth interactions that enhance user satisfaction.</p>")
             appendLine("                </div>")
+            // TODO: Add more features like "Testing" or "DevOps"
             appendLine("            </div>")
             appendLine("        </section>")
             
-            // About Section
+            // About Section - this section took the most time to get right
             appendLine("        <section class=\"page-section\">")
             appendLine("            <div id=\"about\"></div>")
             appendLine("            <div class=\"page-content\">")
@@ -95,6 +100,7 @@ class HtmlWebsiteView : WebsiteView {
             appendLine("                <h2 class=\"section-title\">About Me</h2>")
             appendLine("                <p class=\"about-description\">Senior Android Engineer with 8+ years of experience building robust mobile applications using Kotlin and Java, and beginner experience in iOS development with Swift. Specialized in Android development, Kotlin Multiplatform, and scalable multi-module projects.</p>")
             appendLine("                <p class=\"about-description\">Experienced in automation testing frameworks (Appium, Selenium), CI/CD pipelines with Docker & Jenkins, and backend integration with Spring Boot microservices. Adept at delivering high-quality, product-focused solutions in Agile, cross-functional teams across Europe and MENA.</p>")
+            // TODO: Maybe add a fun fact or personal note here
             
             // Work Experience
             appendLine("                <h2 class=\"section-title\">Experience</h2>")
