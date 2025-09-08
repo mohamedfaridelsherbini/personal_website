@@ -1,8 +1,7 @@
 package com.personalwebsite.domain.entities
 
 /**
- * Domain entity representing language proficiency
- * Follows Single Responsibility Principle - only contains language data
+ * Language proficiency data class
  */
 data class Language(
     val name: String,

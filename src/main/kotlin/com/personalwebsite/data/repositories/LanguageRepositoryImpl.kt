@@ -4,9 +4,7 @@ import com.personalwebsite.domain.entities.Language
 import com.personalwebsite.domain.repositories.LanguageRepository
 
 /**
- * Concrete implementation of LanguageRepository
- * Follows Dependency Inversion Principle - implements the abstraction
- * Follows Single Responsibility Principle - only handles language data
+ * Language repository implementation
  */
 class LanguageRepositoryImpl : LanguageRepository {
     

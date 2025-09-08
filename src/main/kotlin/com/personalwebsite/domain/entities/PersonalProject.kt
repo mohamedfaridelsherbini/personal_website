@@ -1,8 +1,7 @@
 package com.personalwebsite.domain.entities
 
 /**
- * Domain entity representing personal projects
- * Follows Single Responsibility Principle - only contains personal project data
+ * Personal project data class
  */
 data class PersonalProject(
     val name: String,

@@ -6,7 +6,6 @@ import mu.KotlinLogging
 
 /**
  * Personal info repository - just returns hardcoded data for now
- * TODO: Maybe connect to a CMS or database later
  */
 class PersonalInfoRepositoryImpl : PersonalInfoRepository {
     

@@ -5,7 +5,6 @@ import com.personalwebsite.domain.repositories.SkillRepository
 
 /**
  * Skills repository - returns hardcoded skill data
- * TODO: Maybe add skill levels or categories later
  */
 class SkillRepositoryImpl : SkillRepository {
     

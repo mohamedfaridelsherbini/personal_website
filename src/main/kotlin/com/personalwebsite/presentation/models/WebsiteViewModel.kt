@@ -8,8 +8,7 @@ import com.personalwebsite.domain.entities.Language
 
 /**
  * ViewModel for the website
- * Follows Single Responsibility Principle - only handles presentation data
- * Follows Open/Closed Principle - can be extended without modification
+ * Just holds the data needed for the view
  */
 data class WebsiteViewModel(
     val personalInfo: PersonalInfo,

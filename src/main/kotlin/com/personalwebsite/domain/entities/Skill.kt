@@ -1,8 +1,7 @@
 package com.personalwebsite.domain.entities
 
 /**
- * Domain entity representing a skill category
- * Follows Single Responsibility Principle - only contains skill data
+ * Skills data class
  */
 data class Skill(
     val category: String,

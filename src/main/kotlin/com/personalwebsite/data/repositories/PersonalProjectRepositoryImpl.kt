@@ -5,7 +5,6 @@ import com.personalwebsite.domain.repositories.PersonalProjectRepository
 
 /**
  * Personal projects repository - returns hardcoded project data
- * TODO: Maybe add project links and screenshots later
  */
 class PersonalProjectRepositoryImpl : PersonalProjectRepository {
     

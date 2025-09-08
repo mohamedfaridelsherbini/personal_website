@@ -6,7 +6,6 @@ import com.personalwebsite.presentation.models.WebsiteViewModel
 /**
  * HTML implementation of WebsiteView
  * This is where all the HTML magic happens
- * TODO: Maybe add a template engine later if this gets too complex
  */
 class HtmlWebsiteView : WebsiteView {
     

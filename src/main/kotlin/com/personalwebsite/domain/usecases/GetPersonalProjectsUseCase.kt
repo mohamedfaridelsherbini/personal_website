@@ -5,8 +5,6 @@ import com.personalwebsite.domain.repositories.PersonalProjectRepository
 
 /**
  * Use case for retrieving personal projects
- * Follows Single Responsibility Principle - only handles personal project retrieval logic
- * Follows Dependency Inversion Principle - depends on abstraction (repository)
  */
 class GetPersonalProjectsUseCase(
     private val personalProjectRepository: PersonalProjectRepository

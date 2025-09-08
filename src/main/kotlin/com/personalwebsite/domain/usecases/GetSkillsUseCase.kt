@@ -5,8 +5,6 @@ import com.personalwebsite.domain.repositories.SkillRepository
 
 /**
  * Use case for getting skills
- * Follows Single Responsibility Principle - only handles getting skills
- * Follows Dependency Inversion Principle - depends on repository abstraction
  */
 class GetSkillsUseCase(
     private val skillRepository: SkillRepository

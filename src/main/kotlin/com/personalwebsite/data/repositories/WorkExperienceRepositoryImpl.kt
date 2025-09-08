@@ -5,7 +5,6 @@ import com.personalwebsite.domain.repositories.WorkExperienceRepository
 
 /**
  * Work experience repository - just returns hardcoded data
- * TODO: Maybe add a way to update this from an admin panel
  */
 class WorkExperienceRepositoryImpl : WorkExperienceRepository {
     

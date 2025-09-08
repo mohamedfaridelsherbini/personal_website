@@ -23,7 +23,6 @@ import org.koin.dsl.module
 /**
  * Koin module for dependency injection
  * Much cleaner than manual DI - learned this from the Koin docs
- * TODO: Maybe split this into smaller modules if it gets too big
  */
 val appModule = module {
     

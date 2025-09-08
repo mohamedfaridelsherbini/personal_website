@@ -12,7 +12,6 @@ import mu.KotlinLogging
 /**
  * Controller for the website
  * Handles getting all the data and passing it to the view
- * TODO: Maybe add caching here later if performance becomes an issue
  */
 class WebsiteController(
     private val getPersonalInfoUseCase: GetPersonalInfoUseCase,

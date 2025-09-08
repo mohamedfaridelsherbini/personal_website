@@ -1,8 +1,7 @@
 package com.personalwebsite.domain.entities
 
 /**
- * Domain entity representing work experience
- * Follows Single Responsibility Principle - only contains work experience data
+ * Work experience data class
  */
 data class WorkExperience(
     val company: String,
