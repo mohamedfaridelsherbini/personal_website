@@ -1,7 +1,7 @@
 package com.personalwebsite.presentation.views
 
 import com.personalwebsite.presentation.models.WebsiteViewModel
-import kotlinx.html.*
+// Using buildString and appendLine for HTML generation
 
 /**
  * HTML implementation of WebsiteView
@@ -28,7 +28,6 @@ class HtmlWebsiteView : WebsiteView {
             appendLine("                alert('Copied to clipboard: ' + text);")
             appendLine("            });")
             appendLine("        }")
-            // TODO: Add more interactive features later
             appendLine("    </script>")
             appendLine("</head>")
             appendLine("<body class=\"bg-[#111714] font-['Spline_Sans']\">")
@@ -62,10 +61,6 @@ class HtmlWebsiteView : WebsiteView {
             appendLine("                    <a href=\"#personal-projects\" class=\"cta-button\">Explore My Work</a>")
             appendLine("                    <a href=\"#contact\" class=\"cta-button-secondary\">Get in Touch</a>")
             appendLine("                </div>")
-            // TODO: Maybe add a typing animation to the title
-            // appendLine("                <script>")
-            // appendLine("                    // Typing animation code here")
-            // appendLine("                </script>")
             appendLine("            </div>")
             appendLine("        </section>")
             
@@ -84,7 +79,6 @@ class HtmlWebsiteView : WebsiteView {
             appendLine("                    <h3>Performance</h3>")
             appendLine("                    <p>I optimize for speed and efficiency, delivering fast load times and smooth interactions that enhance user satisfaction.</p>")
             appendLine("                </div>")
-            // TODO: Add more features like "Testing" or "DevOps"
             appendLine("            </div>")
             appendLine("        </section>")
             
@@ -100,7 +94,6 @@ class HtmlWebsiteView : WebsiteView {
             appendLine("                <h2 class=\"section-title\">About Me</h2>")
             appendLine("                <p class=\"about-description\">Senior Android Engineer with 8+ years of experience building robust mobile applications using Kotlin and Java, and beginner experience in iOS development with Swift. Specialized in Android development, Kotlin Multiplatform, and scalable multi-module projects.</p>")
             appendLine("                <p class=\"about-description\">Experienced in automation testing frameworks (Appium, Selenium), CI/CD pipelines with Docker & Jenkins, and backend integration with Spring Boot microservices. Adept at delivering high-quality, product-focused solutions in Agile, cross-functional teams across Europe and MENA.</p>")
-            // TODO: Maybe add a fun fact or personal note here
             
             // Work Experience
             appendLine("                <h2 class=\"section-title\">Experience</h2>")

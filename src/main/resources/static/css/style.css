@@ -50,13 +50,6 @@ header {
   justify-content: space-between;
 }
 
-/* Old header approach - didn't work well on mobile
-header {
-  position: sticky;
-  background: var(--background);
-  padding: 20px;
-}
-*/
 
 .header-left {
   display: flex;
@@ -139,14 +132,6 @@ main {
   overflow: hidden;
 }
 
-/* Old hero approach - was too cluttered
-.hero {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  padding: 40px;
-}
-*/
 
 .hero::before {
   content: '';

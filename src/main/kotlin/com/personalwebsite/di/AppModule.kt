@@ -1,8 +1,20 @@
 package com.personalwebsite.di
 
-import com.personalwebsite.data.repositories.*
-import com.personalwebsite.domain.repositories.*
-import com.personalwebsite.domain.usecases.*
+import com.personalwebsite.data.repositories.PersonalInfoRepositoryImpl
+import com.personalwebsite.data.repositories.SkillRepositoryImpl
+import com.personalwebsite.data.repositories.WorkExperienceRepositoryImpl
+import com.personalwebsite.data.repositories.PersonalProjectRepositoryImpl
+import com.personalwebsite.data.repositories.LanguageRepositoryImpl
+import com.personalwebsite.domain.repositories.PersonalInfoRepository
+import com.personalwebsite.domain.repositories.SkillRepository
+import com.personalwebsite.domain.repositories.WorkExperienceRepository
+import com.personalwebsite.domain.repositories.PersonalProjectRepository
+import com.personalwebsite.domain.repositories.LanguageRepository
+import com.personalwebsite.domain.usecases.GetPersonalInfoUseCase
+import com.personalwebsite.domain.usecases.GetSkillsUseCase
+import com.personalwebsite.domain.usecases.GetWorkExperienceUseCase
+import com.personalwebsite.domain.usecases.GetPersonalProjectsUseCase
+import com.personalwebsite.domain.usecases.GetLanguagesUseCase
 import com.personalwebsite.presentation.controllers.WebsiteController
 import com.personalwebsite.presentation.views.HtmlWebsiteView
 import com.personalwebsite.presentation.views.WebsiteView

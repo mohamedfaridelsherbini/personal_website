@@ -1,6 +1,10 @@
 package com.personalwebsite.presentation.models
 
-import com.personalwebsite.domain.entities.*
+import com.personalwebsite.domain.entities.PersonalInfo
+import com.personalwebsite.domain.entities.Skill
+import com.personalwebsite.domain.entities.WorkExperience
+import com.personalwebsite.domain.entities.PersonalProject
+import com.personalwebsite.domain.entities.Language
 
 /**
  * ViewModel for the website
