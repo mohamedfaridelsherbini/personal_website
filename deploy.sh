@@ -16,7 +16,7 @@ NC='\033[0m' # No Color
 trap 'echo -e "${RED}❌ Deployment failed! Check the logs above.${NC}"; exit 1' ERR
 
 # Configuration
-DROPLET_IP="161.35.20.4"
+DROPLET_IP="YOUR_DROPLET_IP_HERE"
 DROPLET_USER="root"
 APP_NAME="personal-website"
 CONTAINER_NAME="personal-website-container"
@@ -71,9 +71,7 @@ ssh -i ~/.ssh/id_ed25519_digital ${DROPLET_USER}@${DROPLET_IP} << 'EOF'
     
     echo -e "${GREEN}✅ Deployment completed successfully!${NC}"
     echo -e "${GREEN}🌐 Your website is now available at:${NC}"
-    echo -e "${GREEN}   🔒 HTTPS: https://www.mohamedfaridelsherbini.com${NC}"
-    echo -e "${GREEN}   🔒 HTTPS: https://mohamedfaridelsherbini.com${NC}"
-    echo -e "${GREEN}   🔄 HTTP:  http://$(curl -s ifconfig.me) (redirects to HTTPS)${NC}"
+    echo -e "${GREEN}   🔄 HTTP:  http://$(curl -s ifconfig.me)${NC}"
 EOF
 
 # Clean up local files
@@ -81,6 +79,4 @@ rm ${APP_NAME}.tar
 
 echo -e "${GREEN}🎉 Deployment completed successfully!${NC}"
 echo -e "${GREEN}🌐 Your website is now available at:${NC}"
-echo -e "${GREEN}   🔒 HTTPS: https://www.mohamedfaridelsherbini.com${NC}"
-echo -e "${GREEN}   🔒 HTTPS: https://mohamedfaridelsherbini.com${NC}"
-echo -e "${GREEN}   🔄 HTTP:  http://$DROPLET_IP (redirects to HTTPS)${NC}"
+echo -e "${GREEN}   🔄 HTTP:  http://$DROPLET_IP${NC}"
