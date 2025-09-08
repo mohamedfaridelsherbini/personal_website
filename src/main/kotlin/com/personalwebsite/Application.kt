@@ -3,6 +3,7 @@ package com.personalwebsite
 import com.personalwebsite.di.appModule
 import com.personalwebsite.presentation.controllers.WebsiteController
 import io.ktor.server.application.Application
+import io.ktor.server.application.install
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import io.ktor.server.response.respond
@@ -10,6 +11,9 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.routing
 import io.ktor.server.html.respondHtml
 import io.ktor.server.http.content.staticResources
+import io.ktor.server.request.receive
+import io.ktor.server.response.respondText
+import io.ktor.server.application.call
 import kotlinx.html.body
 import kotlinx.html.div
 import kotlinx.html.h1
@@ -56,7 +60,7 @@ fun Application.module() {
             try {
                 val htmlContent = websiteController.loadWebsite()
                 call.response.headers.append("Content-Type", "text/html; charset=UTF-8")
-                call.respond(htmlContent)
+                call.respondText(htmlContent)
             } catch (e: Exception) {
                 logger.error(e) { "Oops, something went wrong with the homepage" }
                 call.respondHtml {
@@ -67,11 +71,9 @@ fun Application.module() {
                         meta(name = "viewport", content = "width=device-width, initial-scale=1.0")
                     }
                     body {
-                        main {
-                            div(classes = "page-content") {
-                                h1 { +"Error" }
-                                p { +"Failed to load website: ${e.message}" }
-                            }
+                        div(classes = "page-content") {
+                            h1 { +"Error" }
+                            p { +"Failed to load website: ${e.message}" }
                         }
                     }
                 }

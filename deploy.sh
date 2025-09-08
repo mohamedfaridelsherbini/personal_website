@@ -5,6 +5,16 @@
 
 set -e
 
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# Error handling
+trap 'echo -e "${RED}❌ Deployment failed! Check the logs above.${NC}"; exit 1' ERR
+
 # Configuration
 DROPLET_IP="161.35.20.4"
 DROPLET_USER="root"
@@ -12,22 +22,22 @@ APP_NAME="personal-website"
 CONTAINER_NAME="personal-website-container"
 IMAGE_NAME="personal-website:latest"
 
-echo "🚀 Starting deployment to DigitalOcean..."
+echo -e "${BLUE}🚀 Starting deployment to DigitalOcean...${NC}"
 
 # Build Docker image locally for AMD64 platform
-echo "📦 Building Docker image..."
+echo -e "${YELLOW}📦 Building Docker image...${NC}"
 docker build --platform linux/amd64 -t $IMAGE_NAME .
 
 # Save image to tar file
-echo "💾 Saving Docker image..."
+echo -e "${YELLOW}💾 Saving Docker image...${NC}"
 docker save $IMAGE_NAME > ${APP_NAME}.tar
 
 # Copy image to DigitalOcean droplet
-echo "📤 Uploading image to DigitalOcean..."
+echo -e "${YELLOW}📤 Uploading image to DigitalOcean...${NC}"
 scp -i ~/.ssh/id_ed25519_digital ${APP_NAME}.tar ${DROPLET_USER}@${DROPLET_IP}:/root/
 
 # Deploy on DigitalOcean droplet
-echo "🔄 Deploying on DigitalOcean..."
+echo -e "${YELLOW}🔄 Deploying on DigitalOcean...${NC}"
 ssh -i ~/.ssh/id_ed25519_digital ${DROPLET_USER}@${DROPLET_IP} << 'EOF'
     # Load Docker image
     docker load < /root/personal-website.tar
@@ -43,15 +53,34 @@ ssh -i ~/.ssh/id_ed25519_digital ${DROPLET_USER}@${DROPLET_IP} << 'EOF'
         -p 8080:8080 \
         personal-website:latest
     
+    # Wait for container to start
+    echo "⏳ Waiting for application to start..."
+    sleep 10
+    
+    # Health check
+    if curl -f http://localhost:8080/ >/dev/null 2>&1; then
+        echo "✅ Application is running and healthy!"
+    else
+        echo "⚠️  Warning: Application may not be fully started yet"
+        echo "📋 Container logs:"
+        docker logs personal-website-container --tail 10
+    fi
+    
     # Clean up
     rm /root/personal-website.tar
     
-    echo "✅ Deployment completed successfully!"
-    echo "🌐 Your website is now available at: http://$(curl -s ifconfig.me)"
+    echo -e "${GREEN}✅ Deployment completed successfully!${NC}"
+    echo -e "${GREEN}🌐 Your website is now available at:${NC}"
+    echo -e "${GREEN}   🔒 HTTPS: https://www.mohamedfaridelsherbini.com${NC}"
+    echo -e "${GREEN}   🔒 HTTPS: https://mohamedfaridelsherbini.com${NC}"
+    echo -e "${GREEN}   🔄 HTTP:  http://$(curl -s ifconfig.me) (redirects to HTTPS)${NC}"
 EOF
 
 # Clean up local files
 rm ${APP_NAME}.tar
 
-echo "🎉 Deployment completed successfully!"
-echo "🌐 Your website should be available at: http://$DROPLET_IP"
+echo -e "${GREEN}🎉 Deployment completed successfully!${NC}"
+echo -e "${GREEN}🌐 Your website is now available at:${NC}"
+echo -e "${GREEN}   🔒 HTTPS: https://www.mohamedfaridelsherbini.com${NC}"
+echo -e "${GREEN}   🔒 HTTPS: https://mohamedfaridelsherbini.com${NC}"
+echo -e "${GREEN}   🔄 HTTP:  http://$DROPLET_IP (redirects to HTTPS)${NC}"
