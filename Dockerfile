@@ -1,5 +1,5 @@
-# Use OpenJDK 17 as base image for AMD64 platform
-FROM --platform=linux/amd64 openjdk:17-jdk-slim
+# Use OpenJDK 21 as base image for AMD64 platform (matches Java 21 target)
+FROM --platform=linux/amd64 openjdk:21-jdk-slim
 
 # Set working directory
 WORKDIR /app

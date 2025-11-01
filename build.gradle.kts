@@ -49,5 +49,6 @@ tasks.test {
 }
 
 kotlin {
-    jvmToolchain(17)
+    // Upgrade JVM toolchain to Java 21 (LTS)
+    jvmToolchain(21)
 }
