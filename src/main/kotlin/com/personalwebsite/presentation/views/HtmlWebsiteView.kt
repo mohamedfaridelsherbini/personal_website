@@ -33,6 +33,11 @@ class HtmlWebsiteView : WebsiteView {
                     "${personalInfo.linkedin}",
                     "${personalInfo.github}"
                   ],
+                  "author": {
+                    "@type": "Person",
+                    "name": "${personalInfo.name}"
+                  },
+                  "datePublished": "2025-11-02",
                   "address": {
                     "@type": "PostalAddress",
                     "addressLocality": "${personalInfo.location}"
@@ -50,6 +55,8 @@ class HtmlWebsiteView : WebsiteView {
             appendLine("    <link rel=\"stylesheet\" href=\"/static/css/style.css\" type=\"text/css\">")
             appendLine("    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">")
             appendLine("    <meta name=\"description\" content=\"$encodedDescription\">")
+            appendLine("    <meta name=\"author\" content=\"${personalInfo.name}\">")
+            appendLine("    <meta property=\"article:published_time\" content=\"2025-11-02T00:00:00+01:00\">")
             appendLine("    <link rel=\"canonical\" href=\"$baseUrl/\">")
             appendLine("    <meta property=\"og:type\" content=\"website\">")
             appendLine("    <meta property=\"og:title\" content=\"$siteTitle\">")
