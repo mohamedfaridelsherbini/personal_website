@@ -17,7 +17,7 @@ class HtmlWebsiteView : WebsiteView {
             val metaDescription = "Senior Android engineer crafting Kotlin and Jetpack Compose experiences for fintech and product teams across Europe. Currently at Check24 in Munich, open to remote consulting and leadership opportunities."
             val encodedDescription = metaDescription.replace("\"", "&quot;")
             val jsonSafeDescription = metaDescription.replace("\"", "\\\"")
-            val socialImageUrl = "https://avatars.githubusercontent.com/u/3258788?v=4"
+            val socialImageUrl = "$baseUrl/static/images/profile-social.jpg"
             val personSchema = """
                 {
                   "@context": "https://schema.org",
