@@ -11,16 +11,60 @@ class HtmlWebsiteView : WebsiteView {
     
     override fun render(viewModel: WebsiteViewModel): String {
         return buildString {
+            val personalInfo = viewModel.personalInfo
+            val siteTitle = "${personalInfo.name} - ${personalInfo.title}"
+            val baseUrl = "https://www.mohamedfaridelsherbini.com"
+            val metaDescription = "Senior Android engineer crafting Kotlin and Jetpack Compose experiences for fintech and product teams across Europe. Currently at Check24 in Munich, open to remote consulting and leadership opportunities."
+            val encodedDescription = metaDescription.replace("\"", "&quot;")
+            val jsonSafeDescription = metaDescription.replace("\"", "\\\"")
+            val socialImageUrl = "https://avatars.githubusercontent.com/u/3258788?v=4"
+            val personSchema = """
+                {
+                  "@context": "https://schema.org",
+                  "@type": "Person",
+                  "name": "${personalInfo.name}",
+                  "jobTitle": "${personalInfo.title}",
+                  "description": "$jsonSafeDescription",
+                  "email": "mailto:${personalInfo.email}",
+                  "telephone": "${personalInfo.phone}",
+                  "url": "$baseUrl",
+                  "image": "$socialImageUrl",
+                  "sameAs": [
+                    "${personalInfo.linkedin}",
+                    "${personalInfo.github}"
+                  ],
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "${personalInfo.location}"
+                  }
+                }
+            """.trimIndent()
+
             appendLine("<!DOCTYPE html>")
             appendLine("<html>")
             appendLine("<head>")
             appendLine("    <meta charset=\"utf-8\"/>")
             appendLine("    <link crossorigin=\"\" href=\"https://fonts.gstatic.com/\" rel=\"preconnect\"/>")
             appendLine("    <link as=\"style\" href=\"https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Spline+Sans%3Awght%40400%3B500%3B700\" onload=\"this.rel='stylesheet'\" rel=\"stylesheet\"/>")
-            appendLine("    <title>${viewModel.personalInfo.name} - ${viewModel.personalInfo.title}</title>")
+            appendLine("    <title>$siteTitle</title>")
             appendLine("    <link rel=\"stylesheet\" href=\"/static/css/style.css\" type=\"text/css\">")
             appendLine("    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">")
+            appendLine("    <meta name=\"description\" content=\"$encodedDescription\">")
+            appendLine("    <link rel=\"canonical\" href=\"$baseUrl/\">")
+            appendLine("    <meta property=\"og:type\" content=\"website\">")
+            appendLine("    <meta property=\"og:title\" content=\"$siteTitle\">")
+            appendLine("    <meta property=\"og:description\" content=\"$encodedDescription\">")
+            appendLine("    <meta property=\"og:url\" content=\"$baseUrl/\">")
+            appendLine("    <meta property=\"og:image\" content=\"$socialImageUrl\">")
+            appendLine("    <meta property=\"og:image:alt\" content=\"Portrait of ${personalInfo.name}\">")
+            appendLine("    <meta name=\"twitter:card\" content=\"summary_large_image\">")
+            appendLine("    <meta name=\"twitter:title\" content=\"$siteTitle\">")
+            appendLine("    <meta name=\"twitter:description\" content=\"$encodedDescription\">")
+            appendLine("    <meta name=\"twitter:image\" content=\"$socialImageUrl\">")
             appendLine("    <script src=\"/static/js/smooth-scroll.js\"></script>")
+            appendLine("    <script type=\"application/ld+json\">")
+            appendLine("    $personSchema")
+            appendLine("    </script>")
             appendLine("    <script>")
             appendLine("        function copyToClipboard(text) {")
             appendLine("            navigator.clipboard.writeText(text).then(function() {")
