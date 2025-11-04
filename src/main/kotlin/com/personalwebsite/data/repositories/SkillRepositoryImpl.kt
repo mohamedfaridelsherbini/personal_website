@@ -16,30 +16,58 @@ class SkillRepositoryImpl : SkillRepository {
                 items = listOf("Kotlin", "Java", "Swift", "Python", "SQL")
             ),
             Skill(
-                category = "Mobile Development",
+                category = "Mobile & Architecture",
                 items = listOf(
                     "Android (Jetpack Compose, MVVM, MVI)",
                     "iOS (Xcode, UIKit, SwiftUI)",
                     "Kotlin Multiplatform",
-                    "Clean Architecture"
+                    "Clean Architecture Patterns"
                 )
             ),
             Skill(
                 category = "Testing & Automation",
                 items = listOf(
-                    "Selenium & Appium",
+                    "Selenium & Appium (Android/iOS)",
                     "Espresso & JUnit",
                     "Mockito",
-                    "Jenkins CI Integration"
+                    "Automation Framework Design"
                 )
             ),
             Skill(
                 category = "Backend & DevOps",
                 items = listOf(
-                    "Spring Boot",
-                    "REST APIs",
+                    "Spring Boot Microservices",
+                    "REST API Design",
                     "PostgreSQL",
-                    "Docker & Kubernetes"
+                    "Docker, Kubernetes, Jenkins, GitHub Actions"
+                )
+            ),
+            Skill(
+                category = "Frameworks & SDKs",
+                items = listOf(
+                    "Room, Retrofit, Firebase",
+                    "Dagger Hilt, Koin, RxJava",
+                    "Google Maps SDK",
+                    "ZKteco Biometric SDKs"
+                )
+            ),
+            Skill(
+                category = "Tools & Collaboration",
+                items = listOf(
+                    "Android Studio & Gradle",
+                    "Postman & Charles",
+                    "Figma & Design Systems",
+                    "Agile Delivery & Code Review"
+                )
+            ),
+            Skill(
+                category = "Other Skills",
+                items = listOf(
+                    "RESTful API Integration",
+                    "SAP Integration",
+                    "Unity 3D",
+                    "Arduino & IoT",
+                    "Printed Circuit Boards"
                 )
             )
         )

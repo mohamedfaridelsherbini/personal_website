@@ -18,7 +18,7 @@ class PersonalInfoRepositoryImpl : PersonalInfoRepository {
         val personalInfo = PersonalInfo(
             name = "Mohamed ElSherbini",
             title = "Senior Android Engineer",
-            summary = "Senior Android Engineer with 8+ years of experience building robust mobile applications using Kotlin and Java. Currently working at Check24 in Munich, focusing on financial comparison apps.",
+            summary = "Senior Android Engineer with 8+ years shipping Kotlin-first experiences across fintech, automation, and productivity products. Obsessed with resilient architecture, automation pipelines, and user journeys that balance compliance with delight.",
             location = "Augsburg, Bavaria, Germany",
             phone = "+49 172 6079066",
             email = "m.farid.shawky@gmail.com",
