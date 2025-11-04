@@ -1,11 +1,13 @@
 package com.personalwebsite.di
 
-import com.personalwebsite.data.content.ContentLoader
-import com.personalwebsite.data.repositories.PersonalInfoRepositoryImpl
-import com.personalwebsite.data.repositories.SkillRepositoryImpl
-import com.personalwebsite.data.repositories.WorkExperienceRepositoryImpl
-import com.personalwebsite.data.repositories.PersonalProjectRepositoryImpl
-import com.personalwebsite.data.repositories.LanguageRepositoryImpl
+import com.personalwebsite.application.website.WebsiteController
+import com.personalwebsite.infrastructure.cache.ContentCache
+import com.personalwebsite.infrastructure.content.ContentLoader
+import com.personalwebsite.infrastructure.content.LanguageRepositoryImpl
+import com.personalwebsite.infrastructure.content.PersonalInfoRepositoryImpl
+import com.personalwebsite.infrastructure.content.PersonalProjectRepositoryImpl
+import com.personalwebsite.infrastructure.content.SkillRepositoryImpl
+import com.personalwebsite.infrastructure.content.WorkExperienceRepositoryImpl
 import com.personalwebsite.domain.repositories.PersonalInfoRepository
 import com.personalwebsite.domain.repositories.SkillRepository
 import com.personalwebsite.domain.repositories.WorkExperienceRepository
@@ -16,10 +18,8 @@ import com.personalwebsite.domain.usecases.GetSkillsUseCase
 import com.personalwebsite.domain.usecases.GetWorkExperienceUseCase
 import com.personalwebsite.domain.usecases.GetPersonalProjectsUseCase
 import com.personalwebsite.domain.usecases.GetLanguagesUseCase
-import com.personalwebsite.presentation.cache.ContentCache
-import com.personalwebsite.presentation.controllers.WebsiteController
-import com.personalwebsite.presentation.views.HtmlWebsiteView
-import com.personalwebsite.presentation.views.WebsiteView
+import com.personalwebsite.infrastructure.web.view.HtmlWebsiteView
+import com.personalwebsite.infrastructure.web.view.WebsiteView
 import com.google.gson.Gson
 import org.koin.dsl.module
 

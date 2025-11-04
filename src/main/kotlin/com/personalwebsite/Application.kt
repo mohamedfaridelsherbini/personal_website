@@ -1,8 +1,8 @@
 package com.personalwebsite
 
+import com.personalwebsite.application.website.WebsiteController
 import com.personalwebsite.di.appModule
-import com.personalwebsite.presentation.controllers.WebsiteController
-import com.personalwebsite.presentation.routes.registerRoutes
+import com.personalwebsite.infrastructure.web.routing.registerRoutes
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
 import io.ktor.server.engine.embeddedServer

@@ -1,9 +1,9 @@
 package tools
 
-import com.personalwebsite.presentation.models.PageMetadata
-import com.personalwebsite.presentation.models.PageModel
-import com.personalwebsite.presentation.models.WebsiteViewModel
-import com.personalwebsite.presentation.views.HtmlWebsiteView
+import com.personalwebsite.application.website.model.PageMetadata
+import com.personalwebsite.application.website.model.PageModel
+import com.personalwebsite.application.website.model.WebsiteViewModel
+import com.personalwebsite.infrastructure.web.view.HtmlWebsiteView
 import java.nio.file.Files
 import java.nio.file.Path
 
