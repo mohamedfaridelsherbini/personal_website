@@ -54,7 +54,7 @@ fun main() {
 }
 
 private fun writeSnapshot(name: String, content: String) {
-    val path = Path.of("src/test/resources/snapshots/$name.html")
+    val path = Path.of("infrastructure/src/test/resources/snapshots/$name.html")
     Files.createDirectories(path.parent)
     Files.writeString(path, content)
 }

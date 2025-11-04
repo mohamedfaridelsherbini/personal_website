@@ -6,7 +6,7 @@ A cyberpunk-inspired portfolio for **Mohamed ElSherbini** built with Kotlin & Kt
 
 - Kicked off the Hexagonal (Clean) Architecture migration: clarifying domain/application/infrastructure boundaries and documenting the plan you are reading now.
 - Refactored the HTML layer into modular view components and templates, replacing the previous monolithic renderer.
-- Introduced JSON-backed content loading with caching, so résumé data lives in `src/main/resources/content`.
+- Introduced JSON-backed content loading with caching, so résumé data lives in `infrastructure/src/main/resources/content`.
 - Added route modules, render caching, and HTML snapshot tests, alongside Jenkins-friendly automation docs.
 
 ## Highlights
@@ -55,7 +55,7 @@ cd personal-website
 
 ### 2. Seed Profile Content (optional)
 
-All résumé-style data now lives in JSON under `src/main/resources/content/`:
+All résumé-style data now lives in JSON under `infrastructure/src/main/resources/content/`:
 
 - `personal-info.json` – name, title, summary, contact links
 - `work-experience.json` – experience cards
@@ -71,18 +71,18 @@ You can run the application in several ways:
 
 #### Option A: Using Gradle
 ```bash
-./gradlew run
+./gradlew :bootstrap:run
 ```
 
 #### Option B: Using Gradle with specific JVM arguments
 ```bash
-./gradlew run -Dorg.gradle.jvmargs="-Xmx2g"
+./gradlew :bootstrap:run -Dorg.gradle.jvmargs="-Xmx2g"
 ```
 
-#### Option C: Build and run the JAR
+#### Option C: Build and run the fat JAR
 ```bash
-./gradlew build
-java -jar build/libs/personal-website-1.0-SNAPSHOT.jar
+./gradlew :bootstrap:fatJar
+java -jar bootstrap/build/libs/app-all.jar
 ```
 
 ### 3. Access the Website
@@ -99,46 +99,43 @@ Execute the test suite:
 ./gradlew test
 ```
 
-Snapshot expectations for the home page and the featured project live in `src/test/resources/snapshots/`. To regenerate them after copy tweaks, set `UPDATE_SNAPSHOTS=true` before running the tests or wire the environment variable into your Jenkins job.
+Snapshot expectations for the home page and the featured project live in `infrastructure/src/test/resources/snapshots/`. To regenerate them after copy tweaks, set `UPDATE_SNAPSHOTS=true` before running the tests or wire the environment variable into your Jenkins job.
 
 ## Project Structure
 
 ```
 personal-website/
-├── build.gradle.kts                      # Build configuration (multi-module ready)
-├── src/
-│   └── main/
-│       ├── kotlin/
-│       │   └── com/personalwebsite/
-│       │       ├── domain/              # Entities, value objects, use cases, ports
-│       │       ├── application/         # Controllers/services coordinating use cases
-│       │       ├── infrastructure/      # Ktor adapters, repositories, loaders, DI
-│       │       └── Application.kt       # Bootstraps DI and inbound adapters
-│       └── resources/
-│           ├── content/                 # Structured résumé data (JSON)
-│           └── static/                  # CSS, JS, images, etc.
-├── src/test/
-│   └── kotlin/com/personalwebsite/      # Domain and adapter tests + snapshots
-└── README.md                            # This document
+├── settings.gradle.kts
+├── build.gradle.kts                      # Root configuration for all modules
+├── domain/                               # Ring 1 — entities, value objects, use cases
+│   └── src/main/kotlin/com/personalwebsite/domain/
+├── application/                          # Ring 2 — ports + orchestration
+│   └── src/main/kotlin/com/personalwebsite/application/
+├── infrastructure/                       # Ring 3 — adapters (web views, JSON, cache)
+│   ├── src/main/kotlin/com/personalwebsite/infrastructure/
+│   ├── src/main/resources/content/       # Structured résumé data (JSON)
+│   └── src/test/resources/snapshots/     # Snapshot expectations
+├── bootstrap/                            # Delivery layer (Ktor entry point + DI)
+│   ├── src/main/kotlin/com/personalwebsite/Application.kt
+│   └── src/main/resources/static/        # CSS, JS, images, templates
+└── tools/                                # Snapshot generator and utilities
 ```
-
-> **Note:** The directory layout above represents the target Clean Architecture structure. During the migration you may temporarily see legacy packages (`presentation`, `data`) until their responsibilities land in the new rings.
 
 ## Customization
 
 ### Updating Content
 
-1. **Personal Information**: Edit `src/main/resources/content/personal-info.json`
-2. **Styling & Layout**: Tweak `src/main/resources/static/css/style.css`
-3. **Experience & Skills**: Update the JSON files for experience, skills, projects, and languages
-4. **Routing/Pages**: Add or update inbound adapters in `infrastructure/http` (or equivalent) and match them with application services + domain use cases
+1. **Personal Information**: Edit `infrastructure/src/main/resources/content/personal-info.json`
+2. **Styling & Layout**: Tweak `bootstrap/src/main/resources/static/css/style.css`
+3. **Experience & Skills**: Update the JSON files in `infrastructure/src/main/resources/content/`
+4. **Routing/Pages**: Add or update inbound adapters in `infrastructure/src/main/kotlin/com/personalwebsite/infrastructure/web/routing/`
 
 ### Adding New Pages
 
 Create a dedicated inbound adapter that calls an application service:
 
 ```kotlin
-// infrastructure/http/NewRoutes.kt
+// infrastructure/src/main/kotlin/com/personalwebsite/infrastructure/web/routing/NewRoutes.kt
 fun Routing.newRoutes(homeService: HomeQueryPort) {
     get("/new-page") {
         val pageModel = homeService.renderNewPage()
@@ -152,9 +149,9 @@ fun Routing.newRoutes(homeService: HomeQueryPort) {
 ### Adding Static Resources
 
 Place images, JavaScript files, or other static resources in:
-- `src/main/resources/static/images/` for images
-- `src/main/resources/static/js/` for JavaScript files
-- `src/main/resources/static/css/` for additional stylesheets
+- `bootstrap/src/main/resources/static/images/` for images
+- `bootstrap/src/main/resources/static/js/` for JavaScript files
+- `bootstrap/src/main/resources/static/css/` for additional stylesheets
 
 ## Technologies Used
 
@@ -172,14 +169,14 @@ The application runs on `http://localhost:8080` by default.
 ### Production Deployment
 For production deployment, you can:
 
-1. Build the JAR file:
+1. Build the fat JAR:
    ```bash
-   ./gradlew build
+   ./gradlew :bootstrap:fatJar
    ```
 
 2. Run with production settings:
    ```bash
-   java -jar build/libs/personal-website-1.0-SNAPSHOT.jar
+   java -jar bootstrap/build/libs/app-all.jar
    ```
 
 3. Deploy to cloud platforms like:
@@ -239,8 +236,8 @@ The script exits on failure (e.g., git pull conflicts, Docker build issues, or h
 A Jenkins pipeline can reuse the Gradle build, snapshot tests, link checking (via `lychee` or similar), and deployment script. Suggested stages:
 
 1. **Checkout & Tooling** – Pull the repo, provision JDK 21, install any link-check binaries.
-2. **Build & Test** – Run `./gradlew clean test` (optionally with `UPDATE_SNAPSHOTS=true` in a dedicated maintenance job).
-3. **Package** – Build the Docker image or fat JAR.
+2. **Build & Test** – Run `./gradlew clean build` (optionally with `UPDATE_SNAPSHOTS=true` in a dedicated maintenance job).
+3. **Package** – Run `./gradlew :bootstrap:fatJar` or build the Docker image directly.
 4. **Deploy** – Call `.deploy.sh` or mirror its steps with Jenkins agents/Ansible.
 5. **Post-deploy Health** – Hit the same health-check URL used by `.deploy.sh` and fail fast if something regresses.
 

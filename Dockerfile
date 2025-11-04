@@ -5,24 +5,28 @@ FROM eclipse-temurin:21-jdk
 WORKDIR /app
 
 # Copy Gradle wrapper and build files
-COPY gradlew .
-COPY gradle gradle
-COPY build.gradle.kts .
+COPY gradlew ./
+COPY gradle ./gradle
+COPY settings.gradle.kts ./
+COPY build.gradle.kts ./
 
 # Make gradlew executable
 RUN chmod +x ./gradlew
 
-# Download dependencies (this layer will be cached if dependencies don't change)
-RUN ./gradlew dependencies --no-daemon
+# Copy project modules
+COPY domain ./domain
+COPY application ./application
+COPY infrastructure ./infrastructure
+COPY bootstrap ./bootstrap
+COPY tools ./tools
+COPY README.md ./
+COPY LICENSE ./
 
-# Copy source code
-COPY src src
-
-# Build the application
-RUN ./gradlew build --no-daemon
+# Build the application (runs tests and produces fat jar)
+RUN ./gradlew build :bootstrap:fatJar --no-daemon
 
 # Expose port 8080
 EXPOSE 8080
 
 # Run the application
-CMD ["java", "-jar", "build/libs/app-all.jar"]
+CMD ["java", "-jar", "bootstrap/build/libs/app-all.jar"]
