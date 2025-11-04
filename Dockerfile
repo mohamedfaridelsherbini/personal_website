@@ -1,5 +1,5 @@
-# Use OpenJDK 21 as base image for the droplet's architecture
-FROM openjdk:21-jdk-slim
+# Use Eclipse Temurin JDK 21 as base image (official Adoptium build)
+FROM eclipse-temurin:21-jdk
 
 # Set working directory
 WORKDIR /app
