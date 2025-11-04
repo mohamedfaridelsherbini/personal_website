@@ -132,15 +132,15 @@ For production deployment, you can:
 ### Optional: Uptime Monitoring
 Use the `bin/uptime-check.sh` helper to verify that the production site stays reachable.
 
-Run it manually:
+Run it manually (replace the URL with your production domain):
 ```bash
 LOG_PATH=/var/log/personal-website-uptime.log \
-bin/uptime-check.sh https://www.mohamedfaridelsherbini.com
+bin/uptime-check.sh https://example.com
 ```
 
 To check automatically every 5 minutes on the droplet, add a cron entry:
 ```bash
-*/5 * * * * LOG_PATH=/var/log/personal-website-uptime.log /opt/personal-website/bin/uptime-check.sh https://www.mohamedfaridelsherbini.com
+*/5 * * * * LOG_PATH=/var/log/personal-website-uptime.log /opt/personal-website/bin/uptime-check.sh https://example.com
 ```
 The script only logs failures (and returns a non-zero exit code so cron can alert you by email if configured).
 
@@ -150,16 +150,16 @@ The script only logs failures (and returns a non-zero exit code so cron can aler
 1. Create `.deploy.env` in the repo root:
    ```bash
    cat <<'EOF' > .deploy.env
-   DROPLET_HOST=161.35.20.4
-   SSH_USER=root
-   SSH_KEY=~/.ssh/id_ed25519_droplet_codex
+   DROPLET_HOST=<your-droplet-ip>
+   SSH_USER=<ssh-user>
+   SSH_KEY=<path-to-ssh-key>
    REMOTE_PATH=/opt/personal-website
    GIT_BRANCH=main
    IMAGE_NAME=personal-website:latest
    CONTAINER_NAME=personal-website-container
    CONTAINER_PORT=8080
    PUBLIC_PORT=8080
-   HEALTHCHECK_URL=https://www.mohamedfaridelsherbini.com
+   HEALTHCHECK_URL=https://example.com
    EOF
    ```
 2. Run the deploy:
@@ -168,6 +168,16 @@ The script only logs failures (and returns a non-zero exit code so cron can aler
    ```
 
 The script exits on failure (e.g., git pull conflicts or health-check errors) so you can review logs before retrying.
+
+## Current State vs. Future Enhancements
+
+| Area | Current State | Planned Improvements |
+|------|---------------|----------------------|
+| Hero & CTAs | Single hero focused on career summary and resume CTA | Refresh copy with multiple CTA variants (newsletter, consulting, speaking) and add an optional newsletter/contact form module |
+| Monitoring | Manual health checks + `bin/uptime-check.sh` helper | Automate via cron on droplet (log & alert) and consider integrating lightweight analytics (Plausible/Fathom) |
+| Projects/Case Studies | Highlight cards with short descriptions | Add dedicated project/case-study pages with metrics, screenshots, lessons learned |
+| Build & Deploy | Manual testing + deploy script | Add lint/tests (Kotlin/JVM) and CI (GitHub Actions) to run tests + deploy |
+| UI polish | Glassmorphic base and experience cards | Add animated cursor, custom favicon/logo, and iterate on playful interactive elements |
 
 ## Contributing
 
