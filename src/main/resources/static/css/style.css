@@ -425,6 +425,76 @@ main {
   margin: 0;
 }
 
+/* Experience Cards */
+.experience-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 28px;
+  margin-bottom: 16px;
+}
+
+.experience-card {
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 32px;
+  background: rgba(12, 18, 25, 0.9);
+  box-shadow: 0 25px 65px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.experience-card__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.experience-position {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.experience-company {
+  margin: 4px 0 0;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 15px;
+}
+
+.experience-location {
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(56, 224, 123, 0.35);
+  background: rgba(56, 224, 123, 0.12);
+  color: var(--primary-color);
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.experience-highlights {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.experience-highlight {
+  background: rgba(17, 25, 32, 0.9);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 12px 16px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
 .section-title {
   color: var(--text-primary);
   font-size: 48px;
@@ -1004,13 +1074,25 @@ footer p {
   .feature {
     padding: 20px;
   }
-  
+
   .feature h3 {
     font-size: 18px;
   }
-  
+
   .feature p {
     font-size: 13px;
+  }
+
+  .experience-card {
+    padding: 24px;
+  }
+
+  .experience-card__header {
+    flex-direction: column;
+  }
+
+  .experience-location {
+    align-self: flex-start;
   }
   
   .projects-grid {

@@ -75,7 +75,8 @@ personal-website/
 
 1. **Personal Information**: Edit the content in `Application.kt` to reflect your personal information
 2. **Styling**: Modify `src/main/resources/static/css/style.css` to change colors, fonts, and layout
-3. **Pages**: Add new routes and pages in the `routing` block in `Application.kt`
+3. **Work Experience**: Update `WorkExperienceRepositoryImpl.kt` to tweak experience cards (company, location, highlights)
+4. **Pages**: Add new routes and pages in the `routing` block in `Application.kt`
 
 ### Adding New Pages
 

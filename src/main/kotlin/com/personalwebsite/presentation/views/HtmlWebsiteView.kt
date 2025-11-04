@@ -1,5 +1,6 @@
 package com.personalwebsite.presentation.views
 
+import com.personalwebsite.domain.entities.WorkExperience
 import com.personalwebsite.presentation.models.WebsiteViewModel
 // Using buildString and appendLine for HTML generation
 
@@ -165,23 +166,8 @@ class HtmlWebsiteView : WebsiteView {
             
             // Work Experience
             appendLine("                <h2 class=\"section-title\">Experience</h2>")
-            appendLine("                <div class=\"projects-grid\">")
-            viewModel.workExperience.forEach { experience ->
-                appendLine("                <a href=\"#\" class=\"project-card experience-card\">")
-                appendLine("                    <div class=\"project-content\">")
-                appendLine("                        <div class=\"project-header\">")
-                appendLine("                            <h3 class=\"project-title\">${experience.position}</h3>")
-                appendLine("                            <span class=\"project-category\">${experience.location}</span>")
-                appendLine("                        </div>")
-                appendLine("                        <p class=\"project-description\">${experience.company} • ${experience.period}</p>")
-                appendLine("                        <div class=\"project-tech-stack\">")
-                experience.responsibilities.take(3).forEach { responsibility ->
-                    appendLine("                            <span class=\"tech-tag\">${responsibility.take(50)}${if (responsibility.length > 50) "..." else ""}</span>")
-                }
-                appendLine("                        </div>")
-                appendLine("                    </div>")
-                appendLine("                </a>")
-            }
+            appendLine("                <div class=\"experience-grid\">")
+            append(renderExperienceCards(viewModel.workExperience))
             appendLine("                </div>")
             appendLine("            </div>")
             appendLine("        </section>")
@@ -288,6 +274,27 @@ class HtmlWebsiteView : WebsiteView {
             appendLine("    </main>")
             appendLine("</body>")
             appendLine("</html>")
+        }
+    }
+
+    private fun renderExperienceCards(experiences: List<WorkExperience>): String {
+        return buildString {
+            experiences.forEach { experience ->
+                appendLine("                    <article class=\"experience-card\">")
+                appendLine("                        <div class=\"experience-card__header\">")
+                appendLine("                            <div>")
+                appendLine("                                <p class=\"experience-position\">${experience.position}</p>")
+                appendLine("                                <p class=\"experience-company\">${experience.company} • ${experience.period}</p>")
+                appendLine("                            </div>")
+                appendLine("                            <span class=\"experience-location\">${experience.location}</span>")
+                appendLine("                        </div>")
+                appendLine("                        <ul class=\"experience-highlights\">")
+                experience.responsibilities.take(3).forEach { highlight ->
+                    appendLine("                            <li class=\"experience-highlight\">$highlight</li>")
+                }
+                appendLine("                        </ul>")
+                appendLine("                    </article>")
+            }
         }
     }
 }
