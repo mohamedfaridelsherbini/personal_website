@@ -30,7 +30,7 @@ class WebsiteController(
      */
     suspend fun loadWebsite(): String {
         logger.info { "Loading website data" }
-        
+
         return try {
             // Get all the data we need - this could probably be optimized
             val personalInfo = getPersonalInfoUseCase()
@@ -57,4 +57,29 @@ class WebsiteController(
             websiteView.renderError("Failed to load website data: ${e.message}")
         }
     }
+
+    suspend fun loadProject(slug: String): String {
+        logger.info { "Loading project detail for slug=$slug" }
+
+        val personalInfo = getPersonalInfoUseCase()
+        val skills = getSkillsUseCase()
+        val workExperience = getWorkExperienceUseCase()
+        val personalProjects = getPersonalProjectsUseCase()
+        val languages = getLanguagesUseCase()
+
+        val project = personalProjects.find { it.slug == slug }
+            ?: throw NoSuchElementException("Project not found: $slug")
+
+        val viewModel = WebsiteViewModel(
+            personalInfo = personalInfo,
+            skills = skills,
+            workExperience = workExperience,
+            personalProjects = personalProjects,
+            languages = languages
+        )
+
+        return websiteView.renderProject(project, viewModel)
+    }
+
+    fun renderError(message: String) = websiteView.renderError(message)
 }

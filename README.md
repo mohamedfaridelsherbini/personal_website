@@ -1,19 +1,21 @@
-# Personal Website
+# Personal Website (Neon Portfolio)
 
-A modern personal website built with Kotlin and Ktor framework. This project showcases a clean, responsive design with multiple pages including Home, About, Projects, and Contact sections.
+A cyberpunk-inspired portfolio for **Mohamed ElSherbini** built with Kotlin & Ktor. The site fuses glowing glassmorphism, agentic copy, and reusable cluster cards to showcase experience, skills, and projects with flair.
 
-## Features
+## Highlights
 
-- 🚀 Built with Kotlin and Ktor
-- 📱 Responsive design that works on all devices
-- 🎨 Modern CSS with gradients, glassmorphism, and a neon cursor trail
-- 📄 Multiple pages: Home, About, Projects, Contact
-- 🔧 Easy to customize and extend
+- ⚙️ **Kotlin + Ktor** backend with `kotlinx.html` for declarative templating
+- 🧪 **Domain-driven data layer**: repositories + use cases feed a view model
+- ✨ **Neon UI system**: cluster cards, glass panels, chromatic chips, animated SVG cursor
+- 💼 **Experience / Skills / Projects** auto-render from structured data
+- 🧾 **Case study pages** at `/projects/<slug>` with metrics, highlights, and related work
+- 🚀 **Automated deployment script** (`.deploy.sh`) for DigitalOcean droplet
+- 🔍 **Uptime tooling** (`bin/uptime-check.sh`) & roadmap for Jenkins CI
 
 ## Prerequisites
 
 - Java 17 or higher
-- Gradle (or use the Gradle wrapper)
+- Gradle (wrapper included)
 
 ## Getting Started
 
@@ -24,7 +26,19 @@ If you haven't already, navigate to the project directory:
 cd personal-website
 ```
 
-### 2. Run the Application
+### 2. Seed Profile Content (optional)
+
+All résumé-style data lives in repository implementations under `src/main/kotlin/com/personalwebsite/data/repositories/`:
+
+- `PersonalInfoRepositoryImpl.kt` – name, title, summary, contact links
+- `WorkExperienceRepositoryImpl.kt` – experience cards
+- `SkillRepositoryImpl.kt` – skill clusters
+- `PersonalProjectRepositoryImpl.kt` – notable projects / open source
+- `LanguageRepositoryImpl.kt` – language list
+
+Update those files to mirror your own story, then rebuild.
+
+### 3. Run the Application
 
 You can run the application in several ways:
 
@@ -46,7 +60,7 @@ java -jar build/libs/personal-website-1.0-SNAPSHOT.jar
 
 ### 3. Access the Website
 
-Once the application is running, open your web browser and navigate to:
+Once the application is running, open your browser at:
 ```
 http://localhost:8080
 ```
@@ -66,17 +80,17 @@ personal-website/
 │           └── static/
 │               └── css/
 │                   └── style.css         # Stylesheet
-└── README.md                     # This file
+└── README.md                     # This document
 ```
 
 ## Customization
 
 ### Updating Content
 
-1. **Personal Information**: Edit the content in `Application.kt` to reflect your personal information
-2. **Styling**: Modify `src/main/resources/static/css/style.css` to change colors, fonts, and layout
-3. **Work Experience**: Update `WorkExperienceRepositoryImpl.kt` to tweak experience cards (company, location, highlights)
-4. **Pages**: Add new routes and pages in the `routing` block in `Application.kt`
+1. **Personal Information**: Update `PersonalInfoRepositoryImpl.kt`
+2. **Styling & Layout**: Tweak `src/main/resources/static/css/style.css`
+3. **Experience & Skills**: Edit repository files listed in step 2
+4. **Routing/Pages**: Adjust `Application.kt` for new routes or view logic
 
 ### Adding New Pages
 
@@ -175,15 +189,16 @@ The script exits on failure (e.g., git pull conflicts, Docker build issues, or h
 
 > CI note: the roadmap targets a Jenkins pipeline that reuses the same steps (build, Docker image, health check) so self-hosted automation matches the manual flow.
 
-## Current State vs. Future Enhancements
+## Roadmap: Next Enhancements
 
-| Area | Current State | Planned Improvements |
-|------|---------------|----------------------|
-| Hero & CTAs | Single hero focused on career summary and resume CTA | Refresh copy with multiple CTA variants (newsletter, consulting, speaking) and add an optional newsletter/contact form module |
-| Monitoring | Manual health checks + `bin/uptime-check.sh` helper | Automate via cron on droplet (log & alert) and consider integrating lightweight analytics (Plausible/Fathom) |
-| Projects/Case Studies | Highlight cards with short descriptions | Add dedicated project/case-study pages with metrics, screenshots, lessons learned |
-| Build & Deploy | Manual testing + deploy script | Add lint/tests (Kotlin/JVM) and Jenkins CI to run tests + deploy |
-| UI polish | Glassmorphic base, neon cursor trail, and branded favicon/header badge | Layer in additional micro-interactions (scroll parallax, hover reveals) and refine typography spacing |
+| Theme | Opportunity | Notes |
+|-------|-------------|-------|
+| **Story depth** | Expand “Notable Projects” into detail pages with screenshots, metrics, and lessons learned | Use the existing repository structure; add per-project routes + case-study template |
+| **Experience mapping** | Link skill clusters to experience cards (hover/highlight interactions) | Adds cross-section context and improves scannability |
+| **Accessibility & motion** | Add a reduced-motion toggle (dim neon effects, calm cursor trail) and audit contrast | Keeps the neon aesthetic while respecting user preferences |
+| **Analytics & uptime** | Integrate lightweight analytics (Plausible/Fathom) and schedule uptime checker via cron | Builds on the existing `bin/uptime-check.sh` tooling |
+| **CI/CD** | Add GitHub Actions lint/test workflow and document Jenkins pipeline mirroring `.deploy.sh` | Closes the loop on automated quality checks |
+| **Contact capture** | Introduce a newsletter or consulting inquiry form with email integration (Buttondown, Formspree, etc.) | Complements the hero CTAs and contact cards |
 
 ## Contributing
 

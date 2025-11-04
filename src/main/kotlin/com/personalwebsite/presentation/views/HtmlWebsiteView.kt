@@ -1,5 +1,7 @@
 package com.personalwebsite.presentation.views
 
+import com.personalwebsite.domain.entities.PersonalProject
+import com.personalwebsite.domain.entities.ProjectLink
 import com.personalwebsite.domain.entities.WorkExperience
 import com.personalwebsite.presentation.models.WebsiteViewModel
 // Using buildString and appendLine for HTML generation
@@ -136,39 +138,24 @@ class HtmlWebsiteView : WebsiteView {
         appendLine("                    <ul class=\"hero-highlight-list\">")
         appendLine("                        <li>Composable Android & KMP architectures rolled out across multi-brand platforms</li>")
         appendLine("                        <li>Automation frameworks (Selenium, Appium) powering Android/iOS CI/CD</li>")
-        appendLine("                        <li>Fintech-grade reliability: encryption, biometric flows, and compliance audits</li>")
+        appendLine("                        <li>Reliability, performance, and security-first mobile experiences for millions of users.</li>")
         appendLine("                    </ul>")
         appendLine("                    <div class=\"hero-actions hero-cta-row\">")
         appendLine("                        <a href=\"#contact\" class=\"primary-button\">Partner with me</a>")
         appendLine("                        <a href=\"/static/files/Mohamed_ElSherbini_Resume.pdf\" class=\"secondary-button\" target=\"_blank\" rel=\"noopener\">Download résumé</a>")
         appendLine("                    </div>")
-        appendLine("                    <div class=\"hero-status\">")
-        appendLine("                        <span class=\"hero-status-pill\">Q1 2026 availability</span>")
-        appendLine("                        <p>Currently leading Android at CHECK24 while exploring agentic AI tooling and cross-platform automation. Open to audits, architecture refreshes, and leadership engagements.</p>")
+        appendLine("                    <div class=\"hero-meta-row\">")
+        appendLine("                        <div class=\"hero-meta-pill\">")
+        appendLine("                            <span class=\"hero-meta-label\">Availability</span>")
+        appendLine("                            <span class=\"hero-meta-value\">Q1 2026</span>")
+        appendLine("                        </div>")
+        appendLine("                        <div class=\"hero-meta-pill\">")
+        appendLine("                            <span class=\"hero-meta-label\">Current mission</span>")
+        appendLine("                            <span class=\"hero-meta-value\">CHECK24 Mobile Platform</span>")
+        appendLine("                        </div>")
         appendLine("                    </div>")
         appendLine("                </div>")
         appendLine("                <div class=\"hero-panels\">")
-        appendLine("                    <div class=\"hero-panel cluster-card\">")
-        appendLine("                        <h3>Signal boost</h3>")
-        appendLine("                        <div class=\"hero-metrics\">")
-        appendLine("                            <div class=\"hero-metric\">")
-        appendLine("                                <div class=\"hero-metric-value\">8+</div>")
-        appendLine("                                <div class=\"hero-metric-label\">Years shipping Android</div>")
-        appendLine("                            </div>")
-        appendLine("                            <div class=\"hero-metric\">")
-        appendLine("                                <div class=\"hero-metric-value\">15+</div>")
-        appendLine("                                <div class=\"hero-metric-label\">Apps launched</div>")
-        appendLine("                            </div>")
-        appendLine("                            <div class=\"hero-metric\">")
-        appendLine("                                <div class=\"hero-metric-value\">6</div>")
-        appendLine("                                <div class=\"hero-metric-label\">Squads mentored</div>")
-        appendLine("                            </div>")
-        appendLine("                            <div class=\"hero-metric\">")
-        appendLine("                                <div class=\"hero-metric-value\">99%</div>")
-        appendLine("                                <div class=\"hero-metric-label\">Crash-free sessions</div>")
-        appendLine("                            </div>")
-        appendLine("                        </div>")
-        appendLine("                    </div>")
         appendLine("                    <div class=\"hero-panel cluster-card hero-signal\">")
         appendLine("                        <h3>Systems online</h3>")
         appendLine("                        <p>Composable design systems, real-time observability, and battle-tested release trains keep every build stable under neon lights.</p>")
@@ -209,8 +196,8 @@ class HtmlWebsiteView : WebsiteView {
         appendLine("                </div>")
         appendLine("                <div class=\"feature cluster-card\">")
         appendLine("                    <div class=\"feature-icon\">🔒</div>")
-        appendLine("                    <h3>Fintech-grade reliability</h3>")
-        appendLine("                    <p>Biometric flows, encryption layers, and compliance-ready data handling built directly into the design system so features stay secure by default.</p>")
+        appendLine("                    <h3>Reliability at scale</h3>")
+        appendLine("                    <p>Reliability, performance, and security-first mobile experiences for millions of users, built into every architecture decision, test, and deployment.</p>")
         appendLine("                </div>")
         appendLine("            </div>")
             appendLine("        </section>")
@@ -232,7 +219,7 @@ class HtmlWebsiteView : WebsiteView {
         appendLine("                <ul class=\"about-points\">")
         appendLine("                    <li>Composable architecture — modular Kotlin bases, KMP adoption, and Jetpack Compose design systems that scale across brands.</li>")
         appendLine("                    <li>Observability & automation — Selenium/Appium frameworks, Jenkins pipelines, and live dashboards keeping KPIs in sight.</li>")
-        appendLine("                    <li>Fintech-grade reliability — encryption, biometric flows, and compliance-first user journeys for comparison and finance apps.</li>")
+        appendLine("                    <li>Reliability, performance, and security-first mobile experiences for millions of users.</li>")
         appendLine("                </ul>")
             
             // Work Experience
@@ -282,7 +269,7 @@ class HtmlWebsiteView : WebsiteView {
             appendLine("                <p class=\"section-subtitle\">A blend of flagship launches, automation frameworks, and open source experiments that showcase architecture, AI, and platform integration work.</p>")
             appendLine("                <div class=\"projects-grid\">")
             viewModel.personalProjects.forEach { project ->
-                appendLine("                    <a href=\"#\" class=\"project-card personal-project-card cluster-card\">")
+                appendLine("                    <a href=\"/projects/${project.slug}\" class=\"project-card personal-project-card cluster-card\">")
                 appendLine("                        <div class=\"project-content\">")
                 appendLine("                            <div class=\"project-header\">")
                 appendLine("                                <h3 class=\"project-title\">${project.name}</h3>")
@@ -355,9 +342,162 @@ class HtmlWebsiteView : WebsiteView {
             appendLine("    </footer>")
             appendLine("</body>")
             appendLine("</html>")
+    }
+}
+
+    override fun renderProject(project: PersonalProject, viewModel: WebsiteViewModel): String {
+        val personalInfo = viewModel.personalInfo
+        val baseUrl = "https://www.mohamedfaridelsherbini.com"
+        val siteTitle = "${project.name} – Case Study | ${personalInfo.name}"
+        val metaDescription = project.summary
+        val encodedDescription = metaDescription.replace("\"", "&quot;")
+        val socialImageUrl = "$baseUrl/static/images/profile-social.jpg"
+        val otherProjects = viewModel.personalProjects.filter { it.slug != project.slug }
+
+        return buildString {
+            appendLine("<!DOCTYPE html>")
+            appendLine("<html>")
+            appendLine("<head>")
+            appendLine("    <meta charset=\"utf-8\"/>")
+            appendLine("    <link crossorigin=\"\" href=\"https://fonts.gstatic.com/\" rel=\"preconnect\"/>")
+            appendLine("    <link as=\"style\" href=\"https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Spline+Sans%3Awght%40400%3B500%3B700\" onload=\"this.rel='stylesheet'\" rel=\"stylesheet\"/>")
+            appendLine("    <title>$siteTitle</title>")
+            appendLine("    <link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"/static/images/favicon-portrait.png?v=2\">")
+            appendLine("    <link rel=\"icon\" type=\"image/png\" sizes=\"64x64\" href=\"/static/images/favicon-portrait.png?v=2\">")
+            appendLine("    <link rel=\"apple-touch-icon\" sizes=\"180x180\" href=\"/static/images/favicon-portrait.png?v=2\">")
+            appendLine("    <link rel=\"icon\" type=\"image/x-icon\" href=\"/static/images/favicon.ico?v=2\">")
+            appendLine("    <link rel=\"stylesheet\" href=\"/static/css/style.css\" type=\"text/css\">")
+            appendLine("    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">")
+            appendLine("    <meta name=\"description\" content=\"$encodedDescription\">")
+            appendLine("    <meta property=\"og:type\" content=\"article\">")
+            appendLine("    <meta property=\"og:title\" content=\"$siteTitle\">")
+            appendLine("    <meta property=\"og:description\" content=\"$encodedDescription\">")
+            appendLine("    <meta property=\"og:url\" content=\"$baseUrl/projects/${project.slug}\">")
+            appendLine("    <meta property=\"og:image\" content=\"$socialImageUrl\">")
+            appendLine("    <meta property=\"og:image:alt\" content=\"${project.name} case study\">")
+            appendLine("    <meta name=\"twitter:card\" content=\"summary_large_image\">")
+            appendLine("    <meta name=\"twitter:title\" content=\"$siteTitle\">")
+            appendLine("    <meta name=\"twitter:description\" content=\"$encodedDescription\">")
+            appendLine("    <meta name=\"twitter:image\" content=\"$socialImageUrl\">")
+            appendLine("</head>")
+            appendLine("<body class=\"bg-[#111714] font-['Spline_Sans']\">")
+            appendLine("    <header>")
+            appendLine("        <div class=\"header-left\">")
+            appendLine("            <img src=\"/static/images/profile-social.jpg\" alt=\"Portrait of ${personalInfo.name}\" class=\"logo-badge\">")
+            appendLine("            <h2 class=\"header-title\">${personalInfo.name}</h2>")
+            appendLine("        </div>")
+            appendLine("        <nav class=\"nav-panel is-static\">")
+            appendLine("            <div class=\"nav-links\">")
+            appendLine("                <a class=\"nav-link\" href=\"/\">Home</a>")
+            appendLine("                <a class=\"nav-link\" href=\"/#about\">About</a>")
+            appendLine("                <a class=\"nav-link\" href=\"/#skills\">Skills</a>")
+            appendLine("                <a class=\"nav-link\" href=\"/#personal-projects\">Projects</a>")
+            appendLine("                <a class=\"nav-link\" href=\"/#contact\">Contact</a>")
+            appendLine("            </div>")
+            appendLine("            <div class=\"nav-actions\">")
+            appendLine("                <a href=\"mailto:${personalInfo.email}\" class=\"contact-button\">Let's Talk</a>")
+            appendLine("                <a href=\"/static/files/Mohamed_ElSherbini_Resume.pdf\" class=\"resume-button\" target=\"_blank\" download=\"Mohamed_ElSherbini_Resume.pdf\">Resume</a>")
+            appendLine("            </div>")
+            appendLine("        </nav>")
+            appendLine("    </header>")
+
+            appendLine("    <main class=\"project-detail\">")
+            appendLine("        <section class=\"project-hero cluster-card\">")
+            if (project.timeline != null || project.role != null) {
+                appendLine("            <div class=\"project-pills\">")
+                project.timeline?.let {
+                    appendLine("                <span class=\"project-pill\">$it</span>")
+                }
+                project.role?.let {
+                    appendLine("                <span class=\"project-pill\">$it</span>")
+                }
+                appendLine("            </div>")
+            }
+            appendLine("            <h1 class=\"project-title\">${project.name}</h1>")
+            appendLine("            <p class=\"project-summary\">${project.summary}</p>")
+            appendLine("            <div class=\"project-meta\">")
+            appendLine("                <div class=\"project-meta-block\">")
+            appendLine("                    <h3>Stack</h3>")
+            appendLine("                    <div class=\"project-tags\">")
+            project.techStack.split(" • ").forEach { tech ->
+                appendLine("                        <span class=\"project-tag\">$tech</span>")
+            }
+            appendLine("                    </div>")
+            appendLine("                </div>")
+            if (project.metrics.isNotEmpty()) {
+                appendLine("                <div class=\"project-meta-block\">")
+                appendLine("                    <h3>Metrics</h3>")
+                appendLine("                    <ul class=\"project-metrics\">")
+                project.metrics.forEach { metric ->
+                    appendLine("                        <li>$metric</li>")
+                }
+                appendLine("                    </ul>")
+                appendLine("                </div>")
+            }
+            if (project.links.isNotEmpty()) {
+                appendLine("                <div class=\"project-meta-block\">")
+                appendLine("                    <h3>Links</h3>")
+                appendLine("                    <div class=\"project-links\">")
+                project.links.forEach { link ->
+                    appendLine("                        <a class=\"project-link\" href=\"${link.url}\" target=\"_blank\" rel=\"noopener\">${link.label}</a>")
+                }
+                appendLine("                    </div>")
+                appendLine("                </div>")
+            }
+            appendLine("            </div>")
+            appendLine("        </section>")
+
+            if (project.highlights.isNotEmpty()) {
+                appendLine("        <section class=\"project-section cluster-card\">")
+                appendLine("            <h2>Highlights</h2>")
+                appendLine("            <ul class=\"project-highlights\">")
+                project.highlights.forEach { highlight ->
+                    appendLine("                <li>$highlight</li>")
+                }
+                appendLine("            </ul>")
+                appendLine("        </section>")
+            }
+
+            if (otherProjects.isNotEmpty()) {
+                appendLine("        <section class=\"project-section\">")
+                appendLine("            <div class=\"section-heading\">")
+                appendLine("                <p class=\"section-kicker\">More case studies</p>")
+                appendLine("                <h2 class=\"section-title\">Other projects</h2>")
+                appendLine("            </div>")
+                appendLine("            <div class=\"projects-grid\">")
+                otherProjects.forEach { related ->
+                    appendLine("                <a href=\"/projects/${related.slug}\" class=\"project-card personal-project-card cluster-card\">")
+                    appendLine("                    <div class=\"project-content\">")
+                    appendLine("                        <div class=\"project-header\">")
+                    appendLine("                            <h3 class=\"project-title\">${related.name}</h3>")
+                    appendLine("                            <span class=\"project-category\">${related.category}</span>")
+                    appendLine("                        </div>")
+                    appendLine("                        <p class=\"project-description\">${related.summary}</p>")
+                    appendLine("                        <div class=\"project-tech-stack\">")
+                    related.techStack.split(" • ").forEach { tag ->
+                        appendLine("                            <span class=\"tech-tag\">$tag</span>")
+                    }
+                    appendLine("                        </div>")
+                    appendLine("                    </div>")
+                    appendLine("                </a>")
+                }
+                appendLine("            </div>")
+                appendLine("        </section>")
+            }
+
+            appendLine("        <section class=\"quote-section\">")
+            appendLine("            <p class=\"quote-text\">\"Code for clarity, automate for consistency, and build for longevity.\"</p>")
+            appendLine("            <span class=\"quote-author\">— ${personalInfo.name}</span>")
+            appendLine("        </section>")
+            appendLine("    </main>")
+            appendLine("    <footer>")
+            appendLine("        <p>© 2025 ${personalInfo.name}. Built with Kotlin, Ktor & Clean Architecture.</p>")
+            appendLine("    </footer>")
+            appendLine("</body>")
+            appendLine("</html>")
         }
     }
-    
+
     override fun renderError(errorMessage: String): String {
         return buildString {
             appendLine("<!DOCTYPE html>")

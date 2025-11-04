@@ -6,14 +6,15 @@ import io.ktor.server.application.Application
 import io.ktor.server.application.install
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
-import io.ktor.server.response.respond
 import io.ktor.server.routing.get
 import io.ktor.server.routing.routing
 import io.ktor.server.html.respondHtml
 import io.ktor.server.http.content.staticResources
-import io.ktor.server.request.receive
 import io.ktor.server.response.respondText
 import io.ktor.server.application.call
+import io.ktor.http.ContentType
+import io.ktor.http.HttpStatusCode
+import io.ktor.server.response.respond
 import kotlinx.html.body
 import kotlinx.html.div
 import kotlinx.html.h1
@@ -56,7 +57,7 @@ fun Application.module() {
         // Main route - keeping it simple for now
         get("/") {
             logger.info { "Someone's visiting the homepage" }
-            
+
             try {
                 val htmlContent = websiteController.loadWebsite()
                 call.response.headers.append("Content-Type", "text/html; charset=UTF-8")
@@ -77,6 +78,27 @@ fun Application.module() {
                         }
                     }
                 }
+            }
+        }
+
+        get("/projects/{slug}") {
+            val slug = call.parameters["slug"]
+
+            if (slug.isNullOrBlank()) {
+                call.respond(HttpStatusCode.BadRequest, "Missing project slug")
+                return@get
+            }
+
+            try {
+                val htmlContent = websiteController.loadProject(slug)
+                call.respondText(htmlContent, ContentType.Text.Html)
+            } catch (e: NoSuchElementException) {
+                val errorHtml = websiteController.renderError("Project not found")
+                call.respondText(errorHtml, ContentType.Text.Html, HttpStatusCode.NotFound)
+            } catch (e: Exception) {
+                logger.error(e) { "Failed to render project detail for $slug" }
+                val errorHtml = websiteController.renderError("Failed to load project: ${e.message}")
+                call.respondText(errorHtml, ContentType.Text.Html, HttpStatusCode.InternalServerError)
             }
         }
     }
