@@ -1,4 +1,4 @@
-package com.personalwebsite.presentation
+package com.personalwebsite.application.website
 
 import com.google.gson.Gson
 import com.personalwebsite.application.website.WebsiteQueries
