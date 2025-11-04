@@ -21,7 +21,7 @@ COPY bootstrap ./bootstrap
 COPY tools ./tools
 
 # Build the application (runs tests and produces fat jar)
-RUN ./gradlew build :bootstrap:fatJar --no-daemon
+RUN ./gradlew build :bootstrap:shadowJar --no-daemon
 
 # Expose port 8080
 EXPOSE 8080

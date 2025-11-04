@@ -1,7 +1,9 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 plugins {
     kotlin("jvm")
     id("application")
-    id("io.ktor.plugin")
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 dependencies {
@@ -25,8 +27,6 @@ kotlin {
     jvmToolchain(21)
 }
 
-ktor {
-    fatJar {
-        archiveFileName.set("app-all.jar")
-    }
+tasks.named<ShadowJar>("shadowJar") {
+    archiveFileName.set("app-all.jar")
 }

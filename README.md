@@ -81,7 +81,7 @@ You can run the application in several ways:
 
 #### Option C: Build and run the fat JAR
 ```bash
-./gradlew :bootstrap:fatJar
+./gradlew :bootstrap:shadowJar
 java -jar bootstrap/build/libs/app-all.jar
 ```
 
@@ -171,7 +171,7 @@ For production deployment, you can:
 
 1. Build the fat JAR:
    ```bash
-   ./gradlew :bootstrap:fatJar
+   ./gradlew :bootstrap:shadowJar
    ```
 
 2. Run with production settings:
@@ -237,11 +237,13 @@ A Jenkins pipeline can reuse the Gradle build, snapshot tests, link checking (vi
 
 1. **Checkout & Tooling** – Pull the repo, provision JDK 21, install any link-check binaries.
 2. **Build & Test** – Run `./gradlew clean build` (optionally with `UPDATE_SNAPSHOTS=true` in a dedicated maintenance job).
-3. **Package** – Run `./gradlew :bootstrap:fatJar` or build the Docker image directly.
+3. **Package** – Run `./gradlew :bootstrap:shadowJar` or build the Docker image directly.
 4. **Deploy** – Call `.deploy.sh` or mirror its steps with Jenkins agents/Ansible.
 5. **Post-deploy Health** – Hit the same health-check URL used by `.deploy.sh` and fail fast if something regresses.
 
 The pipeline should only depend on the application/services ports, so additional adapters (e.g., S3, email) can slot in later without rewriting the automation script.
+
+> A ready-to-use Declarative pipeline lives in `Jenkinsfile`. Configure a JDK 21 tool named `jdk-21` in Jenkins and (optionally) toggle the `RUN_DEPLOY` boolean parameter to execute `.deploy.sh` after packaging.
 
 ## Roadmap: Next Enhancements
 
