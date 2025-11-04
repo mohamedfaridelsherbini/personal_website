@@ -6,7 +6,7 @@ A modern personal website built with Kotlin and Ktor framework. This project sho
 
 - 🚀 Built with Kotlin and Ktor
 - 📱 Responsive design that works on all devices
-- 🎨 Modern CSS with gradients and animations
+- 🎨 Modern CSS with gradients, glassmorphism, and a neon cursor trail
 - 📄 Multiple pages: Home, About, Projects, Contact
 - 🔧 Easy to customize and extend
 
@@ -145,7 +145,7 @@ To check automatically every 5 minutes on the droplet, add a cron entry:
 The script only logs failures (and returns a non-zero exit code so cron can alert you by email if configured).
 
 ### Automated Deployments
-`deploy.sh` can SSH into the droplet, pull the latest code, rebuild the Docker image, and restart the container.
+`.deploy.sh` automates the same workflow you would run manually on the droplet (pull latest code, rebuild the Docker image, restart the container, and run a health check).
 
 1. Create `.deploy.env` in the repo root:
    ```bash
@@ -162,12 +162,16 @@ The script only logs failures (and returns a non-zero exit code so cron can aler
    HEALTHCHECK_URL=https://example.com
    EOF
    ```
-2. Run the deploy:
+2. Ensure the script is executable:
    ```bash
-   ./deploy.sh
+   chmod +x .deploy.sh
+   ```
+3. Run the deploy:
+   ```bash
+   ./.deploy.sh
    ```
 
-The script exits on failure (e.g., git pull conflicts or health-check errors) so you can review logs before retrying.
+The script exits on failure (e.g., git pull conflicts, Docker build issues, or health-check errors) so you can review logs before retrying. See `DEPLOYMENT.md` if you need a fully manual, step-by-step rundown of the same process.
 
 ## Current State vs. Future Enhancements
 
@@ -177,7 +181,7 @@ The script exits on failure (e.g., git pull conflicts or health-check errors) so
 | Monitoring | Manual health checks + `bin/uptime-check.sh` helper | Automate via cron on droplet (log & alert) and consider integrating lightweight analytics (Plausible/Fathom) |
 | Projects/Case Studies | Highlight cards with short descriptions | Add dedicated project/case-study pages with metrics, screenshots, lessons learned |
 | Build & Deploy | Manual testing + deploy script | Add lint/tests (Kotlin/JVM) and CI (GitHub Actions) to run tests + deploy |
-| UI polish | Glassmorphic base and experience cards | Add animated cursor, custom favicon/logo, and iterate on playful interactive elements |
+| UI polish | Glassmorphic base, neon cursor trail, and branded favicon/header badge | Layer in additional micro-interactions (scroll parallax, hover reveals) and refine typography spacing |
 
 ## Contributing
 
