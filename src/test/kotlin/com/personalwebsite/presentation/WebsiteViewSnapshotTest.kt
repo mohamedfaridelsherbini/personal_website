@@ -1,8 +1,10 @@
 package com.personalwebsite.presentation
 
 import com.google.gson.Gson
-import com.personalwebsite.application.website.WebsiteController
-import com.personalwebsite.infrastructure.cache.ContentCache
+import com.personalwebsite.application.website.WebsiteQueries
+import com.personalwebsite.application.website.WebsiteService
+import com.personalwebsite.application.website.ports.RenderCache
+import com.personalwebsite.application.website.ports.WebsiteView
 import com.personalwebsite.infrastructure.content.ContentLoader
 import com.personalwebsite.infrastructure.content.LanguageRepositoryImpl
 import com.personalwebsite.infrastructure.content.PersonalInfoRepositoryImpl
@@ -14,8 +16,8 @@ import com.personalwebsite.domain.usecases.GetPersonalInfoUseCase
 import com.personalwebsite.domain.usecases.GetPersonalProjectsUseCase
 import com.personalwebsite.domain.usecases.GetSkillsUseCase
 import com.personalwebsite.domain.usecases.GetWorkExperienceUseCase
+import com.personalwebsite.infrastructure.cache.InMemoryRenderCache
 import com.personalwebsite.infrastructure.web.view.HtmlWebsiteView
-import com.personalwebsite.infrastructure.web.view.WebsiteView
 import kotlinx.coroutines.runBlocking
 import kotlin.io.path.createDirectories
 import kotlin.io.path.exists
@@ -29,8 +31,8 @@ import java.nio.file.Path
 class WebsiteViewSnapshotTest {
 
     private lateinit var websiteView: WebsiteView
-    private lateinit var controller: WebsiteController
-    private lateinit var contentCache: ContentCache
+    private lateinit var renderCache: RenderCache
+    private lateinit var websiteQueries: WebsiteQueries
 
     @BeforeTest
     fun setUp() {
@@ -50,29 +52,29 @@ class WebsiteViewSnapshotTest {
         val getLanguages = GetLanguagesUseCase(languageRepository)
 
         websiteView = HtmlWebsiteView()
-        contentCache = ContentCache()
-        controller = WebsiteController(
+        renderCache = InMemoryRenderCache()
+        websiteQueries = WebsiteService(
             getPersonalInfoUseCase = getPersonalInfo,
             getSkillsUseCase = getSkills,
             getWorkExperienceUseCase = getWork,
             getPersonalProjectsUseCase = getProjects,
             getLanguagesUseCase = getLanguages,
             websiteView = websiteView,
-            contentCache = contentCache
+            renderCache = renderCache
         )
     }
 
     @Test
     fun homePageMatchesSnapshot() = runBlocking {
-        contentCache.clear()
-        val html = controller.loadWebsite()
+        renderCache.clear()
+        val html = websiteQueries.renderHome()
         assertMatchesSnapshot("home", html)
     }
 
     @Test
     fun projectPageMatchesSnapshot() = runBlocking {
-        contentCache.clear()
-        val html = controller.loadProject("spl-fantasy")
+        renderCache.clear()
+        val html = websiteQueries.renderProject("spl-fantasy")
         assertMatchesSnapshot("project-spl-fantasy", html)
     }
 

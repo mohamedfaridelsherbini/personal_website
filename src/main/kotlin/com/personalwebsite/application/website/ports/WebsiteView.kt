@@ -1,9 +1,9 @@
-package com.personalwebsite.infrastructure.web.view
+package com.personalwebsite.application.website.ports
 
 import com.personalwebsite.application.website.model.PageModel
 
 /**
- * View interface for the website.
+ * Outbound port for rendering HTML.
  */
 interface WebsiteView {
     fun render(page: PageModel): String

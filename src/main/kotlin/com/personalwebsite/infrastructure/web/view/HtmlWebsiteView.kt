@@ -1,6 +1,7 @@
 package com.personalwebsite.infrastructure.web.view
 
 import com.personalwebsite.application.website.model.PageModel
+import com.personalwebsite.application.website.ports.WebsiteView
 import com.personalwebsite.infrastructure.web.view.templates.HomePageRenderer
 import com.personalwebsite.infrastructure.web.view.templates.ProjectPageRenderer
 

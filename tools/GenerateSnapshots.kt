@@ -19,14 +19,16 @@ fun main() {
     val baseUrl = "https://www.mohamedfaridelsherbini.com"
     val socialImageUrl = "$baseUrl/static/images/profile-social.jpg"
 
+    val metaDescription = "Senior Android engineer crafting Kotlin and Jetpack Compose experiences for fintech and product teams across Europe. Currently at Check24 in Munich, open to remote consulting and leadership opportunities."
+
     val homeMetadata = PageMetadata(
         title = "${personalInfo.name} - ${personalInfo.title}",
-        description = personalInfo.summary,
+        description = metaDescription,
         canonicalUrl = "$baseUrl/",
         socialImageUrl = socialImageUrl,
         ogType = "website",
         publishedTime = "2025-11-02T00:00:00+01:00",
-        structuredDataJsonLd = createPersonSchema(personalInfo, baseUrl, socialImageUrl, personalInfo.summary)
+        structuredDataJsonLd = createPersonSchema(personalInfo, baseUrl, socialImageUrl, metaDescription)
     )
 
     val view = HtmlWebsiteView()

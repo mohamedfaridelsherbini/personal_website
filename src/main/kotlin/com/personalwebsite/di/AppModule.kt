@@ -1,7 +1,10 @@
 package com.personalwebsite.di
 
-import com.personalwebsite.application.website.WebsiteController
-import com.personalwebsite.infrastructure.cache.ContentCache
+import com.personalwebsite.application.website.WebsiteQueries
+import com.personalwebsite.application.website.WebsiteService
+import com.personalwebsite.application.website.ports.RenderCache
+import com.personalwebsite.application.website.ports.WebsiteView
+import com.personalwebsite.infrastructure.cache.InMemoryRenderCache
 import com.personalwebsite.infrastructure.content.ContentLoader
 import com.personalwebsite.infrastructure.content.LanguageRepositoryImpl
 import com.personalwebsite.infrastructure.content.PersonalInfoRepositoryImpl
@@ -19,7 +22,6 @@ import com.personalwebsite.domain.usecases.GetWorkExperienceUseCase
 import com.personalwebsite.domain.usecases.GetPersonalProjectsUseCase
 import com.personalwebsite.domain.usecases.GetLanguagesUseCase
 import com.personalwebsite.infrastructure.web.view.HtmlWebsiteView
-import com.personalwebsite.infrastructure.web.view.WebsiteView
 import com.google.gson.Gson
 import org.koin.dsl.module
 
@@ -32,7 +34,7 @@ val appModule = module {
     // Content loader stack
     single { Gson() }
     single { ContentLoader(gson = get()) }
-    single { ContentCache() }
+    single<RenderCache> { InMemoryRenderCache() }
 
     // Repository implementations backed by structured content files
     single<PersonalInfoRepository> { PersonalInfoRepositoryImpl(contentLoader = get()) }
@@ -51,16 +53,16 @@ val appModule = module {
     // View - only have HTML view for now, might add others later
     single<WebsiteView> { HtmlWebsiteView() }
     
-    // Controller - wires everything together
-    single { 
-        WebsiteController(
+    // Application service - wires everything together through ports
+    single<WebsiteQueries> {
+        WebsiteService(
             getPersonalInfoUseCase = get(),
             getSkillsUseCase = get(),
             getWorkExperienceUseCase = get(),
             getPersonalProjectsUseCase = get(),
             getLanguagesUseCase = get(),
             websiteView = get(),
-            contentCache = get()
+            renderCache = get()
         )
     }
 }

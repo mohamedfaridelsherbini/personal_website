@@ -1,6 +1,6 @@
 package com.personalwebsite.infrastructure.web.routing
 
-import com.personalwebsite.application.website.WebsiteController
+import com.personalwebsite.application.website.WebsiteQueries
 import io.ktor.http.ContentType
 import io.ktor.http.withCharset
 import io.ktor.server.application.Application
@@ -10,10 +10,10 @@ import java.nio.charset.StandardCharsets
 
 internal val HtmlUtf8: ContentType = ContentType.Text.Html.withCharset(StandardCharsets.UTF_8)
 
-fun Application.registerRoutes(controller: WebsiteController) {
+fun Application.registerRoutes(websiteQueries: WebsiteQueries) {
     routing {
         staticResources("/static", "static")
-        homeRoutes(controller)
-        projectRoutes(controller)
+        homeRoutes(websiteQueries)
+        projectRoutes(websiteQueries)
     }
 }

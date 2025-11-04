@@ -1,5 +1,10 @@
 package com.personalwebsite.application.website
 
+import com.personalwebsite.application.website.model.PageMetadata
+import com.personalwebsite.application.website.model.PageModel
+import com.personalwebsite.application.website.model.WebsiteViewModel
+import com.personalwebsite.application.website.ports.RenderCache
+import com.personalwebsite.application.website.ports.WebsiteView
 import com.personalwebsite.domain.entities.PersonalInfo
 import com.personalwebsite.domain.entities.PersonalProject
 import com.personalwebsite.domain.usecases.GetLanguagesUseCase
@@ -7,33 +12,27 @@ import com.personalwebsite.domain.usecases.GetPersonalInfoUseCase
 import com.personalwebsite.domain.usecases.GetPersonalProjectsUseCase
 import com.personalwebsite.domain.usecases.GetSkillsUseCase
 import com.personalwebsite.domain.usecases.GetWorkExperienceUseCase
-import com.personalwebsite.application.website.model.PageMetadata
-import com.personalwebsite.application.website.model.PageModel
-import com.personalwebsite.application.website.model.WebsiteViewModel
-import com.personalwebsite.infrastructure.cache.ContentCache
-import com.personalwebsite.infrastructure.web.view.WebsiteView
 import mu.KotlinLogging
 
 /**
- * Application-level coordinator for the website.
- * Fetches domain data via use cases and delegates rendering to the selected view.
+ * Application service coordinating the website use cases.
  */
-class WebsiteController(
+class WebsiteService(
     private val getPersonalInfoUseCase: GetPersonalInfoUseCase,
     private val getSkillsUseCase: GetSkillsUseCase,
     private val getWorkExperienceUseCase: GetWorkExperienceUseCase,
     private val getPersonalProjectsUseCase: GetPersonalProjectsUseCase,
     private val getLanguagesUseCase: GetLanguagesUseCase,
     private val websiteView: WebsiteView,
-    private val contentCache: ContentCache
-) {
+    private val renderCache: RenderCache
+) : WebsiteQueries {
 
     private val logger = KotlinLogging.logger {}
     private val baseUrl = "https://www.mohamedfaridelsherbini.com"
 
-    suspend fun loadWebsite(): String {
+    override suspend fun renderHome(): String {
         val cacheKey = "GET:/"
-        contentCache.peek(cacheKey)?.let {
+        renderCache.peek(cacheKey)?.let {
             logger.debug { "Serving cached home page" }
             return it
         }
@@ -41,7 +40,7 @@ class WebsiteController(
         logger.info { "Cache miss for home page, generating HTML" }
 
         return try {
-            contentCache.getOrPut(cacheKey) {
+            renderCache.getOrPut(cacheKey) {
                 val personalInfo = getPersonalInfoUseCase()
                 val skills = getSkillsUseCase()
                 val workExperience = getWorkExperienceUseCase()
@@ -61,12 +60,7 @@ class WebsiteController(
                 )
 
                 val metadata = buildHomeMetadata(personalInfo)
-                val page = PageModel.Home(
-                    metadata = metadata,
-                    site = viewModel
-                )
-
-                websiteView.render(page)
+                websiteView.render(PageModel.Home(metadata = metadata, site = viewModel))
             }
         } catch (e: Exception) {
             logger.error(e) { "Failed to load website data - ${e.message}" }
@@ -74,9 +68,9 @@ class WebsiteController(
         }
     }
 
-    suspend fun loadProject(slug: String): String {
+    override suspend fun renderProject(slug: String): String {
         val cacheKey = "GET:/projects/$slug"
-        contentCache.peek(cacheKey)?.let {
+        renderCache.peek(cacheKey)?.let {
             logger.debug { "Serving cached project page for $slug" }
             return it
         }
@@ -86,7 +80,7 @@ class WebsiteController(
         val personalInfo = getPersonalInfoUseCase()
 
         return try {
-            contentCache.getOrPut(cacheKey) {
+            renderCache.getOrPut(cacheKey) {
                 val skills = getSkillsUseCase()
                 val workExperience = getWorkExperienceUseCase()
                 val personalProjects = getPersonalProjectsUseCase()
@@ -104,24 +98,25 @@ class WebsiteController(
                 )
 
                 val metadata = buildProjectMetadata(personalInfo.name, project)
-                val page = PageModel.Project(
-                    project = project,
-                    metadata = metadata,
-                    site = viewModel
+                websiteView.render(
+                    PageModel.Project(
+                        project = project,
+                        metadata = metadata,
+                        site = viewModel
+                    )
                 )
-
-                websiteView.render(page)
             }
         } catch (e: NoSuchElementException) {
-            contentCache.invalidate(cacheKey)
+            renderCache.invalidate(cacheKey)
             throw e
         }
     }
 
-    fun renderError(message: String) = websiteView.renderError(message)
+    override fun renderError(message: String) = websiteView.renderError(message)
 
     private fun buildHomeMetadata(personalInfo: PersonalInfo): PageMetadata {
-        val metaDescription = "Senior Android engineer crafting Kotlin and Jetpack Compose experiences for fintech and product teams across Europe. Currently at Check24 in Munich, open to remote consulting and leadership opportunities."
+        val metaDescription =
+            "Senior Android engineer crafting Kotlin and Jetpack Compose experiences for fintech and product teams across Europe. Currently at Check24 in Munich, open to remote consulting and leadership opportunities."
         val socialImageUrl = "$baseUrl/static/images/profile-social.jpg"
         val jsonLd = createPersonSchema(personalInfo, baseUrl, socialImageUrl, metaDescription)
 

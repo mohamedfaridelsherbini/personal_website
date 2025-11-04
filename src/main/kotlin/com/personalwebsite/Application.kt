@@ -1,6 +1,6 @@
 package com.personalwebsite
 
-import com.personalwebsite.application.website.WebsiteController
+import com.personalwebsite.application.website.WebsiteQueries
 import com.personalwebsite.di.appModule
 import com.personalwebsite.infrastructure.web.routing.registerRoutes
 import io.ktor.server.application.Application
@@ -28,7 +28,7 @@ fun Application.module() {
     }
     
     // Get controller from Koin - much cleaner than manual DI
-    val websiteController by inject<WebsiteController>()
+    val websiteQueries by inject<WebsiteQueries>()
     
-    registerRoutes(websiteController)
+    registerRoutes(websiteQueries)
 }
