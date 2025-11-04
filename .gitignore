@@ -56,6 +56,7 @@ node_modules/
 .env.staging
 .deploy.env
 .deploy.sh
+deploy.sh
 
 # Sensitive configuration files
 config.properties
