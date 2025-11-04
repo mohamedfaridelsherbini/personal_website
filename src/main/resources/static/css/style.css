@@ -5,12 +5,17 @@
 :root {
   --primary-color: #38e07b;
   --primary-hover: #2fe074;
-  --background: #111714;
-  --surface: #1a221d;
-  --surface-secondary: #29382f;
-  --text-primary: #ffffff;
+  --accent-color: #66e0ff;
+  --accent-secondary: #ff9770;
+  --background: #0a0f17;
+  --surface: rgba(19, 27, 33, 0.9);
+  --surface-secondary: rgba(41, 56, 47, 0.6);
+  --text-primary: #f8fcff;
   --text-secondary: #9eb7a8;
-  --border: #29382f;
+  --border: rgba(255, 255, 255, 0.08);
+  --glow: 0 15px 80px rgba(56, 224, 123, 0.15);
+  --gradient-start: #0c1723;
+  --gradient-end: #081014;
 }
 
 /* Reset and base styles */
@@ -31,6 +36,30 @@ body {
   color: var(--text-primary);
   background-color: var(--background);
   overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at 20% 20%, rgba(56, 224, 123, 0.18), transparent 45%),
+              radial-gradient(circle at 80% 0%, rgba(102, 126, 234, 0.14), transparent 55%),
+              radial-gradient(circle at 90% 80%, rgba(255, 151, 112, 0.12), transparent 50%),
+              linear-gradient(120deg, var(--gradient-start), var(--gradient-end));
+  opacity: 0.9;
+  z-index: -2;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: url('data:image/svg+xml,%3Csvg width="304" height="304" viewBox="0 0 304 304" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M0 .5H.5V0H0v.5zm304 0V0h-.5v.5h.5zM.5 304v-.5H0V304h.5zm303-1.5h.5v-.5h-.5v.5zM.5 0v304h303V0H.5zm302.5 303.5H1V1h302v302.5z" fill="%23131b21" fill-opacity=".35"/%3E%3C/svg%3E');
+  opacity: 0.35;
+  z-index: -1;
+  pointer-events: none;
 }
 
 /* Header and Navigation */
@@ -41,13 +70,14 @@ header {
   left: 0;
   right: 0;
   z-index: 50;
-  background: rgba(17, 23, 20, 0.8);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid rgba(41, 56, 47, 0.5);
+  background: rgba(10, 16, 20, 0.75);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   padding: 12px 40px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  transition: border 0.3s ease;
 }
 
 
@@ -58,9 +88,10 @@ header {
 }
 
 .logo {
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
   color: var(--primary-color);
+  filter: drop-shadow(0 0 8px rgba(56, 224, 123, 0.6));
 }
 
 .header-title {
@@ -78,16 +109,34 @@ header {
 }
 
 .nav-link {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.7);
   text-decoration: none;
   font-size: 14px;
   font-weight: 500;
   transition: color 0.3s ease;
+  position: relative;
 }
 
 .nav-link:hover,
 .nav-link.active {
   color: var(--text-primary);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  opacity: 1;
 }
 
 .nav-panel {
@@ -224,79 +273,29 @@ main {
 /* Hero Section */
 /* Tried a few different layouts before settling on this one */
 .hero {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 96px 40px 0;
-  min-height: calc(100vh - 80px);
+  padding: 120px 40px 0;
   position: relative;
-  overflow: hidden;
-}
-
-
-.hero::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(circle at 20% 80%, rgba(56, 224, 123, 0.1) 0%, transparent 50%),
-              radial-gradient(circle at 80% 20%, rgba(102, 126, 234, 0.1) 0%, transparent 50%);
-  animation: heroGlow 8s ease-in-out infinite alternate;
-}
-
-@keyframes heroGlow {
-  0% { opacity: 0.3; }
-  100% { opacity: 0.7; }
 }
 
 .hero-content {
-  position: relative;
   width: 100%;
   max-width: 1280px;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 48px;
   align-items: center;
-  text-align: center;
-  justify-content: center;
-  padding: 80px 40px;
-  z-index: 2;
-}
-
-.hero-background {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-  background-size: 400% 400%;
-  animation: gradientShift 15s ease infinite;
-  z-index: 0;
-}
-
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.2), transparent);
-  z-index: 1;
+  text-align: left;
 }
 
 .hero-text {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
   padding: 60px;
-  z-index: 3;
-  max-width: 960px;
-  text-align: center;
+  border-radius: 32px;
+  background: rgba(17, 26, 33, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: var(--glow);
+  backdrop-filter: blur(24px);
   animation: fadeInUp 1s ease-out;
 }
 
@@ -316,31 +315,25 @@ main {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 16px;
 }
 
 .hero-title {
   color: var(--text-primary);
-  font-size: 80px;
-  font-weight: 900;
-  line-height: 1.1;
-  letter-spacing: -0.033em;
-  margin-bottom: 0;
-  max-width: 1024px;
-}
-
-@keyframes titleGlow {
-  from { filter: brightness(1); }
-  to { filter: brightness(1.1); }
+  font-size: clamp(48px, 6vw, 72px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin-bottom: 12px;
+  text-shadow: 0 12px 60px rgba(0, 0, 0, 0.45);
 }
 
 .hero-subtitle {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 20px;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 18px;
   font-weight: 400;
   line-height: 1.6;
-  margin-top: 24px;
   margin-bottom: 0;
   max-width: 768px;
 }
@@ -360,7 +353,7 @@ main {
 /* What I Do Section */
 .features {
   padding: 80px 40px;
-  background: var(--surface);
+  background: rgba(18, 24, 33, 0.8);
   margin: 0;
 }
 
@@ -376,8 +369,8 @@ main {
 
 .feature-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 32px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -387,19 +380,21 @@ main {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(16, 22, 29, 0.85);
   padding: 32px;
-  transition: all 0.3s ease;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  transition: transform 0.25s ease, border 0.25s ease, box-shadow 0.25s ease;
   text-decoration: none;
   color: inherit;
 }
 
 .feature:hover {
-  border-color: rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.08);
-  transform: translateY(-2px);
+  border-color: rgba(56, 224, 123, 0.5);
+  background: rgba(18, 27, 34, 0.95);
+  transform: translateY(-8px);
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.45);
 }
 
 .feature-icon {
@@ -494,17 +489,17 @@ main {
 }
 
 .skill-tag {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 12px 20px;
-  background: var(--surface-secondary);
-  border-radius: 12px;
-  color: var(--text-primary);
+  background: rgba(102, 224, 255, 0.08);
+  border-radius: 999px;
+  color: var(--accent-color);
   font-size: 14px;
   font-weight: 500;
   transition: all 0.3s ease;
-  border: 1px solid transparent;
+  border: 1px solid rgba(102, 224, 255, 0.25);
 }
 
 .skill-tag:hover {
@@ -578,9 +573,9 @@ main {
 /* Projects Section */
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  max-width: 1000px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 28px;
+  max-width: 1100px;
   margin: 0 auto;
 }
 
@@ -588,22 +583,25 @@ main {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  border-radius: 8px;
-  background: var(--surface);
-  border: 1px solid var(--surface-secondary);
-  transition: all 0.2s ease;
+  border-radius: 20px;
+  background: rgba(15, 21, 29, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: transform 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.35);
 }
 
 .project-card:hover {
-  border-color: var(--primary-color);
-  background: rgba(56, 224, 123, 0.05);
+  border-color: rgba(102, 224, 255, 0.4);
+  background: rgba(18, 27, 34, 0.95);
+  transform: translateY(-6px);
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.45);
 }
 
 .project-image {
   height: 80px;
   width: 100%;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 8px 8px 0 0;
+  border-radius: 20px 20px 0 0;
 }
 
 .project-content {
@@ -633,11 +631,11 @@ main {
 }
 
 .tech-tag {
-  padding: 2px 8px;
+  padding: 4px 10px;
   background: rgba(56, 224, 123, 0.1);
   border-radius: 12px;
   color: var(--primary-color);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
 }
 
@@ -748,16 +746,17 @@ main {
 .contact-item {
   text-align: center;
   padding: 20px 32px;
-  background: var(--surface);
-  border-radius: 12px;
-  border: 1px solid var(--surface-secondary);
-  transition: all 0.2s ease;
+  background: rgba(18, 24, 32, 0.8);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: transform 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   text-decoration: none;
-  min-width: 120px;
+  min-width: 140px;
+  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.35);
 }
 
 .contact-button {
@@ -932,6 +931,7 @@ footer p {
   .hero-actions {
     flex-direction: column;
     gap: 12px;
+    align-items: stretch;
   }
 
   .nav-links {
@@ -939,12 +939,12 @@ footer p {
   }
   
   .hero {
-    padding: 40px 20px;
+    padding: 100px 20px 0;
   }
   
   .hero-content {
-    height: calc(100vh - 80px);
-    border-radius: 24px;
+    grid-template-columns: 1fr;
+    gap: 32px;
   }
   
   .hero-text {
@@ -1014,8 +1014,8 @@ footer p {
   }
   
   .projects-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+    grid-template-columns: 1fr;
+    gap: 20px;
     max-width: 100%;
   }
   

@@ -1,82 +1,86 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-# DigitalOcean Deployment Script for Personal Website
-# This script builds and deploys the Kotlin/Ktor application to DigitalOcean
+CONFIG_FILE="${DEPLOY_ENV_FILE:-.deploy.env}"
 
-set -e
+if [[ ! -f "${CONFIG_FILE}" ]]; then
+  cat <<EOF
+Missing deployment config: ${CONFIG_FILE}
 
-# Colors for output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+Create the file with entries like:
+  DROPLET_HOST=161.35.20.4
+  SSH_USER=root
+  SSH_KEY=~/.ssh/id_ed25519_droplet_codex
+  REMOTE_PATH=/opt/personal-website
+  GIT_BRANCH=main
+  IMAGE_NAME=personal-website:latest
+  CONTAINER_NAME=personal-website-container
+  CONTAINER_PORT=8080
+  PUBLIC_PORT=8080
+  HEALTHCHECK_URL=https://www.mohamedfaridelsherbini.com
+EOF
+  exit 1
+fi
 
-# Error handling
-trap 'echo -e "${RED}❌ Deployment failed! Check the logs above.${NC}"; exit 1' ERR
+# shellcheck disable=SC1090
+source "${CONFIG_FILE}"
 
-# Configuration
-DROPLET_IP="YOUR_DROPLET_IP_HERE"
-DROPLET_USER="root"
-APP_NAME="personal-website"
-CONTAINER_NAME="personal-website-container"
-IMAGE_NAME="personal-website:latest"
+: "${DROPLET_HOST:?DROPLET_HOST is required}"
+: "${SSH_USER:=root}"
+: "${REMOTE_PATH:=/opt/personal-website}"
+: "${GIT_BRANCH:=main}"
+: "${IMAGE_NAME:=personal-website:latest}"
+: "${CONTAINER_NAME:=personal-website-container}"
+: "${CONTAINER_PORT:=8080}"
+: "${PUBLIC_PORT:=8080}"
+: "${HEALTHCHECK_URL:=https://www.mohamedfaridelsherbini.com}"
 
-echo -e "${BLUE}🚀 Starting deployment to DigitalOcean...${NC}"
+SSH_KEY_OPTION=()
+if [[ -n "${SSH_KEY:-}" ]]; then
+  SSH_KEY_OPTION=(-i "${SSH_KEY}")
+fi
 
-# Build Docker image locally for AMD64 platform
-echo -e "${YELLOW}📦 Building Docker image...${NC}"
-docker build --platform linux/amd64 -t $IMAGE_NAME .
+SSH_TARGET="${SSH_USER}@${DROPLET_HOST}"
+SSH_CMD=(ssh "${SSH_KEY_OPTION[@]}" "${SSH_TARGET}")
 
-# Save image to tar file
-echo -e "${YELLOW}💾 Saving Docker image...${NC}"
-docker save $IMAGE_NAME > ${APP_NAME}.tar
+echo "🔐 Connecting to ${SSH_TARGET}"
 
-# Copy image to DigitalOcean droplet
-echo -e "${YELLOW}📤 Uploading image to DigitalOcean...${NC}"
-scp -i ~/.ssh/id_ed25519_digital ${APP_NAME}.tar ${DROPLET_USER}@${DROPLET_IP}:/root/
+"${SSH_CMD[@]}" 'bash -s' <<EOF
+set -euo pipefail
 
-# Deploy on DigitalOcean droplet
-echo -e "${YELLOW}🔄 Deploying on DigitalOcean...${NC}"
-ssh -i ~/.ssh/id_ed25519_digital ${DROPLET_USER}@${DROPLET_IP} << 'EOF'
-    # Load Docker image
-    docker load < /root/personal-website.tar
-    
-    # Stop and remove existing container if it exists
-    docker stop personal-website-container 2>/dev/null || true
-    docker rm personal-website-container 2>/dev/null || true
-    
-    # Run new container
-    docker run -d \
-        --name personal-website-container \
-        --restart unless-stopped \
-        -p 8080:8080 \
-        personal-website:latest
-    
-    # Wait for container to start
-    echo "⏳ Waiting for application to start..."
-    sleep 10
-    
-    # Health check
-    if curl -f http://localhost:8080/ >/dev/null 2>&1; then
-        echo "✅ Application is running and healthy!"
-    else
-        echo "⚠️  Warning: Application may not be fully started yet"
-        echo "📋 Container logs:"
-        docker logs personal-website-container --tail 10
-    fi
-    
-    # Clean up
-    rm /root/personal-website.tar
-    
-    echo -e "${GREEN}✅ Deployment completed successfully!${NC}"
-    echo -e "${GREEN}🌐 Your website is now available at:${NC}"
-    echo -e "${GREEN}   🔄 HTTP:  http://$(curl -s ifconfig.me)${NC}"
+cd "${REMOTE_PATH}"
+
+echo "📥 Updating repository"
+if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  git fetch origin "${GIT_BRANCH}"
+  git checkout "${GIT_BRANCH}"
+  git pull --ff-only origin "${GIT_BRANCH}"
+else
+  echo "Error: ${REMOTE_PATH} is not a git repository" >&2
+  exit 1
+fi
+
+echo "📦 Building Docker image ${IMAGE_NAME}"
+docker build -t "${IMAGE_NAME}" .
+
+echo "🛑 Stopping existing container (if any)"
+docker stop "${CONTAINER_NAME}" 2>/dev/null || true
+docker rm "${CONTAINER_NAME}" 2>/dev/null || true
+
+echo "🚀 Starting new container"
+docker run -d \\
+  --name "${CONTAINER_NAME}" \\
+  --restart unless-stopped \\
+  -p "${PUBLIC_PORT}:${CONTAINER_PORT}" \\
+  "${IMAGE_NAME}"
 EOF
 
-# Clean up local files
-rm ${APP_NAME}.tar
+echo "⏳ Waiting for app to boot..."
+sleep 5
 
-echo -e "${GREEN}🎉 Deployment completed successfully!${NC}"
-echo -e "${GREEN}🌐 Your website is now available at:${NC}"
-echo -e "${GREEN}   🔄 HTTP:  http://$DROPLET_IP${NC}"
+if curl -fsS --max-time 10 "${HEALTHCHECK_URL}" >/dev/null 2>&1; then
+  echo "✅ Deployment successful: ${HEALTHCHECK_URL}"
+else
+  echo "⚠️  Deployment finished but health check failed for ${HEALTHCHECK_URL}" >&2
+  exit 1
+fi

@@ -54,6 +54,8 @@ node_modules/
 .env.local
 .env.production
 .env.staging
+.deploy.env
+.deploy.sh
 
 # Sensitive configuration files
 config.properties
@@ -71,6 +73,9 @@ id_*
 *.tmp
 *.temp
 bin/
+*.tar
+personal-website.tar
+bin/uptime-check.sh
 
 # IDE specific files
 .vscode/settings.json

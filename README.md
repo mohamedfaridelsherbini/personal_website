@@ -128,6 +128,46 @@ For production deployment, you can:
    - Google Cloud Platform
    - DigitalOcean
 
+### Optional: Uptime Monitoring
+Use the `bin/uptime-check.sh` helper to verify that the production site stays reachable.
+
+Run it manually:
+```bash
+LOG_PATH=/var/log/personal-website-uptime.log \
+bin/uptime-check.sh https://www.mohamedfaridelsherbini.com
+```
+
+To check automatically every 5 minutes on the droplet, add a cron entry:
+```bash
+*/5 * * * * LOG_PATH=/var/log/personal-website-uptime.log /opt/personal-website/bin/uptime-check.sh https://www.mohamedfaridelsherbini.com
+```
+The script only logs failures (and returns a non-zero exit code so cron can alert you by email if configured).
+
+### Automated Deployments
+`deploy.sh` can SSH into the droplet, pull the latest code, rebuild the Docker image, and restart the container.
+
+1. Create `.deploy.env` in the repo root:
+   ```bash
+   cat <<'EOF' > .deploy.env
+   DROPLET_HOST=161.35.20.4
+   SSH_USER=root
+   SSH_KEY=~/.ssh/id_ed25519_droplet_codex
+   REMOTE_PATH=/opt/personal-website
+   GIT_BRANCH=main
+   IMAGE_NAME=personal-website:latest
+   CONTAINER_NAME=personal-website-container
+   CONTAINER_PORT=8080
+   PUBLIC_PORT=8080
+   HEALTHCHECK_URL=https://www.mohamedfaridelsherbini.com
+   EOF
+   ```
+2. Run the deploy:
+   ```bash
+   ./deploy.sh
+   ```
+
+The script exits on failure (e.g., git pull conflicts or health-check errors) so you can review logs before retrying.
+
 ## Contributing
 
 Feel free to fork this project and customize it for your own personal website!
