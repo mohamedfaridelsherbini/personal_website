@@ -19,8 +19,6 @@ COPY application ./application
 COPY infrastructure ./infrastructure
 COPY bootstrap ./bootstrap
 COPY tools ./tools
-COPY README.md ./
-COPY LICENSE ./
 
 # Build the application (runs tests and produces fat jar)
 RUN ./gradlew build :bootstrap:fatJar --no-daemon
