@@ -4,6 +4,7 @@ A cyberpunk-inspired portfolio for **Mohamed ElSherbini** built with Kotlin & Kt
 
 ## Latest Update (Q1 2025)
 
+- Kicked off the Hexagonal (Clean) Architecture migration: clarifying domain/application/infrastructure boundaries and documenting the plan you are reading now.
 - Refactored the HTML layer into modular view components and templates, replacing the previous monolithic renderer.
 - Introduced JSON-backed content loading with caching, so résumé data lives in `src/main/resources/content`.
 - Added route modules, render caching, and HTML snapshot tests, alongside Jenkins-friendly automation docs.
@@ -18,6 +19,25 @@ A cyberpunk-inspired portfolio for **Mohamed ElSherbini** built with Kotlin & Kt
 - 🧪 **Snapshot-tested renderer** with Jenkins-ready automation and link checks
 - 🚀 **Automated deployment script** (`.deploy.sh`) for DigitalOcean droplet
 - 🔍 **Uptime tooling** (`bin/uptime-check.sh`) & roadmap for Jenkins CI
+
+## Architecture Overview
+
+The codebase is transitioning to a Hexagonal (Clean) Architecture made of three concentric rings:
+
+- **Domain** – Pure business rules, entities, value objects, and use cases. Owns interfaces (ports) that describe the behaviour the outside world must provide.
+- **Application** – Orchestrates use cases, coordinates inbound requests, and mediates traffic between domain ports and concrete adapters. Contains controllers/services that speak in domain language.
+- **Infrastructure** – Ktor HTTP adapters, JSON content loaders, persistence, caching, logging, and any other framework-specific details. Implements the outbound ports defined in the domain layer.
+
+Inbound adapters (HTTP routes, CLI, future APIs) depend *only* on domain/application abstractions, while outbound adapters (repositories, content loader, cache) plug into domain-defined interfaces. Dependency inversion keeps the inner layers isolated so UI, persistence, and automation can evolve independently.
+
+### Migration Checklist
+
+1. Carve out pure domain packages (`domain/model`, `domain/usecase`, `domain/ports`).
+2. Introduce application services that implement inbound ports and call domain use cases.
+3. Adapt existing repositories/content loaders into outbound adapters implementing domain ports.
+4. Rewire Koin modules so infrastructure depends on abstractions shipped by the domain/application layers only.
+5. Split tests: domain unit tests (pure Kotlin), application service tests (with mocks of ports), infrastructure integration/snapshot tests.
+6. Audit dependencies to ensure no infrastructure module bleeds into the inner rings.
 
 ## Prerequisites
 
@@ -85,26 +105,24 @@ Snapshot expectations for the home page and the featured project live in `src/te
 
 ```
 personal-website/
-├── build.gradle.kts              # Build configuration
+├── build.gradle.kts                      # Build configuration (multi-module ready)
 ├── src/
 │   └── main/
 │       ├── kotlin/
-│       │   └── com/
-│       │       └── personalwebsite/
-│       │           ├── Application.kt                     # Main application file
-│       │           ├── data/content/ContentLoader.kt      # JSON loader & cache
-│       │           ├── presentation/cache/ContentCache.kt # Render cache
-│       │           ├── presentation/routes/               # Route modules
-│       │           └── presentation/views/                # Components & templates
+│       │   └── com/personalwebsite/
+│       │       ├── domain/              # Entities, value objects, use cases, ports
+│       │       ├── application/         # Controllers/services coordinating use cases
+│       │       ├── infrastructure/      # Ktor adapters, repositories, loaders, DI
+│       │       └── Application.kt       # Bootstraps DI and inbound adapters
 │       └── resources/
-│           ├── content/                                   # Structured résumé data
-│           └── static/
-│               └── css/
-│                   └── style.css         # Stylesheet
+│           ├── content/                 # Structured résumé data (JSON)
+│           └── static/                  # CSS, JS, images, etc.
 ├── src/test/
-│   └── kotlin/com/personalwebsite/presentation/           # Snapshot tests
-└── README.md                     # This document
+│   └── kotlin/com/personalwebsite/      # Domain and adapter tests + snapshots
+└── README.md                            # This document
 ```
+
+> **Note:** The directory layout above represents the target Clean Architecture structure. During the migration you may temporarily see legacy packages (`presentation`, `data`) until their responsibilities land in the new rings.
 
 ## Customization
 
@@ -113,23 +131,23 @@ personal-website/
 1. **Personal Information**: Edit `src/main/resources/content/personal-info.json`
 2. **Styling & Layout**: Tweak `src/main/resources/static/css/style.css`
 3. **Experience & Skills**: Update the JSON files for experience, skills, projects, and languages
-4. **Routing/Pages**: Add or update renderers in `presentation/views/templates` and register routes in `presentation/routes`
+4. **Routing/Pages**: Add or update inbound adapters in `infrastructure/http` (or equivalent) and match them with application services + domain use cases
 
 ### Adding New Pages
 
-Create a dedicated route extension and renderer:
+Create a dedicated inbound adapter that calls an application service:
 
 ```kotlin
-// presentation/routes/NewRoutes.kt
-fun Routing.newRoutes(controller: WebsiteController) {
+// infrastructure/http/NewRoutes.kt
+fun Routing.newRoutes(homeService: HomeQueryPort) {
     get("/new-page") {
-        val html = controller.renderNewPage()
-        call.respondText(html, HtmlUtf8)
+        val pageModel = homeService.renderNewPage()
+        call.respondText(pageModel.html, HtmlUtf8)
     }
 }
 ```
 
-Register it in `registerRoutes`, then build a matching renderer under `presentation/views/templates`.
+`HomeQueryPort` lives in the domain/application layer; the infrastructure route simply adapts HTTP concerns to that port. Register the route inside `registerRoutes` once the service is wired through DI.
 
 ### Adding Static Resources
 
@@ -218,7 +236,15 @@ The script exits on failure (e.g., git pull conflicts, Docker build issues, or h
 
 ### Continuous Integration
 
-A Jenkins pipeline can reuse the Gradle build, snapshot tests, link checking (via `lychee` or similar), and deployment script. Add stages for `./gradlew test`, optional snapshot regeneration, Docker image builds, and the health check from `.deploy.sh` to keep parity between local and automated workflows.
+A Jenkins pipeline can reuse the Gradle build, snapshot tests, link checking (via `lychee` or similar), and deployment script. Suggested stages:
+
+1. **Checkout & Tooling** – Pull the repo, provision JDK 21, install any link-check binaries.
+2. **Build & Test** – Run `./gradlew clean test` (optionally with `UPDATE_SNAPSHOTS=true` in a dedicated maintenance job).
+3. **Package** – Build the Docker image or fat JAR.
+4. **Deploy** – Call `.deploy.sh` or mirror its steps with Jenkins agents/Ansible.
+5. **Post-deploy Health** – Hit the same health-check URL used by `.deploy.sh` and fail fast if something regresses.
+
+The pipeline should only depend on the application/services ports, so additional adapters (e.g., S3, email) can slot in later without rewriting the automation script.
 
 ## Roadmap: Next Enhancements
 
