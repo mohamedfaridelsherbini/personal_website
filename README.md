@@ -173,6 +173,8 @@ The script only logs failures (and returns a non-zero exit code so cron can aler
 
 The script exits on failure (e.g., git pull conflicts, Docker build issues, or health-check errors) so you can review logs before retrying. See `DEPLOYMENT.md` if you need a fully manual, step-by-step rundown of the same process.
 
+> CI note: the roadmap targets a Jenkins pipeline that reuses the same steps (build, Docker image, health check) so self-hosted automation matches the manual flow.
+
 ## Current State vs. Future Enhancements
 
 | Area | Current State | Planned Improvements |
@@ -180,7 +182,7 @@ The script exits on failure (e.g., git pull conflicts, Docker build issues, or h
 | Hero & CTAs | Single hero focused on career summary and resume CTA | Refresh copy with multiple CTA variants (newsletter, consulting, speaking) and add an optional newsletter/contact form module |
 | Monitoring | Manual health checks + `bin/uptime-check.sh` helper | Automate via cron on droplet (log & alert) and consider integrating lightweight analytics (Plausible/Fathom) |
 | Projects/Case Studies | Highlight cards with short descriptions | Add dedicated project/case-study pages with metrics, screenshots, lessons learned |
-| Build & Deploy | Manual testing + deploy script | Add lint/tests (Kotlin/JVM) and CI (GitHub Actions) to run tests + deploy |
+| Build & Deploy | Manual testing + deploy script | Add lint/tests (Kotlin/JVM) and Jenkins CI to run tests + deploy |
 | UI polish | Glassmorphic base, neon cursor trail, and branded favicon/header badge | Layer in additional micro-interactions (scroll parallax, hover reveals) and refine typography spacing |
 
 ## Contributing
