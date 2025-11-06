@@ -128,7 +128,7 @@ A Jenkins pipeline can reuse the Gradle build, snapshot tests, link checking (vi
 
 > A ready-to-use Declarative pipeline lives in `Jenkinsfile`. Configure a JDK 21 tool named `jdk-21` in Jenkins and set the required environment variables in the job configuration (e.g., via “Environment variables” build wrapper). Jenkins expects:
 >
-> - `DEPLOY_REMOTE_PATH` – e.g., `/opt/personal-website`
+> - `DEPLOY_REMOTE_PATH` – e.g., `/opt/personal-website` (optional; defaults to the Jenkins workspace if omitted or missing)
 > - `DEPLOY_BRANCH` – usually `main`
 > - `DEPLOY_IMAGE_NAME` – Docker tag such as `personal-website:latest`
 > - `DEPLOY_CONTAINER_NAME` – e.g., `personal-website-container`

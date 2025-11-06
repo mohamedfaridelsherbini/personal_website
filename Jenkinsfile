@@ -66,10 +66,23 @@ pipeline {
                         HEALTHCHECK_URL  : normalizeUrl(env.DEPLOY_HEALTHCHECK_URL),
                     ]
 
-                    def missing = deployConfig.findAll { it.value == null || it.value.trim().isEmpty() }
-                    if (!missing.isEmpty()) {
-                        error "Missing deployment environment variables: ${missing.collect { 'DEPLOY_' + it.key }.join(', ')}"
+                    def missingKeys = deployConfig.findAll { key, value ->
+                        key != 'REMOTE_PATH' && (value == null || value.trim().isEmpty())
+                    }.collect { 'DEPLOY_' + it.key }
+                    if (!missingKeys.isEmpty()) {
+                        error "Missing deployment environment variables: ${missingKeys.join(', ')}"
                     }
+
+                    // Resolve target path (fallback to current workspace if not provided or missing)
+                    def targetPath = deployConfig.REMOTE_PATH?.trim()
+                    if (!targetPath) {
+                        targetPath = pwd()
+                    } else if (!fileExists(targetPath)) {
+                        echo "DEPLOY_REMOTE_PATH '${targetPath}' not found; using Jenkins workspace instead."
+                        targetPath = pwd()
+                    }
+
+                    deployConfig.REMOTE_PATH = targetPath
 
                     sh """
 set -euo pipefail
