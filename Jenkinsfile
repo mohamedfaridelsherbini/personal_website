@@ -17,6 +17,7 @@ pipeline {
 
     parameters {
         booleanParam(name: 'RUN_DEPLOY', defaultValue: true, description: 'Run ./.deploy.sh after packaging')
+        string(name: 'DEPLOY_SSH_CREDENTIALS', defaultValue: 'droplet-deploy-key', description: 'Jenkins credential ID for the droplet SSH private key')
     }
 
     stages {
@@ -49,7 +50,9 @@ pipeline {
                 expression { params.RUN_DEPLOY }
             }
             steps {
-                sh './.deploy.sh'
+                sshagent(credentials: [params.DEPLOY_SSH_CREDENTIALS]) {
+                    sh './.deploy.sh'
+                }
             }
         }
     }
