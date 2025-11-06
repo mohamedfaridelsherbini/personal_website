@@ -125,6 +125,7 @@ fi
                     }
 
                     if (githubKeyId) {
+                        echo "Using GitHub deploy key credential '${githubKeyId}' for deploy fetch..."
                         withCredentials([sshUserPrivateKey(credentialsId: githubKeyId, keyFileVariable: 'GIT_DEPLOY_KEY')]) {
                             sh "chmod 600 ${GIT_DEPLOY_KEY}"
                             withEnv(["GIT_SSH_COMMAND=ssh -i ${GIT_DEPLOY_KEY} -o StrictHostKeyChecking=no"]) {
