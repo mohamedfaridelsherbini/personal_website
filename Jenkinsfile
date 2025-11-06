@@ -85,15 +85,9 @@ pipeline {
                     deployConfig.REMOTE_PATH = targetPath
 
                     def githubKeyId = env.GITHUB_DEPLOY_KEY_ID?.trim()
-                    if (!githubKeyId) {
-                        error "Missing environment variable GITHUB_DEPLOY_KEY_ID (credential ID for GitHub SSH key)."
-                    }
 
-                    withCredentials([sshUserPrivateKey(credentialsId: githubKeyId, keyFileVariable: 'GIT_DEPLOY_KEY')]) {
-                        sh "chmod 600 ${GIT_DEPLOY_KEY}"
-
-                        withEnv(["GIT_SSH_COMMAND=ssh -i ${GIT_DEPLOY_KEY} -o StrictHostKeyChecking=no"]) {
-                            sh """
+                    def syncRepo = {
+                        sh """
 set -euo pipefail
 
 cd '${deployConfig.REMOTE_PATH}'
@@ -128,7 +122,18 @@ else
   exit 1
 fi
 """
+                    }
+
+                    if (githubKeyId) {
+                        withCredentials([sshUserPrivateKey(credentialsId: githubKeyId, keyFileVariable: 'GIT_DEPLOY_KEY')]) {
+                            sh "chmod 600 ${GIT_DEPLOY_KEY}"
+                            withEnv(["GIT_SSH_COMMAND=ssh -i ${GIT_DEPLOY_KEY} -o StrictHostKeyChecking=no"]) {
+                                syncRepo()
+                            }
                         }
+                    } else {
+                        echo "GITHUB_DEPLOY_KEY_ID not set; using existing Git credentials/environment."
+                        syncRepo()
                     }
                 }
             }
