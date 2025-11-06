@@ -16,9 +16,7 @@ pipeline {
     }
 
     parameters {
-        booleanParam(name: 'RUN_DEPLOY', defaultValue: true, description: 'Run ./.deploy.sh after packaging')
-        booleanParam(name: 'DEPLOY_RUN_LOCAL', defaultValue: false, description: 'Set true when Jenkins runs on the droplet (skip SSH hop)')
-        string(name: 'DEPLOY_SSH_CREDENTIALS', defaultValue: 'droplet-deploy-key', description: 'Jenkins credential ID for the droplet SSH private key')
+        booleanParam(name: 'RUN_DEPLOY', defaultValue: true, description: 'Run deploy stage after packaging')
     }
 
     stages {
@@ -52,17 +50,56 @@ pipeline {
             }
             steps {
                 script {
-                    if (params.DEPLOY_RUN_LOCAL) {
-                        withEnv(["DEPLOY_RUN_LOCAL=true"]) {
-                            sh './.deploy.sh'
-                        }
-                    } else {
-                        withCredentials([sshUserPrivateKey(credentialsId: params.DEPLOY_SSH_CREDENTIALS, keyFileVariable: 'DEPLOY_KEY')]) {
-                            withEnv(["DEPLOY_SSH_KEY_PATH=${DEPLOY_KEY}"]) {
-                                sh './.deploy.sh'
-                            }
-                        }
+                    def deployConfig = [
+                        REMOTE_PATH      : env.DEPLOY_REMOTE_PATH,
+                        BRANCH           : env.DEPLOY_BRANCH,
+                        IMAGE_NAME       : env.DEPLOY_IMAGE_NAME,
+                        CONTAINER_NAME   : env.DEPLOY_CONTAINER_NAME,
+                        CONTAINER_PORT   : env.DEPLOY_CONTAINER_PORT,
+                        PUBLIC_PORT      : env.DEPLOY_PUBLIC_PORT,
+                        HEALTHCHECK_URL  : env.DEPLOY_HEALTHCHECK_URL,
+                    ]
+
+                    def missing = deployConfig.findAll { it.value == null || it.value.trim().isEmpty() }
+                    if (!missing.isEmpty()) {
+                        error "Missing deployment environment variables: ${missing.collect { 'DEPLOY_' + it.key }.join(', ')}"
                     }
+
+                    sh """
+set -euo pipefail
+
+cd '${deployConfig.REMOTE_PATH}'
+
+echo "📥 Updating repository"
+git fetch origin '${deployConfig.BRANCH}'
+git checkout '${deployConfig.BRANCH}'
+git pull --ff-only origin '${deployConfig.BRANCH}'
+
+echo "📦 Building Docker image ${deployConfig.IMAGE_NAME}"
+docker build -t '${deployConfig.IMAGE_NAME}' .
+
+echo "🛑 Stopping existing container (if any)"
+docker stop '${deployConfig.CONTAINER_NAME}' 2>/dev/null || true
+docker rm '${deployConfig.CONTAINER_NAME}' 2>/dev/null || true
+
+echo "🚀 Starting new container"
+docker run -d \\
+  --name '${deployConfig.CONTAINER_NAME}' \\
+  --restart unless-stopped \\
+  -p '${deployConfig.PUBLIC_PORT}:${deployConfig.CONTAINER_PORT}' \\
+  '${deployConfig.IMAGE_NAME}'
+
+echo "⏳ Waiting for app to boot..."
+sleep 5
+
+echo "🔍 Health check ${deployConfig.HEALTHCHECK_URL}"
+if curl -fsS --max-time 10 '${deployConfig.HEALTHCHECK_URL}' >/dev/null 2>&1; then
+  echo "✅ Deployment successful"
+else
+  echo "⚠️  Deployment finished but health check failed for ${deployConfig.HEALTHCHECK_URL}" >&2
+  exit 1
+fi
+"""
                 }
             }
         }
