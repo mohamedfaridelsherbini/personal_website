@@ -8,6 +8,7 @@ A cyberpunk-inspired portfolio for **Mohamed ElSherbini** built with Kotlin & Kt
 - Refactored the HTML layer into modular view components and templates, replacing the previous monolithic renderer.
 - Introduced JSON-backed content loading with caching, so résumé data lives in `infrastructure/src/main/resources/content`.
 - Added route modules, render caching, and HTML snapshot tests, alongside Jenkins-friendly automation docs.
+- Wired in ktlint-based quality gates and a Jenkins pipeline stage to lint + test before packaging.
 
 ## Highlights
 
@@ -100,6 +101,12 @@ Execute the test suite:
 ```
 
 Snapshot expectations for the home page and the featured project live in `infrastructure/src/test/resources/snapshots/`. To regenerate them after copy tweaks, set `UPDATE_SNAPSHOTS=true` before running the tests or wire the environment variable into your Jenkins job.
+
+#### Lint (optional)
+```bash
+./gradlew ktlintCheck
+```
+Runs the same quality gate that Jenkins enforces before packaging.
 
 ## Project Structure
 

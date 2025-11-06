@@ -7,7 +7,7 @@ pipeline {
     }
 
     environment {
-        GRADLE_USER_HOME = "${env.WORKSPACE}/.gradle"
+        GRADLE_USER_HOME = "${env.JENKINS_HOME}/.gradle-cache"
     }
 
     options {
@@ -16,7 +16,7 @@ pipeline {
     }
 
     parameters {
-        booleanParam(name: 'RUN_DEPLOY', defaultValue: false, description: 'Run ./.deploy.sh after packaging')
+        booleanParam(name: 'RUN_DEPLOY', defaultValue: true, description: 'Run ./.deploy.sh after packaging')
     }
 
     stages {
@@ -26,15 +26,15 @@ pipeline {
             }
         }
 
-        stage('Build & Test') {
+        stage('Quality Gate') {
             steps {
-                sh './gradlew clean build --no-daemon'
+                sh './gradlew --build-cache --parallel ktlintCheck test --no-daemon'
             }
         }
 
         stage('Package Fat Jar') {
             steps {
-                sh './gradlew :bootstrap:shadowJar --no-daemon'
+                sh './gradlew --build-cache :bootstrap:shadowJar --no-daemon'
             }
         }
 
