@@ -78,6 +78,7 @@ bin/
 *.tar
 personal-website.tar
 bin/uptime-check.sh
+ktlint
 
 # IDE specific files
 .vscode/settings.json

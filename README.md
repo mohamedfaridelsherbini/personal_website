@@ -108,6 +108,13 @@ Snapshot expectations for the home page and the featured project live in `infras
 ```
 Runs the same quality gate that Jenkins enforces before packaging.
 
+Need the standalone CLI for quick checks? Install it without committing big binaries:
+```bash
+./tools/install-ktlint.sh 1.2.1 .ktlint-bin/ktlint
+.ktlint-bin/ktlint --version
+```
+Then point any local scripts to the downloaded binary (kept out of git by default).
+
 ## Project Structure
 
 ```
