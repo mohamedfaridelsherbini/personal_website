@@ -135,5 +135,6 @@ A Jenkins pipeline can reuse the Gradle build, snapshot tests, link checking (vi
 > - `DEPLOY_CONTAINER_PORT` – internal port (`8080`)
 > - `DEPLOY_PUBLIC_PORT` – public port to expose (`8080`)
 > - `DEPLOY_HEALTHCHECK_URL` – URL to ping after rollout (trailing slash is stripped automatically)
+> - `GITHUB_DEPLOY_KEY_ID` – Jenkins credential ID for the GitHub SSH key (used during the deploy stage's `git fetch`)
 >
 > Only `RUN_DEPLOY` remains as a pipeline parameter (default `true`). All other values stay inside Jenkins, keeping droplet details out of the public repo. The deploy stage now mirrors the manual `.deploy.sh` steps directly on the Jenkins node, so the script is only needed for ad-hoc local deploys.
