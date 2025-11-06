@@ -127,3 +127,5 @@ A Jenkins pipeline can reuse the Gradle build, snapshot tests, link checking (vi
 5. **Post-deploy Health** – Hit the same health-check URL used by `.deploy.sh` and fail fast if something regresses.
 
 > A ready-to-use Declarative pipeline lives in `Jenkinsfile`. Configure a JDK 21 tool named `jdk-21` in Jenkins and (optionally) toggle the `RUN_DEPLOY` boolean parameter to execute `.deploy.sh` after packaging.
+
+When Jenkins runs on the same droplet as the application, set the `DEPLOY_RUN_LOCAL` parameter to `true` so `.deploy.sh` skips the SSH hop and runs the Docker commands directly on the host. Otherwise, keep it `false` and supply the droplet SSH key via the `DEPLOY_SSH_CREDENTIALS` parameter so Jenkins can reach the server remotely.

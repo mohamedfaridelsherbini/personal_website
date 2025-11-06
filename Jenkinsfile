@@ -17,6 +17,7 @@ pipeline {
 
     parameters {
         booleanParam(name: 'RUN_DEPLOY', defaultValue: true, description: 'Run ./.deploy.sh after packaging')
+        booleanParam(name: 'DEPLOY_RUN_LOCAL', defaultValue: false, description: 'Set true when Jenkins runs on the droplet (skip SSH hop)')
         string(name: 'DEPLOY_SSH_CREDENTIALS', defaultValue: 'droplet-deploy-key', description: 'Jenkins credential ID for the droplet SSH private key')
     }
 
@@ -50,8 +51,18 @@ pipeline {
                 expression { params.RUN_DEPLOY }
             }
             steps {
-                sshagent(credentials: [params.DEPLOY_SSH_CREDENTIALS]) {
-                    sh './.deploy.sh'
+                script {
+                    if (params.DEPLOY_RUN_LOCAL) {
+                        withEnv(["DEPLOY_RUN_LOCAL=true"]) {
+                            sh './.deploy.sh'
+                        }
+                    } else {
+                        withCredentials([sshUserPrivateKey(credentialsId: params.DEPLOY_SSH_CREDENTIALS, keyFileVariable: 'DEPLOY_KEY')]) {
+                            withEnv(["DEPLOY_SSH_KEY_PATH=${DEPLOY_KEY}"]) {
+                                sh './.deploy.sh'
+                            }
+                        }
+                    }
                 }
             }
         }
