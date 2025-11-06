@@ -50,6 +50,12 @@ pipeline {
             }
             steps {
                 script {
+                    def normalizeUrl = { url ->
+                        if (url == null) { return null }
+                        def trimmed = url.trim()
+                        return trimmed.endsWith("/") ? trimmed[0..-2] : trimmed
+                    }
+
                     def deployConfig = [
                         REMOTE_PATH      : env.DEPLOY_REMOTE_PATH,
                         BRANCH           : env.DEPLOY_BRANCH,
@@ -57,7 +63,7 @@ pipeline {
                         CONTAINER_NAME   : env.DEPLOY_CONTAINER_NAME,
                         CONTAINER_PORT   : env.DEPLOY_CONTAINER_PORT,
                         PUBLIC_PORT      : env.DEPLOY_PUBLIC_PORT,
-                        HEALTHCHECK_URL  : env.DEPLOY_HEALTHCHECK_URL,
+                        HEALTHCHECK_URL  : normalizeUrl(env.DEPLOY_HEALTHCHECK_URL),
                     ]
 
                     def missing = deployConfig.findAll { it.value == null || it.value.trim().isEmpty() }
