@@ -49,7 +49,7 @@ pipeline {
                 expression { params.RUN_DEPLOY }
             }
             steps {
-                sh '/opt/personal-website/.deploy.sh'
+                sh './.deploy.sh'
             }
         }
     }
