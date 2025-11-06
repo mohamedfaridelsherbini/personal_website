@@ -126,15 +126,4 @@ A Jenkins pipeline can reuse the Gradle build, snapshot tests, link checking (vi
 4. **Deploy** – Call `.deploy.sh` or mirror its steps with Jenkins agents/Ansible.
 5. **Post-deploy Health** – Hit the same health-check URL used by `.deploy.sh` and fail fast if something regresses.
 
-> A ready-to-use Declarative pipeline lives in `Jenkinsfile`. Configure a JDK 21 tool named `jdk-21` in Jenkins and set the required environment variables in the job configuration (e.g., via “Environment variables” build wrapper). Jenkins expects:
->
-> - `DEPLOY_REMOTE_PATH` – e.g., `/opt/personal-website` (optional; defaults to the Jenkins workspace if omitted or missing)
-> - `DEPLOY_BRANCH` – usually `main`
-> - `DEPLOY_IMAGE_NAME` – Docker tag such as `personal-website:latest`
-> - `DEPLOY_CONTAINER_NAME` – e.g., `personal-website-container`
-> - `DEPLOY_CONTAINER_PORT` – internal port (`8080`)
-> - `DEPLOY_PUBLIC_PORT` – public port to expose (`8080`)
-> - `DEPLOY_HEALTHCHECK_URL` – URL to ping after rollout (trailing slash is stripped automatically)
-> - `GITHUB_DEPLOY_KEY_ID` – (optional) Jenkins credential ID for a GitHub SSH key. If omitted, the deploy stage reuses whatever Git credentials/agent are already available in the environment.
->
-> Only `RUN_DEPLOY` remains as a pipeline parameter (default `true`). All other values stay inside Jenkins, keeping droplet details out of the public repo. The deploy stage now mirrors the manual `.deploy.sh` steps directly on the Jenkins node, so the script is only needed for ad-hoc local deploys.
+> A ready-to-use Declarative pipeline lives in `Jenkinsfile`. Configure a JDK 21 tool named `jdk-21` in Jenkins, keep `.deploy.sh` / `.deploy.env` in the repo, and check the `RUN_DEPLOY` parameter when you want Jenkins to run the same script after packaging. Because the pipeline simply calls `./.deploy.sh`, all droplet-specific values stay inside `.deploy.env` (which you keep out of GitHub) and the deploy behaviour matches your local workflow.
