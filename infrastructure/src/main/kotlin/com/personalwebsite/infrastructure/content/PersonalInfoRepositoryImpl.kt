@@ -8,9 +8,8 @@ import mu.KotlinLogging
  * Loads personal info from structured JSON content.
  */
 class PersonalInfoRepositoryImpl(
-    private val contentLoader: ContentLoader
+    private val contentLoader: ContentLoader,
 ) : PersonalInfoRepository {
-
     private val logger = KotlinLogging.logger {}
 
     override suspend fun getPersonalInfo(): PersonalInfo {

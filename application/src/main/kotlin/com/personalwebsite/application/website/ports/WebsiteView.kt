@@ -7,5 +7,6 @@ import com.personalwebsite.application.website.model.PageModel
  */
 interface WebsiteView {
     fun render(page: PageModel): String
+
     fun renderError(errorMessage: String): String
 }

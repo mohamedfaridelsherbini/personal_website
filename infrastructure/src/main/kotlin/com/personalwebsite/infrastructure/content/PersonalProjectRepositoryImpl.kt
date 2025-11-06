@@ -8,9 +8,8 @@ import com.personalwebsite.domain.repositories.PersonalProjectRepository
  * Personal projects repository backed by structured content files.
  */
 class PersonalProjectRepositoryImpl(
-    private val contentLoader: ContentLoader
+    private val contentLoader: ContentLoader,
 ) : PersonalProjectRepository {
-
     override suspend fun getPersonalProjects(): List<PersonalProject> {
         val content: List<PersonalProjectContent> = contentLoader.load("content/personal-projects.json")
         return content.map { it.toDomain() }
@@ -27,20 +26,21 @@ class PersonalProjectRepositoryImpl(
         val timeline: String? = null,
         val highlights: List<String>? = null,
         val metrics: List<String>? = null,
-        val links: List<ProjectLink>? = null
+        val links: List<ProjectLink>? = null,
     ) {
-        fun toDomain(): PersonalProject = PersonalProject(
-            name = name,
-            slug = slug,
-            description = description,
-            techStack = techStack,
-            category = category,
-            summary = summary ?: description,
-            role = role,
-            timeline = timeline,
-            highlights = highlights ?: emptyList(),
-            metrics = metrics ?: emptyList(),
-            links = links ?: emptyList()
-        )
+        fun toDomain(): PersonalProject =
+            PersonalProject(
+                name = name,
+                slug = slug,
+                description = description,
+                techStack = techStack,
+                category = category,
+                summary = summary ?: description,
+                role = role,
+                timeline = timeline,
+                highlights = highlights ?: emptyList(),
+                metrics = metrics ?: emptyList(),
+                links = links ?: emptyList(),
+            )
     }
 }

@@ -7,7 +7,7 @@ import com.personalwebsite.domain.repositories.WorkExperienceRepository
  * Use case for getting work experience
  */
 class GetWorkExperienceUseCase(
-    private val workExperienceRepository: WorkExperienceRepository
+    private val workExperienceRepository: WorkExperienceRepository,
 ) {
     suspend operator fun invoke(): List<WorkExperience> {
         return workExperienceRepository.getWorkExperience()

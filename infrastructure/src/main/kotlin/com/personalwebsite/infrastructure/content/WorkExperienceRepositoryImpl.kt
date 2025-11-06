@@ -7,9 +7,7 @@ import com.personalwebsite.domain.repositories.WorkExperienceRepository
  * Work experience repository backed by structured content files.
  */
 class WorkExperienceRepositoryImpl(
-    private val contentLoader: ContentLoader
+    private val contentLoader: ContentLoader,
 ) : WorkExperienceRepository {
-
-    override suspend fun getWorkExperience(): List<WorkExperience> =
-        contentLoader.load("content/work-experience.json")
+    override suspend fun getWorkExperience(): List<WorkExperience> = contentLoader.load("content/work-experience.json")
 }

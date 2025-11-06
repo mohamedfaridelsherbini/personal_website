@@ -8,5 +8,5 @@ data class WorkExperience(
     val position: String,
     val location: String,
     val period: String,
-    val responsibilities: List<String>
+    val responsibilities: List<String>,
 )

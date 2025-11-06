@@ -7,7 +7,7 @@ import com.personalwebsite.domain.repositories.PersonalInfoRepository
  * Use case for getting personal information
  */
 class GetPersonalInfoUseCase(
-    private val personalInfoRepository: PersonalInfoRepository
+    private val personalInfoRepository: PersonalInfoRepository,
 ) {
     suspend operator fun invoke(): PersonalInfo {
         return personalInfoRepository.getPersonalInfo()

@@ -5,7 +5,13 @@ package com.personalwebsite.application.website.ports
  */
 interface RenderCache {
     fun peek(key: String): String?
-    suspend fun getOrPut(key: String, block: suspend () -> String): String
+
+    suspend fun getOrPut(
+        key: String,
+        block: suspend () -> String,
+    ): String
+
     fun invalidate(key: String)
+
     fun clear()
 }

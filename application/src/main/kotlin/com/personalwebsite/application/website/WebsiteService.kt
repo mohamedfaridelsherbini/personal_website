@@ -24,9 +24,8 @@ class WebsiteService(
     private val getPersonalProjectsUseCase: GetPersonalProjectsUseCase,
     private val getLanguagesUseCase: GetLanguagesUseCase,
     private val websiteView: WebsiteView,
-    private val renderCache: RenderCache
+    private val renderCache: RenderCache,
 ) : WebsiteQueries {
-
     private val logger = KotlinLogging.logger {}
     private val baseUrl = "https://www.mohamedfaridelsherbini.com"
 
@@ -51,13 +50,14 @@ class WebsiteService(
                     "Loaded ${skills.size} skill categories, ${workExperience.size} work experiences, ${personalProjects.size} projects"
                 }
 
-                val viewModel = WebsiteViewModel(
-                    personalInfo = personalInfo,
-                    skills = skills,
-                    workExperience = workExperience,
-                    personalProjects = personalProjects,
-                    languages = languages
-                )
+                val viewModel =
+                    WebsiteViewModel(
+                        personalInfo = personalInfo,
+                        skills = skills,
+                        workExperience = workExperience,
+                        personalProjects = personalProjects,
+                        languages = languages,
+                    )
 
                 val metadata = buildHomeMetadata(personalInfo)
                 websiteView.render(PageModel.Home(metadata = metadata, site = viewModel))
@@ -86,24 +86,26 @@ class WebsiteService(
                 val personalProjects = getPersonalProjectsUseCase()
                 val languages = getLanguagesUseCase()
 
-                val project = personalProjects.find { it.slug == slug }
-                    ?: throw NoSuchElementException("Project not found: $slug")
+                val project =
+                    personalProjects.find { it.slug == slug }
+                        ?: throw NoSuchElementException("Project not found: $slug")
 
-                val viewModel = WebsiteViewModel(
-                    personalInfo = personalInfo,
-                    skills = skills,
-                    workExperience = workExperience,
-                    personalProjects = personalProjects,
-                    languages = languages
-                )
+                val viewModel =
+                    WebsiteViewModel(
+                        personalInfo = personalInfo,
+                        skills = skills,
+                        workExperience = workExperience,
+                        personalProjects = personalProjects,
+                        languages = languages,
+                    )
 
                 val metadata = buildProjectMetadata(personalInfo.name, project)
                 websiteView.render(
                     PageModel.Project(
                         project = project,
                         metadata = metadata,
-                        site = viewModel
-                    )
+                        site = viewModel,
+                    ),
                 )
             }
         } catch (e: NoSuchElementException) {
@@ -116,7 +118,8 @@ class WebsiteService(
 
     private fun buildHomeMetadata(personalInfo: PersonalInfo): PageMetadata {
         val metaDescription =
-            "Senior Android engineer crafting Kotlin and Jetpack Compose experiences for fintech and product teams across Europe. Currently at Check24 in Munich, open to remote consulting and leadership opportunities."
+            "Senior Android engineer crafting Kotlin and Jetpack Compose experiences for fintech and product teams across Europe. " +
+                "Currently at Check24 in Munich, open to remote consulting and leadership opportunities."
         val socialImageUrl = "$baseUrl/static/images/profile-social.jpg"
         val jsonLd = createPersonSchema(personalInfo, baseUrl, socialImageUrl, metaDescription)
 
@@ -127,11 +130,14 @@ class WebsiteService(
             socialImageUrl = socialImageUrl,
             ogType = "website",
             publishedTime = "2025-11-02T00:00:00+01:00",
-            structuredDataJsonLd = jsonLd
+            structuredDataJsonLd = jsonLd,
         )
     }
 
-    private fun buildProjectMetadata(authorName: String, project: PersonalProject): PageMetadata {
+    private fun buildProjectMetadata(
+        authorName: String,
+        project: PersonalProject,
+    ): PageMetadata {
         val canonical = "$baseUrl/projects/${project.slug}"
         return PageMetadata(
             title = "${project.name} – $authorName",
@@ -139,7 +145,7 @@ class WebsiteService(
             canonicalUrl = canonical,
             socialImageUrl = "$baseUrl/static/images/profile-social.jpg",
             ogType = "article",
-            structuredDataJsonLd = createProjectSchema(project, canonical, authorName)
+            structuredDataJsonLd = createProjectSchema(project, canonical, authorName),
         )
     }
 
@@ -147,7 +153,7 @@ class WebsiteService(
         personalInfo: PersonalInfo,
         baseUrl: String,
         socialImageUrl: String,
-        description: String
+        description: String,
     ): String {
         return """
             {
@@ -169,13 +175,13 @@ class WebsiteService(
                 \"addressLocality\": \"${personalInfo.location}\"
               }
             }
-        """.trimIndent()
+            """.trimIndent()
     }
 
     private fun createProjectSchema(
         project: PersonalProject,
         canonicalUrl: String,
-        authorName: String
+        authorName: String,
     ): String {
         return """
             {
@@ -191,6 +197,6 @@ class WebsiteService(
               \"genre\": \"${project.category}\",
               \"headline\": \"${project.name}\"
             }
-        """.trimIndent()
+            """.trimIndent()
     }
 }

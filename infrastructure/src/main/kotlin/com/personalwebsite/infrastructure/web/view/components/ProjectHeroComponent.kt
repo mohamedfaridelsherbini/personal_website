@@ -1,13 +1,16 @@
-package com.personalwebsite.infrastructure.web.view.components
+@file:Suppress("ktlint:standard:max-line-length")
 
+package com.personalwebsite.infrastructure.web.view.components
 import com.personalwebsite.domain.entities.PersonalProject
 
 /**
  * Project detail hero section.
  */
 object ProjectHeroComponent {
-
-    fun append(builder: StringBuilder, project: PersonalProject) {
+    fun append(
+        builder: StringBuilder,
+        project: PersonalProject,
+    ) {
         builder.appendLine("        <section class=\"project-hero cluster-card\">")
         if (!project.timeline.isNullOrBlank() || !project.role.isNullOrBlank()) {
             builder.appendLine("            <div class=\"project-pills\">")
@@ -45,7 +48,9 @@ object ProjectHeroComponent {
             builder.appendLine("                    <h3>Links</h3>")
             builder.appendLine("                    <div class=\"project-links\">")
             project.links.forEach { link ->
-                builder.appendLine("                        <a class=\"project-link\" href=\"${link.url}\" target=\"_blank\" rel=\"noopener\">${link.label}</a>")
+                builder.appendLine(
+                    "                        <a class=\"project-link\" href=\"${link.url}\" target=\"_blank\" rel=\"noopener\">${link.label}</a>",
+                )
             }
             builder.appendLine("                    </div>")
             builder.appendLine("                </div>")

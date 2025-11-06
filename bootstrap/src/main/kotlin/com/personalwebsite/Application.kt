@@ -7,9 +7,9 @@ import io.ktor.server.application.Application
 import io.ktor.server.application.install
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
+import org.koin.ktor.ext.inject
 import org.koin.ktor.plugin.Koin
 import org.koin.logger.slf4jLogger
-import org.koin.ktor.ext.inject
 
 /**
  * Main application entry point
@@ -26,9 +26,9 @@ fun Application.module() {
         slf4jLogger()
         modules(appModule)
     }
-    
+
     // Get controller from Koin - much cleaner than manual DI
     val websiteQueries by inject<WebsiteQueries>()
-    
+
     registerRoutes(websiteQueries)
 }

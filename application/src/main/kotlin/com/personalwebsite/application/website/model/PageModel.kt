@@ -13,7 +13,7 @@ data class PageMetadata(
     val twitterCard: String = "summary_large_image",
     val ogType: String = "website",
     val publishedTime: String? = null,
-    val structuredDataJsonLd: String? = null
+    val structuredDataJsonLd: String? = null,
 )
 
 /**
@@ -25,12 +25,12 @@ sealed class PageModel {
 
     data class Home(
         override val metadata: PageMetadata,
-        override val site: WebsiteViewModel
+        override val site: WebsiteViewModel,
     ) : PageModel()
 
     data class Project(
         val project: PersonalProject,
         override val metadata: PageMetadata,
-        override val site: WebsiteViewModel
+        override val site: WebsiteViewModel,
     ) : PageModel()
 }

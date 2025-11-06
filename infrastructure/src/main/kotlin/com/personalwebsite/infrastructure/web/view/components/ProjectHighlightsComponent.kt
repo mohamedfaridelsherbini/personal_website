@@ -1,13 +1,16 @@
-package com.personalwebsite.infrastructure.web.view.components
+@file:Suppress("ktlint:standard:max-line-length")
 
+package com.personalwebsite.infrastructure.web.view.components
 import com.personalwebsite.domain.entities.PersonalProject
 
 /**
  * Highlights list for a project detail page.
  */
 object ProjectHighlightsComponent {
-
-    fun append(builder: StringBuilder, project: PersonalProject) {
+    fun append(
+        builder: StringBuilder,
+        project: PersonalProject,
+    ) {
         if (project.highlights.isEmpty()) return
         builder.appendLine("        <section class=\"project-section cluster-card\">")
         builder.appendLine("            <h2>Highlights</h2>")

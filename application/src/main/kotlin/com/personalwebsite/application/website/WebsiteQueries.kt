@@ -6,6 +6,8 @@ package com.personalwebsite.application.website
  */
 interface WebsiteQueries {
     suspend fun renderHome(): String
+
     suspend fun renderProject(slug: String): String
+
     fun renderError(message: String): String
 }

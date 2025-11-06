@@ -1,5 +1,6 @@
-package com.personalwebsite.infrastructure.web.view.components
+@file:Suppress("ktlint:standard:max-line-length")
 
+package com.personalwebsite.infrastructure.web.view.components
 import com.personalwebsite.application.website.model.PageMetadata
 import com.personalwebsite.domain.entities.PersonalInfo
 
@@ -7,8 +8,11 @@ import com.personalwebsite.domain.entities.PersonalInfo
  * Shared HTML head rendering for both home and project pages.
  */
 class PageHeadComponent {
-
-    fun appendHomeHead(builder: StringBuilder, metadata: PageMetadata, personalInfo: PersonalInfo) {
+    fun appendHomeHead(
+        builder: StringBuilder,
+        metadata: PageMetadata,
+        personalInfo: PersonalInfo,
+    ) {
         builder.appendLine("<head>")
         appendCommonHead(builder, metadata)
         builder.appendLine("    <meta name=\"author\" content=\"${personalInfo.name}\">")
@@ -37,7 +41,11 @@ class PageHeadComponent {
         builder.appendLine("</head>")
     }
 
-    fun appendProjectHead(builder: StringBuilder, metadata: PageMetadata, personalInfo: PersonalInfo) {
+    fun appendProjectHead(
+        builder: StringBuilder,
+        metadata: PageMetadata,
+        personalInfo: PersonalInfo,
+    ) {
         builder.appendLine("<head>")
         appendCommonHead(builder, metadata)
         builder.appendLine("    <meta property=\"og:image:alt\" content=\"${personalInfo.name} case study\">")
@@ -49,11 +57,16 @@ class PageHeadComponent {
         builder.appendLine("</head>")
     }
 
-    private fun appendCommonHead(builder: StringBuilder, metadata: PageMetadata) {
+    private fun appendCommonHead(
+        builder: StringBuilder,
+        metadata: PageMetadata,
+    ) {
         val encodedDescription = metadata.description.escapeHtmlAttribute()
         builder.appendLine("    <meta charset=\"utf-8\"/>")
         builder.appendLine("    <link crossorigin=\"\" href=\"https://fonts.gstatic.com/\" rel=\"preconnect\"/>")
-        builder.appendLine("    <link as=\"style\" href=\"https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Spline+Sans%3Awght%40400%3B500%3B700\" onload=\"this.rel='stylesheet'\" rel=\"stylesheet\"/>")
+        builder.appendLine(
+            "    <link as=\"style\" href=\"https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Spline+Sans%3Awght%40400%3B500%3B700\" onload=\"this.rel='stylesheet'\" rel=\"stylesheet\"/>",
+        )
         builder.appendLine("    <title>${metadata.title}</title>")
         builder.appendLine("    <link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"/static/images/favicon-portrait.png?v=2\">")
         builder.appendLine("    <link rel=\"icon\" type=\"image/png\" sizes=\"64x64\" href=\"/static/images/favicon-portrait.png?v=2\">")

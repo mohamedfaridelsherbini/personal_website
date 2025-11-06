@@ -5,5 +5,5 @@ package com.personalwebsite.domain.entities
  */
 data class Skill(
     val category: String,
-    val items: List<String>
+    val items: List<String>,
 )

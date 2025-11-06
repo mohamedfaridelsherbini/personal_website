@@ -13,9 +13,8 @@ import java.util.concurrent.ConcurrentHashMap
  */
 class ContentLoader(
     @PublishedApi internal val gson: Gson,
-    @PublishedApi internal val classLoader: ClassLoader = ContentLoader::class.java.classLoader
+    @PublishedApi internal val classLoader: ClassLoader = ContentLoader::class.java.classLoader,
 ) {
-
     @PublishedApi
     internal val cache = ConcurrentHashMap<String, Any>()
 
@@ -25,8 +24,9 @@ class ContentLoader(
      */
     inline fun <reified T> load(path: String): T {
         return cache.computeIfAbsent(path) { key ->
-            val stream = classLoader.getResourceAsStream(key)
-                ?: throw IllegalArgumentException("Content resource not found: $key")
+            val stream =
+                classLoader.getResourceAsStream(key)
+                    ?: throw IllegalArgumentException("Content resource not found: $key")
 
             stream.use { input ->
                 InputStreamReader(input, StandardCharsets.UTF_8).use { reader ->

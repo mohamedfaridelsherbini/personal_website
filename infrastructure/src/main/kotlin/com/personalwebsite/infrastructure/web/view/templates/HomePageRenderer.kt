@@ -16,9 +16,8 @@ import com.personalwebsite.infrastructure.web.view.components.SkillsSectionCompo
  * Renders the home page using reusable components.
  */
 class HomePageRenderer(
-    private val headComponent: PageHeadComponent = PageHeadComponent()
+    private val headComponent: PageHeadComponent = PageHeadComponent(),
 ) {
-
     fun render(page: PageModel.Home): String {
         val site = page.site
         val personalInfo = site.personalInfo

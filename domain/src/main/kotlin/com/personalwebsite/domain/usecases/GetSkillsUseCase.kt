@@ -7,7 +7,7 @@ import com.personalwebsite.domain.repositories.SkillRepository
  * Use case for getting skills
  */
 class GetSkillsUseCase(
-    private val skillRepository: SkillRepository
+    private val skillRepository: SkillRepository,
 ) {
     suspend operator fun invoke(): List<Skill> {
         return skillRepository.getSkills()

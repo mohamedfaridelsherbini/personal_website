@@ -14,10 +14,10 @@ data class PersonalProject(
     val timeline: String? = null,
     val highlights: List<String> = emptyList(),
     val metrics: List<String> = emptyList(),
-    val links: List<ProjectLink> = emptyList()
+    val links: List<ProjectLink> = emptyList(),
 )
 
 data class ProjectLink(
     val label: String,
-    val url: String
+    val url: String,
 )

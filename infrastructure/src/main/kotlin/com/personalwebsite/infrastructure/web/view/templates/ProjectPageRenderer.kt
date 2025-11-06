@@ -13,9 +13,8 @@ import com.personalwebsite.infrastructure.web.view.components.RelatedProjectsCom
  * Project detail renderer.
  */
 class ProjectPageRenderer(
-    private val headComponent: PageHeadComponent = PageHeadComponent()
+    private val headComponent: PageHeadComponent = PageHeadComponent(),
 ) {
-
     fun render(page: PageModel.Project): String {
         val personalInfo = page.site.personalInfo
         val relatedProjects = page.site.personalProjects.filter { it.slug != page.project.slug }

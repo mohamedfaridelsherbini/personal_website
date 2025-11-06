@@ -5,5 +5,5 @@ package com.personalwebsite.domain.entities
  */
 data class Language(
     val name: String,
-    val level: String
+    val level: String,
 )

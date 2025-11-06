@@ -12,5 +12,5 @@ data class PersonalInfo(
     val phone: String,
     val email: String,
     val linkedin: String,
-    val github: String
+    val github: String,
 )

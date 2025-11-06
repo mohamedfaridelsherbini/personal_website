@@ -15,5 +15,5 @@ data class WebsiteViewModel(
     val skills: List<Skill>,
     val workExperience: List<WorkExperience>,
     val personalProjects: List<PersonalProject>,
-    val languages: List<Language>
+    val languages: List<Language>,
 )

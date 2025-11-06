@@ -1,13 +1,16 @@
-package com.personalwebsite.infrastructure.web.view.components
+@file:Suppress("ktlint:standard:max-line-length")
 
+package com.personalwebsite.infrastructure.web.view.components
 import com.personalwebsite.domain.entities.PersonalProject
 
 /**
  * Shows related projects below a project detail view.
  */
 object RelatedProjectsComponent {
-
-    fun append(builder: StringBuilder, relatedProjects: List<PersonalProject>) {
+    fun append(
+        builder: StringBuilder,
+        relatedProjects: List<PersonalProject>,
+    ) {
         if (relatedProjects.isEmpty()) return
         builder.appendLine("        <section class=\"project-section\">")
         builder.appendLine("            <div class=\"section-heading\">")
@@ -16,7 +19,9 @@ object RelatedProjectsComponent {
         builder.appendLine("            </div>")
         builder.appendLine("            <div class=\"projects-grid\">")
         relatedProjects.forEach { project ->
-            builder.appendLine("                <a href=\"/projects/${project.slug}\" class=\"project-card personal-project-card cluster-card\">")
+            builder.appendLine(
+                "                <a href=\"/projects/${project.slug}\" class=\"project-card personal-project-card cluster-card\">",
+            )
             builder.appendLine("                    <div class=\"project-content\">")
             builder.appendLine("                        <div class=\"project-header\">")
             builder.appendLine("                            <h3 class=\"project-title\">${project.name}</h3>")
