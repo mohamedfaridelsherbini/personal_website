@@ -217,20 +217,16 @@ The script only logs failures (and returns a non-zero exit code so cron can aler
 ### Automated Deployments
 `.deploy.sh` automates the same workflow you would run manually on the droplet (pull latest code, rebuild the Docker image, restart the container, and run a health check).
 
-1. Create `.deploy.env` in the repo root:
+If you prefer not to commit `.deploy.sh`, keep it local and push it straight to the droplet:
+```bash
+./tools/push-deploy-script.sh          # reads .deploy.env for SSH details
+ssh -i ~/.ssh/id_ed25519_droplet_codex root@<droplet-ip> '/opt/personal-website/.deploy.sh'
+```
+The helper copies the script via `scp`, marks it executable, and leaves Jenkins (or any automation) free to run the remote copy without storing it in Git.
+
+1. Create `.deploy.env` in the repo root (a `.deploy.env.sample` template is provided—copy and edit it with your real droplet IP/host, SSH key path, and domain):
    ```bash
-   cat <<'EOF' > .deploy.env
-   DROPLET_HOST=<your-droplet-ip>
-   SSH_USER=<ssh-user>
-   SSH_KEY=<path-to-ssh-key>
-   REMOTE_PATH=/opt/personal-website
-   GIT_BRANCH=main
-   IMAGE_NAME=personal-website:latest
-   CONTAINER_NAME=personal-website-container
-   CONTAINER_PORT=8080
-   PUBLIC_PORT=8080
-   HEALTHCHECK_URL=https://example.com
-   EOF
+   cp .deploy.env.sample .deploy.env
    ```
 2. Ensure the script is executable:
    ```bash
