@@ -49,7 +49,33 @@ pipeline {
                 expression { params.RUN_DEPLOY }
             }
             steps {
-                sh 'cd /opt/personal-website && ./.deploy.sh'
+                script {
+                    def scriptCredId = env.DEPLOY_SCRIPT_CREDENTIAL_ID?.trim()
+                    if (!scriptCredId) {
+                        error "Missing DEPLOY_SCRIPT_CREDENTIAL_ID environment variable (secret file credential containing .deploy.sh)."
+                    }
+
+                    def envCredId = env.DEPLOY_ENV_CREDENTIAL_ID?.trim()
+
+                    def creds = [
+                        file(credentialsId: scriptCredId, variable: 'DEPLOY_SCRIPT_FILE'),
+                    ]
+
+                    if (envCredId) {
+                        creds << file(credentialsId: envCredId, variable: 'DEPLOY_ENV_FILE')
+                    }
+
+                    withCredentials(creds) {
+                        def copyEnvCmd = envCredId ? 'cp "$DEPLOY_ENV_FILE" .deploy.env' : ''
+                        sh """
+set -euo pipefail
+cp "$DEPLOY_SCRIPT_FILE" .deploy.sh
+chmod +x .deploy.sh
+${copyEnvCmd}
+./ .deploy.sh
+"""
+                    }
+                }
             }
         }
     }
