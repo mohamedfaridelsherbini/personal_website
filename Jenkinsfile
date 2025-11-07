@@ -65,18 +65,19 @@ pipeline {
                         creds << file(credentialsId: envCredId, variable: 'DEPLOY_ENV_FILE')
                     }
 
-                    withCredentials(creds) {
-                        def copyEnvCmd = envCredId ? 'cp "$DEPLOY_ENV_FILE" .deploy.env' : ''
-                        sh """
+                withCredentials(creds) {
+                        sh '''#!/bin/bash
 set -euo pipefail
 cp "$DEPLOY_SCRIPT_FILE" .deploy.sh
 chmod +x .deploy.sh
-${copyEnvCmd}
-./ .deploy.sh
-"""
-                    }
+if [ -n "${DEPLOY_ENV_FILE:-}" ]; then
+  cp "$DEPLOY_ENV_FILE" .deploy.env
+fi
+./.deploy.sh
+'''
                 }
             }
+        }
         }
     }
 
