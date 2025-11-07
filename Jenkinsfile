@@ -1,3 +1,52 @@
+def runDeployAction(scriptContext, action) {
+    def scriptCredId = scriptContext.env.DEPLOY_SCRIPT_CREDENTIAL_ID?.trim()
+    if (!scriptCredId) {
+        scriptContext.error "Missing DEPLOY_SCRIPT_CREDENTIAL_ID environment variable (secret file credential containing .deploy.sh)."
+    }
+    scriptContext.echo "Deploy: using script credential '${scriptCredId}'"
+
+    def envCredId = scriptContext.env.DEPLOY_ENV_CREDENTIAL_ID?.trim()
+    if (!envCredId) {
+        scriptContext.error "Missing DEPLOY_ENV_CREDENTIAL_ID environment variable (secret file credential containing .deploy.env)."
+    }
+    scriptContext.echo "Deploy: using env credential '${envCredId}'"
+
+    def sshKeyCredId = scriptContext.env.DEPLOY_SSH_KEY_CREDENTIAL_ID?.trim()
+    if (sshKeyCredId) {
+        scriptContext.echo "Deploy: using SSH key credential '${sshKeyCredId}'"
+    } else {
+        scriptContext.echo "Deploy: no SSH key credential provided, relying on defaults"
+    }
+
+    def creds = [
+        file(credentialsId: scriptCredId, variable: 'DEPLOY_SCRIPT_FILE'),
+        file(credentialsId: envCredId, variable: 'DEPLOY_ENV_FILE'),
+    ]
+
+    if (sshKeyCredId) {
+        creds << file(credentialsId: sshKeyCredId, variable: 'DEPLOY_SSH_KEY_FILE')
+    }
+
+    scriptContext.withCredentials(creds) {
+        scriptContext.sh """#!/bin/bash
+set -euo pipefail
+echo "Deploy: copying script file"
+cp "\$DEPLOY_SCRIPT_FILE" .deploy.sh
+chmod +x .deploy.sh
+echo "Deploy: copying env file"
+cp "\$DEPLOY_ENV_FILE" .deploy.env
+export DEPLOY_ENV_FILE="\$(pwd)/.deploy.env"
+if [ -n "\${DEPLOY_SSH_KEY_FILE:-}" ]; then
+  echo "Deploy: preparing SSH key"
+  chmod 600 "\$DEPLOY_SSH_KEY_FILE"
+  export DEPLOY_SSH_KEY_PATH="\$DEPLOY_SSH_KEY_FILE"
+fi
+echo "Deploy: running deployment script (${action})"
+./.deploy.sh ${action}
+"""
+    }
+}
+
 pipeline {
     agent any
 
@@ -16,7 +65,7 @@ pipeline {
     }
 
     parameters {
-        booleanParam(name: 'RUN_DEPLOY', defaultValue: true, description: 'Run deploy stage after packaging')
+        booleanParam(name: 'RUN_DEPLOY', defaultValue: true, description: 'Run deploy stages after packaging')
     }
 
     stages {
@@ -44,59 +93,35 @@ pipeline {
             }
         }
 
-        stage('Deploy') {
+        stage('Deploy: Sync Repository') {
             when {
                 expression { params.RUN_DEPLOY }
             }
             steps {
                 script {
-                    def scriptCredId = env.DEPLOY_SCRIPT_CREDENTIAL_ID?.trim()
-                    if (!scriptCredId) {
-                        error "Missing DEPLOY_SCRIPT_CREDENTIAL_ID environment variable (secret file credential containing .deploy.sh)."
-                    }
-                    echo "Deploy: using script credential '${scriptCredId}'"
+                    runDeployAction(this, 'sync')
+                }
+            }
+        }
 
-                    def envCredId = env.DEPLOY_ENV_CREDENTIAL_ID?.trim()
-                    if (!envCredId) {
-                        error "Missing DEPLOY_ENV_CREDENTIAL_ID environment variable (secret file credential containing .deploy.env)."
-                    }
-                    echo "Deploy: using env credential '${envCredId}'"
-                    def sshKeyCredId = env.DEPLOY_SSH_KEY_CREDENTIAL_ID?.trim()
-                    if (sshKeyCredId) {
-                        echo "Deploy: using SSH key credential '${sshKeyCredId}'"
-                    } else {
-                        echo "Deploy: no SSH key credential provided, relying on defaults"
-                    }
+        stage('Deploy: Build & Restart') {
+            when {
+                expression { params.RUN_DEPLOY }
+            }
+            steps {
+                script {
+                    runDeployAction(this, 'deploy')
+                }
+            }
+        }
 
-                    def creds = [
-                        file(credentialsId: scriptCredId, variable: 'DEPLOY_SCRIPT_FILE'),
-                    ]
-
-                    creds << file(credentialsId: envCredId, variable: 'DEPLOY_ENV_FILE')
-                    if (sshKeyCredId) {
-                        creds << file(credentialsId: sshKeyCredId, variable: 'DEPLOY_SSH_KEY_FILE')
-                    }
-
-                    withCredentials(creds) {
-                        sh '''#!/bin/bash
-set -euo pipefail
-echo "Deploy: copying script file"
-cp "$DEPLOY_SCRIPT_FILE" .deploy.sh
-chmod +x .deploy.sh
-if [ -n "${DEPLOY_ENV_FILE:-}" ]; then
-  echo "Deploy: copying env file"
-  cp "$DEPLOY_ENV_FILE" .deploy.env
-  export DEPLOY_ENV_FILE=".deploy.env"
-fi
-if [ -n "${DEPLOY_SSH_KEY_FILE:-}" ]; then
-  echo "Deploy: preparing SSH key"
-  chmod 600 "$DEPLOY_SSH_KEY_FILE"
-  export DEPLOY_SSH_KEY_PATH="$DEPLOY_SSH_KEY_FILE"
-fi
-echo "Deploy: running deployment script"
-./.deploy.sh
-'''
-                    }
+        stage('Deploy: Health Check') {
+            when {
+                expression { params.RUN_DEPLOY }
+            }
+            steps {
+                script {
+                    runDeployAction(this, 'health')
                 }
             }
         }
