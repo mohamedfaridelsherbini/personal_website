@@ -56,6 +56,7 @@ pipeline {
                     }
 
                     def envCredId = env.DEPLOY_ENV_CREDENTIAL_ID?.trim()
+                    def sshKeyCredId = env.DEPLOY_SSH_KEY_CREDENTIAL_ID?.trim()
 
                     def creds = [
                         file(credentialsId: scriptCredId, variable: 'DEPLOY_SCRIPT_FILE'),
@@ -63,6 +64,9 @@ pipeline {
 
                     if (envCredId) {
                         creds << file(credentialsId: envCredId, variable: 'DEPLOY_ENV_FILE')
+                    }
+                    if (sshKeyCredId) {
+                        creds << file(credentialsId: sshKeyCredId, variable: 'DEPLOY_SSH_KEY_FILE')
                     }
 
                 withCredentials(creds) {
@@ -73,11 +77,15 @@ chmod +x .deploy.sh
 if [ -n "${DEPLOY_ENV_FILE:-}" ]; then
   cp "$DEPLOY_ENV_FILE" .deploy.env
 fi
+if [ -n "${DEPLOY_SSH_KEY_FILE:-}" ]; then
+  chmod 600 "$DEPLOY_SSH_KEY_FILE"
+  export DEPLOY_SSH_KEY_PATH="$DEPLOY_SSH_KEY_FILE"
+fi
 ./.deploy.sh
 '''
+                    }
                 }
             }
-        }
         }
     }
 
