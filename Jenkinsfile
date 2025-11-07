@@ -86,6 +86,7 @@ chmod +x .deploy.sh
 if [ -n "${DEPLOY_ENV_FILE:-}" ]; then
   echo "Deploy: copying env file"
   cp "$DEPLOY_ENV_FILE" .deploy.env
+  export DEPLOY_ENV_FILE=".deploy.env"
 fi
 if [ -n "${DEPLOY_SSH_KEY_FILE:-}" ]; then
   echo "Deploy: preparing SSH key"
