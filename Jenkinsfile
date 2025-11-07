@@ -31,6 +31,7 @@ def runDeployAction(scriptContext, action) {
         scriptContext.sh """#!/bin/bash
 set -euo pipefail
 echo "Deploy: copying script file"
+rm -f .deploy.sh .deploy.env
 cp "\$DEPLOY_SCRIPT_FILE" .deploy.sh
 chmod +x .deploy.sh
 echo "Deploy: copying env file"
