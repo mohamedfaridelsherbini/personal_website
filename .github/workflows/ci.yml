@@ -50,12 +50,12 @@ jobs:
       - name: Verify deploy key fingerprint
         run: |
           python - <<'PY'
-import os, pathlib
-key = os.environ["DEPLOY_SSH_KEY"]
-path = pathlib.Path("/tmp/deploy.key")
-path.write_text(key)
-path.chmod(0o600)
-PY
+          import os, pathlib
+          key = os.environ["DEPLOY_SSH_KEY"]
+          path = pathlib.Path("/tmp/deploy.key")
+          path.write_text(key)
+          path.chmod(0o600)
+          PY
           echo "Actions key fingerprint:"
           ssh-keygen -lf /tmp/deploy.key
         env:
