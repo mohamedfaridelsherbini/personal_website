@@ -50,14 +50,23 @@ jobs:
       - name: Verify deploy key fingerprint
         run: |
           python - <<'PY'
-          import os, pathlib
+          import base64, os, pathlib, subprocess
+
           key = os.environ["DEPLOY_SSH_KEY"]
           path = pathlib.Path("/tmp/deploy.key")
-          path.write_bytes(key.encode("utf-8"))
+
+          # Handle both raw PEM and base64-encoded strings (GitHub masks newlines)
+          if "BEGIN OPENSSH PRIVATE KEY" in key:
+              data = key.encode("utf-8")
+          else:
+              data = base64.b64decode(key)
+
+          path.write_bytes(data)
           path.chmod(0o600)
+
+          print("Actions key fingerprint:")
+          subprocess.run(["ssh-keygen", "-lf", str(path)], check=True)
           PY
-          echo "Actions key fingerprint:"
-          ssh-keygen -lf /tmp/deploy.key
         env:
           DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
 
