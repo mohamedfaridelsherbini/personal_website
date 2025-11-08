@@ -61,7 +61,7 @@ jobs:
           workspace = os.environ["GITHUB_WORKSPACE"]
           path = pathlib.Path(workspace) / ".deploy.key"
           path.write_bytes(data)
-          path.chmod(0o600)
+          path.chmod(0o644)
           PY
           echo "key_path=${GITHUB_WORKSPACE}/.deploy.key" >> "$GITHUB_OUTPUT"
 
