@@ -47,6 +47,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Verify deploy key fingerprint
+        run: |
+          printf '%s' "$DEPLOY_SSH_KEY" > /tmp/deploy.key
+          chmod 600 /tmp/deploy.key
+          echo "Actions key fingerprint:"
+          ssh-keygen -lf /tmp/deploy.key
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
