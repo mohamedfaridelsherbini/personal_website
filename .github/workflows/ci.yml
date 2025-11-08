@@ -57,11 +57,13 @@ jobs:
           import base64, os, pathlib
           key_b64 = os.environ["DEPLOY_SSH_KEY"].strip()
           data = base64.b64decode(key_b64)
-          path = pathlib.Path("/tmp/deploy.key")
+          import os
+          workspace = os.environ["GITHUB_WORKSPACE"]
+          path = pathlib.Path(workspace) / ".deploy.key"
           path.write_bytes(data)
           path.chmod(0o600)
           PY
-          echo "key_path=/tmp/deploy.key" >> "$GITHUB_OUTPUT"
+          echo "key_path=${GITHUB_WORKSPACE}/.deploy.key" >> "$GITHUB_OUTPUT"
 
       - name: Verify deploy key fingerprint
         run: |
