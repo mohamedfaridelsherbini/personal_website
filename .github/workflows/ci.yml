@@ -53,7 +53,7 @@ jobs:
           import os, pathlib
           key = os.environ["DEPLOY_SSH_KEY"]
           path = pathlib.Path("/tmp/deploy.key")
-          path.write_text(key)
+          path.write_bytes(key.encode("utf-8"))
           path.chmod(0o600)
           PY
           echo "Actions key fingerprint:"
