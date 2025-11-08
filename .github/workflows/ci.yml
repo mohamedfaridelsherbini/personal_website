@@ -47,10 +47,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Verify deploy key fingerprint
+      - name: Prepare deploy key
+        shell: bash
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
         run: |
           python - <<'PY'
-          import base64, os, pathlib, subprocess
+          import base64, os, pathlib
 
           key_b64 = os.environ["DEPLOY_SSH_KEY"].strip()
           data = base64.b64decode(key_b64)
@@ -58,12 +61,16 @@ jobs:
           path = pathlib.Path("/tmp/deploy.key")
           path.write_bytes(data)
           path.chmod(0o600)
-
-          print("Actions key fingerprint:")
-          subprocess.run(["ssh-keygen", "-lf", str(path)], check=True)
           PY
+
+          echo "SSH_KEY_PATH=/tmp/deploy.key" >> "$GITHUB_ENV"
+
+      - name: Verify deploy key fingerprint
+        run: |
+          echo "Actions key fingerprint:"
+          ssh-keygen -lf "$SSH_KEY_PATH"
         env:
-          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          SSH_KEY_PATH: ${{ env.SSH_KEY_PATH }}
 
       - name: Download artifact
         uses: actions/download-artifact@v4
@@ -76,7 +83,7 @@ jobs:
         with:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
-          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          key_path: ${{ env.SSH_KEY_PATH }}
           debug: true
           script: |
             mkdir -p "${{ secrets.DEPLOY_PATH }}/dist"
@@ -86,7 +93,7 @@ jobs:
         with:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
-          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          key_path: ${{ env.SSH_KEY_PATH }}
           debug: true
           script: |
             cat > "${{ secrets.DEPLOY_PATH }}/.deploy.env" <<'EOF'
@@ -106,7 +113,7 @@ jobs:
         with:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
-          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          key_path: ${{ env.SSH_KEY_PATH }}
           source: "dist/app-all.jar,.deploy.sh"
           target: ${{ secrets.DEPLOY_PATH }}
 
@@ -115,7 +122,7 @@ jobs:
         with:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
-          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          key_path: ${{ env.SSH_KEY_PATH }}
           debug: true
           script: |
             cd "${{ secrets.DEPLOY_PATH }}"
