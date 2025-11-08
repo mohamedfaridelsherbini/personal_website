@@ -59,6 +59,7 @@ jobs:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_SSH_KEY }}
+          debug: true
           script: |
             mkdir -p "${{ secrets.DEPLOY_PATH }}/dist"
 
@@ -68,6 +69,7 @@ jobs:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_SSH_KEY }}
+          debug: true
           script: |
             cat > "${{ secrets.DEPLOY_PATH }}/.deploy.env" <<'EOF'
             DROPLET_HOST=${{ secrets.DEPLOY_HOST }}
@@ -96,6 +98,7 @@ jobs:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_SSH_KEY }}
+          debug: true
           script: |
             cd "${{ secrets.DEPLOY_PATH }}"
             chmod +x .deploy.sh
