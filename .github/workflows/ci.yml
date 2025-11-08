@@ -56,6 +56,7 @@ jobs:
           path = pathlib.Path("/tmp/deploy.key")
 
           # Handle both raw PEM and base64-encoded strings (GitHub masks newlines)
+          key = key.replace("\\n", "\n")
           if "BEGIN OPENSSH PRIVATE KEY" in key:
               data = key.encode("utf-8")
           else:
