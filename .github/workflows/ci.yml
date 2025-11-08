@@ -50,26 +50,14 @@ jobs:
       - name: Verify deploy key fingerprint
         run: |
           python - <<'PY'
-          import base64, os, pathlib, subprocess, textwrap
+          import base64, os, pathlib, subprocess
 
-          key = os.environ["DEPLOY_SSH_KEY"]
-          key = textwrap.dedent(key).strip()
-
-          # GitHub hides newlines; restore them if the key was pasted with \n
-          key = key.replace("\\n", "\n").replace("\\r", "")
-
-          if "BEGIN OPENSSH PRIVATE KEY" not in key:
-              key = base64.b64decode(key).decode("utf-8")
+          key_b64 = os.environ["DEPLOY_SSH_KEY"].strip()
+          data = base64.b64decode(key_b64)
 
           path = pathlib.Path("/tmp/deploy.key")
-          path.write_text(key)
+          path.write_bytes(data)
           path.chmod(0o600)
-
-          lines = path.read_text().splitlines()
-          print(f"Key has {len(lines)} lines and {len(key)} characters.")
-          if lines:
-              print("First line (masked):", "***")
-              print("Last line (masked):", "***")
 
           print("Actions key fingerprint:")
           subprocess.run(["ssh-keygen", "-lf", str(path)], check=True)
