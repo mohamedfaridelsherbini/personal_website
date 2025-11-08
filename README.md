@@ -38,7 +38,7 @@ Quick steps (details live in `DEPLOYMENT.md`):
 
 1. **Prepare the droplet:** clone this repo to `/opt/personal-website`, install Docker, and create `.deploy.env` from the sample (contains host, branch, image/container names, ports, health URL). Keep this file on the droplet only.
 2. **Build locally (optional):** `./gradlew --build-cache :bootstrap:shadowJar` produces `dist/app-all.jar`. Running `.deploy.sh deploy` locally with `DEPLOY_RUN_LOCAL=true` can double-check Docker builds before pushing.
-3. **Automated path (recommended):** GitHub Actions (`.github/workflows/ci.yml`) runs ktlint + tests, builds the fat JAR, then uploads it and `.deploy.sh` to the droplet. Set repo secrets `DEPLOY_HOST`, `DEPLOY_USER`, `DEPLOY_SSH_KEY`, and `DEPLOY_PATH`.
+3. **Automated path (recommended):** GitHub Actions (`.github/workflows/ci.yml`) runs ktlint + tests, builds the fat JAR, then uploads it and `.deploy.sh` to the droplet. Set environment-level secrets `DEPLOY_HOST`, `DEPLOY_USER`, `DEPLOY_SSH_KEY`, and `DEPLOY_PATH` (under Repository Settings → Environments) so only the `production` environment can read them (the deploy job is pinned to that environment).
 4. **Manual path:** From your workstation run:
    ```bash
    scp dist/app-all.jar root@<droplet>:/opt/personal-website/dist/app-all.jar
@@ -50,7 +50,23 @@ Quick steps (details live in `DEPLOYMENT.md`):
 
 ## Security & Secrets
 
-This GitHub repository stays **public**, so never commit API keys, SSH keys, or `.env` files. Keep runtime configuration in `.deploy.env` on the droplet and surface deployment credentials through GitHub Actions secrets (`DEPLOY_HOST`, `DEPLOY_USER`, `DEPLOY_SSH_KEY`, `DEPLOY_PATH`). Optional repository variables (`DEPLOY_BRANCH`, `DEPLOY_IMAGE_NAME`, `DEPLOY_CONTAINER_NAME`, `DEPLOY_CONTAINER_PORT`, `DEPLOY_PUBLIC_PORT`, `DEPLOY_HEALTHCHECK_URL`) let the workflow generate `.deploy.env` automatically each run, so no sensitive data ever lands in git history.
+This GitHub repository stays **public**, so never commit API keys, SSH keys, or `.env` files. Keep runtime configuration in `.deploy.env` on the droplet and surface deployment credentials through GitHub Actions environment secrets (`DEPLOY_HOST`, `DEPLOY_USER`, `DEPLOY_SSH_KEY`, `DEPLOY_PATH`). Optional repository variables (`DEPLOY_BRANCH`, `DEPLOY_IMAGE_NAME`, `DEPLOY_CONTAINER_NAME`, `DEPLOY_CONTAINER_PORT`, `DEPLOY_PUBLIC_PORT`, `DEPLOY_HEALTHCHECK_URL`) let the workflow generate `.deploy.env` automatically each run, so no sensitive data ever lands in git history.
+
+### GitHub Actions configuration checklist
+
+Environment secrets (Settings → Environments → `production` → Secrets):
+- `DEPLOY_HOST` – droplet IP/host
+- `DEPLOY_USER` – SSH username (e.g., `root`)
+- `DEPLOY_SSH_KEY` – private key with access to the droplet
+- `DEPLOY_PATH` – absolute path to the project on the droplet (e.g., `/opt/personal-website`)
+
+Repository variables (Settings → Secrets and variables → Actions → Variables) – optional overrides used when generating `.deploy.env`:
+- `DEPLOY_BRANCH` (default `main`)
+- `DEPLOY_IMAGE_NAME` (default `personal-website:latest`)
+- `DEPLOY_CONTAINER_NAME` (default `personal-website-container`)
+- `DEPLOY_CONTAINER_PORT` (default `8080`)
+- `DEPLOY_PUBLIC_PORT` (default `8080`)
+- `DEPLOY_HEALTHCHECK_URL` (default `https://www.mohamedfaridelsherbini.com`)
 
 ## Tech Stack
 
