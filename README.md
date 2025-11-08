@@ -1,8 +1,8 @@
 # Personal Website (Neon Portfolio)
 
-A neon/cyberpunk-themed portfolio for **Mohamed ElSherbini** built with Kotlin + Ktor. Structured JSON content flows through a clean architecture stack to render snapshot-tested HTML pages with glowing cluster cards, project case studies, and animated UI flourishes.
+A neon/cyberpunk-themed portfolio for **Mohamed ElSherbini** built with Kotlin + Ktor. Structured JSON content flows through a clean architecture stack to render snapshot-tested HTML pages with glowing cluster cards, project case studies, and animated UI flourishes. The repository is public, so keep secrets in GitHub Actions or droplet env files rather than committing them.
 
-> Latest refresh (Q1 2025): modularized the renderer, introduced JSON-backed repositories with caching, and kicked off the Hexagonal Architecture migration while wiring Jenkins + ktlint quality gates.
+> Latest refresh (Q1 2025): modularized the renderer, introduced JSON-backed repositories with caching, and kicked off the Hexagonal Architecture migration while wiring GitHub Actions + ktlint quality gates.
 
 ## Highlights
 
@@ -11,7 +11,7 @@ A neon/cyberpunk-themed portfolio for **Mohamed ElSherbini** built with Kotlin +
 - ✨ **Neon UI system** – cluster cards, glassmorphism, animated cursor, and SVG flourishes
 - 📚 **Structured content** – résumé data lives in `infrastructure/src/main/resources/content/*.json`
 - 🧪 **Snapshot-tested renderer** – golden files guard against accidental regressions
-- 🚀 **Automation ready** – `.deploy.sh`, Jenkins pipeline, uptime checker, and ktlint gate
+- 🚀 **Automation ready** – `.deploy.sh`, GitHub Actions pipeline, uptime checker, and ktlint gate
 
 ## Quick Start
 
@@ -29,8 +29,28 @@ Need the full development walkthrough (tests, lint, fat JAR, snapshot updates)? 
 
 - [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) – prerequisites, seeding JSON data, running, testing, linting.
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) – clean architecture overview, project layout, customization tips.
-- [`DEPLOYMENT.md`](DEPLOYMENT.md) – Docker builds, droplet automation, uptime monitoring, Jenkins workflow.
+- [`DEPLOYMENT.md`](DEPLOYMENT.md) – Docker builds, droplet automation, uptime monitoring, GitHub Actions workflow.
 - [`docs/ROADMAP.md`](docs/ROADMAP.md) – upcoming enhancements and future experiments.
+
+## Deployment Overview
+
+Quick steps (details live in `DEPLOYMENT.md`):
+
+1. **Prepare the droplet:** clone this repo to `/opt/personal-website`, install Docker, and create `.deploy.env` from the sample (contains host, branch, image/container names, ports, health URL). Keep this file on the droplet only.
+2. **Build locally (optional):** `./gradlew --build-cache :bootstrap:shadowJar` produces `dist/app-all.jar`. Running `.deploy.sh deploy` locally with `DEPLOY_RUN_LOCAL=true` can double-check Docker builds before pushing.
+3. **Automated path (recommended):** GitHub Actions (`.github/workflows/ci.yml`) runs ktlint + tests, builds the fat JAR, then uploads it and `.deploy.sh` to the droplet. Set repo secrets `DEPLOY_HOST`, `DEPLOY_USER`, `DEPLOY_SSH_KEY`, and `DEPLOY_PATH`.
+4. **Manual path:** From your workstation run:
+   ```bash
+   scp dist/app-all.jar root@<droplet>:/opt/personal-website/dist/app-all.jar
+   ssh root@<droplet> "cd /opt/personal-website && ./deploy.sh sync && ARTIFACT_PATH=dist/app-all.jar ./deploy.sh deploy && ./deploy.sh health"
+   ```
+   This mirrors the CI workflow for emergencies.
+
+`.deploy.sh` handles git pull, Docker build, container restart, and the post-deploy health check for both manual and automated runs.
+
+## Security & Secrets
+
+This GitHub repository stays **public**, so never commit API keys, SSH keys, or `.env` files. Keep runtime configuration in `.deploy.env` on the droplet and surface deployment credentials through GitHub Actions secrets (`DEPLOY_HOST`, `DEPLOY_USER`, `DEPLOY_SSH_KEY`, `DEPLOY_PATH`). Optional repository variables (`DEPLOY_BRANCH`, `DEPLOY_IMAGE_NAME`, `DEPLOY_CONTAINER_NAME`, `DEPLOY_CONTAINER_PORT`, `DEPLOY_PUBLIC_PORT`, `DEPLOY_HEALTHCHECK_URL`) let the workflow generate `.deploy.env` automatically each run, so no sensitive data ever lands in git history.
 
 ## Tech Stack
 
@@ -38,7 +58,7 @@ Need the full development walkthrough (tests, lint, fat JAR, snapshot updates)? 
 - Gradle (multimodule)
 - Koin for DI
 - ktlint for formatting checks
-- Docker + Jenkins for build/deploy automation
+- Docker + GitHub Actions for build/deploy automation
 
 ## Contributing
 

@@ -76,29 +76,7 @@ Configure the application via environment variables when deploying:
 
 ## Automated Deployments
 
-`.deploy.sh` automates the same workflow you would run manually on the droplet (pull latest code, rebuild the Docker image, restart the container, and run a health check).
-
-If you prefer not to commit `.deploy.sh`, keep it local and push it straight to the droplet:
-```bash
-./tools/push-deploy-script.sh          # reads .deploy.env for SSH details
-ssh -i ~/.ssh/id_ed25519_droplet_codex root@<droplet-ip> '/opt/personal-website/.deploy.sh'
-```
-The helper copies the script via `scp`, marks it executable, and leaves Jenkins (or any automation) free to run the remote copy without storing it in Git.
-
-1. Create `.deploy.env` in the repo root (a `.deploy.env.sample` template is provided—copy and edit it with your real droplet IP/host, SSH key path, and domain):
-   ```bash
-   cp .deploy.env.sample .deploy.env
-   ```
-2. Ensure the script is executable:
-   ```bash
-   chmod +x .deploy.sh
-   ```
-3. Run the deploy:
-   ```bash
-   ./.deploy.sh
-   ```
-
-The script exits on failure (e.g., git pull conflicts, Docker build issues, or health-check errors) so you can review logs before retrying.
+`.deploy.sh` automates the same workflow you would run manually on the droplet (pull latest code, rebuild the Docker image, restart the container, and run a health check). The GitHub Actions deploy job writes `.deploy.env` on the droplet each run using repository secrets/variables so sensitive values never enter git. For manual runs, create the file from `.deploy.env.sample`, keep it on the server, and do **not** commit it.
 
 ## Uptime Monitoring
 
@@ -118,12 +96,25 @@ The script only logs failures (and returns a non-zero exit code so cron can aler
 
 ## Continuous Integration
 
-A Jenkins pipeline can reuse the Gradle build, snapshot tests, link checking (via `lychee` or similar), and deployment script. Suggested stages:
+GitHub Actions (`.github/workflows/ci.yml`) now handles build + deploy:
 
-1. **Checkout & Tooling** – Pull the repo, provision JDK 21, install any link-check binaries.
-2. **Build & Test** – Run `./gradlew clean build` (optionally with `UPDATE_SNAPSHOTS=true` in a dedicated maintenance job).
-3. **Package** – Run `./gradlew :bootstrap:shadowJar` or build the Docker image directly.
-4. **Deploy** – Call `.deploy.sh` or mirror its steps with Jenkins agents/Ansible.
-5. **Post-deploy Health** – Hit the same health-check URL used by `.deploy.sh` and fail fast if something regresses.
+1. **Build job** runs on every push/PR to `main`: checks out code, sets up Temurin JDK 21, runs ktlint/tests, builds `:bootstrap:shadowJar`, and uploads `dist/app-all.jar` as a workflow artifact.
+2. **Deploy job** runs only on pushes to `main`: downloads the artifact, uploads `dist/app-all.jar` and `.deploy.sh` to the droplet, regenerates `.deploy.env`, then executes `.deploy.sh` in `sync`, `deploy`, and `health` modes.
 
-> A ready-to-use Declarative pipeline lives in `Jenkinsfile`. Configure a JDK 21 tool named `jdk-21` in Jenkins, upload `.deploy.sh` (required), `.deploy.env` (optional), and the droplet SSH key (optional) as secret-file credentials. Set their IDs via the environment variables `DEPLOY_SCRIPT_CREDENTIAL_ID`, `DEPLOY_ENV_CREDENTIAL_ID`, and `DEPLOY_SSH_KEY_CREDENTIAL_ID`, then check the `RUN_DEPLOY` parameter when you want Jenkins to run the same script after packaging. The pipeline copies those files into the workspace, exports `SSH_KEY` if provided, and executes `./.deploy.sh`, keeping droplet-specific values and the private key out of the public repo.
+Required repository secrets:
+
+- `DEPLOY_HOST` – Droplet IP/hostname
+- `DEPLOY_USER` – SSH user (e.g., `root`)
+- `DEPLOY_SSH_KEY` – Private key with access to the droplet
+- `DEPLOY_PATH` – Path to the project on the droplet (e.g., `/opt/personal-website`)
+
+Optional repository variables (override defaults baked into `.deploy.sh`):
+
+- `DEPLOY_BRANCH`
+- `DEPLOY_IMAGE_NAME`
+- `DEPLOY_CONTAINER_NAME`
+- `DEPLOY_CONTAINER_PORT`
+- `DEPLOY_PUBLIC_PORT`
+- `DEPLOY_HEALTHCHECK_URL`
+
+The Dockerfile now expects the pre-built jar at `dist/app-all.jar`, so deployments reuse Actions artifacts instead of rebuilding inside the container.

@@ -1,0 +1,103 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Configure Gradle caching
+        uses: gradle/gradle-build-action@v2
+
+      - name: Lint & test
+        run: ./gradlew --build-cache --parallel ktlintCheck test
+
+      - name: Build fat JAR
+        run: ./gradlew --build-cache :bootstrap:shadowJar
+
+      - name: Package deployment artifact
+        run: |
+          mkdir -p dist
+          cp bootstrap/build/libs/app-all.jar dist/app-all.jar
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-all-jar
+          path: dist/app-all.jar
+          retention-days: 5
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: app-all-jar
+          path: dist
+
+      - name: Ensure remote dist directory exists
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          script: |
+            mkdir -p "${{ secrets.DEPLOY_PATH }}/dist"
+
+      - name: Write deployment config
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          script: |
+            cat > "${{ secrets.DEPLOY_PATH }}/.deploy.env" <<'EOF'
+            DROPLET_HOST=${{ secrets.DEPLOY_HOST }}
+            SSH_USER=${{ secrets.DEPLOY_USER }}
+            REMOTE_PATH=${{ secrets.DEPLOY_PATH }}
+            GIT_BRANCH=${{ vars.DEPLOY_BRANCH || 'main' }}
+            IMAGE_NAME=${{ vars.DEPLOY_IMAGE_NAME || 'personal-website:latest' }}
+            CONTAINER_NAME=${{ vars.DEPLOY_CONTAINER_NAME || 'personal-website-container' }}
+            CONTAINER_PORT=${{ vars.DEPLOY_CONTAINER_PORT || '8080' }}
+            PUBLIC_PORT=${{ vars.DEPLOY_PUBLIC_PORT || '8080' }}
+            HEALTHCHECK_URL=${{ vars.DEPLOY_HEALTHCHECK_URL || 'https://www.mohamedfaridelsherbini.com' }}
+            EOF
+
+      - name: Upload artifact and deployment script
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          source: "dist/app-all.jar,.deploy.sh"
+          target: ${{ secrets.DEPLOY_PATH }}
+
+      - name: Run remote deploy steps
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          script: |
+            cd "${{ secrets.DEPLOY_PATH }}"
+            chmod +x .deploy.sh
+            ./.deploy.sh sync
+            ARTIFACT_PATH=dist/app-all.jar ./.deploy.sh deploy
+            ./.deploy.sh health

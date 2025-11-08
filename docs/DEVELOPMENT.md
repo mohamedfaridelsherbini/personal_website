@@ -60,13 +60,13 @@ Execute the test suite:
 ./gradlew test
 ```
 
-Snapshot expectations for the home page and the featured project live in `infrastructure/src/test/resources/snapshots/`. To regenerate them after copy tweaks, set `UPDATE_SNAPSHOTS=true` before running the tests or wire the environment variable into your Jenkins job.
+Snapshot expectations for the home page and the featured project live in `infrastructure/src/test/resources/snapshots/`. To regenerate them after copy tweaks, set `UPDATE_SNAPSHOTS=true` before running the tests or add the environment variable to your GitHub Actions workflow.
 
 ### 6. Run Lint
 ```bash
 ./gradlew ktlintCheck
 ```
-Runs the same quality gate that Jenkins enforces before packaging.
+Runs the same quality gate that GitHub Actions enforces before packaging.
 
 Need the standalone CLI for quick checks? Install it without committing big binaries:
 ```bash
