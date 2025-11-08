@@ -56,7 +56,7 @@ jobs:
           key = textwrap.dedent(key).strip()
 
           # GitHub hides newlines; restore them if the key was pasted with \n
-          key = key.replace("\\n", "\n")
+          key = key.replace("\\n", "\n").replace("\\r", "")
 
           if "BEGIN OPENSSH PRIVATE KEY" not in key:
               key = base64.b64decode(key).decode("utf-8")
@@ -65,9 +65,11 @@ jobs:
           path.write_text(key)
           path.chmod(0o600)
 
-          print("Key file preview:")
-          print(path.read_text().splitlines()[0])
-          print(path.read_text().splitlines()[-1])
+          lines = path.read_text().splitlines()
+          print(f"Key has {len(lines)} lines and {len(key)} characters.")
+          if lines:
+              print("First line (masked):", "***")
+              print("Last line (masked):", "***")
 
           print("Actions key fingerprint:")
           subprocess.run(["ssh-keygen", "-lf", str(path)], check=True)
