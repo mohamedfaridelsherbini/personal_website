@@ -38,7 +38,7 @@ Quick steps (details live in `DEPLOYMENT.md`):
 
 1. **Prepare the droplet:** clone this repo to `/opt/personal-website`, install Docker, and create `.deploy.env` from the sample (contains host, branch, image/container names, ports, health URL). Keep this file on the droplet only.
 2. **Build locally (optional):** `./gradlew --build-cache :bootstrap:shadowJar` produces `dist/app-all.jar`. Running `.deploy.sh deploy` locally with `DEPLOY_RUN_LOCAL=true` can double-check Docker builds before pushing.
-3. **Automated path (recommended):** GitHub Actions (`.github/workflows/ci.yml`) runs ktlint + tests, builds the fat JAR, then uploads it and `.deploy.sh` to the droplet. Set environment-level secrets `DEPLOY_HOST`, `DEPLOY_USER`, `DEPLOY_SSH_KEY`, and `DEPLOY_PATH` (under Repository Settings → Environments) so only the `production` environment can read them (the deploy job is pinned to that environment).
+3. **Automated path (recommended):** GitHub Actions (`.github/workflows/ci.yml`) runs ktlint + tests, builds the fat JAR, then uploads it and `.deploy.sh` to the droplet. Set environment-level secrets `DEPLOY_HOST`, `DEPLOY_USER`, `DEPLOY_SSH_KEY`, and `DEPLOY_PATH` (under Repository Settings → Environments) so only the `Deploy info` environment can read them (the deploy job is pinned to that environment).
 4. **Manual path:** From your workstation run:
    ```bash
    scp dist/app-all.jar root@<droplet>:/opt/personal-website/dist/app-all.jar
@@ -54,7 +54,7 @@ This GitHub repository stays **public**, so never commit API keys, SSH keys, or 
 
 ### GitHub Actions configuration checklist
 
-Environment secrets (Settings → Environments → `production` → Secrets):
+Environment secrets (Settings → Environments → `Deploy info` → Secrets):
 - `DEPLOY_HOST` – droplet IP/host
 - `DEPLOY_USER` – SSH username (e.g., `root`)
 - `DEPLOY_SSH_KEY` – private key with access to the droplet

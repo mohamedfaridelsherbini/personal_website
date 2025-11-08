@@ -101,7 +101,7 @@ GitHub Actions (`.github/workflows/ci.yml`) now handles build + deploy:
 1. **Build job** runs on every push/PR to `main`: checks out code, sets up Temurin JDK 21, runs ktlint/tests, builds `:bootstrap:shadowJar`, and uploads `dist/app-all.jar` as a workflow artifact.
 2. **Deploy job** runs only on pushes to `main`: downloads the artifact, uploads `dist/app-all.jar` and `.deploy.sh` to the droplet, regenerates `.deploy.env`, then executes `.deploy.sh` in `sync`, `deploy`, and `health` modes.
 
-Required environment secrets (store them under **Settings → Environments → production** so the deploy job can read them):
+Required environment secrets (store them under **Settings → Environments → Deploy info** so the deploy job can read them):
 
 - `DEPLOY_HOST` – Droplet IP/hostname
 - `DEPLOY_USER` – SSH user (e.g., `root`)
