@@ -24,7 +24,7 @@ class HomePageRenderer(
 
         return buildString {
             appendLine("<!DOCTYPE html>")
-            appendLine("<html>")
+            appendLine("<html lang=\"en\">")
             headComponent.appendHomeHead(this, page.metadata, personalInfo)
             appendLine("<body class=\"bg-[#111714] font-['Spline_Sans']\">")
             HeaderComponent.appendHomeHeader(this, personalInfo)

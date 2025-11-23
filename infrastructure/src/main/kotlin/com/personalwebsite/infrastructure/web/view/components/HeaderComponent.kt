@@ -14,7 +14,7 @@ object HeaderComponent {
         builder.appendLine("    <header>")
         builder.appendLine("        <div class=\"header-left\">")
         builder.appendLine(
-            "            <img src=\"/static/images/profile-social.jpg\" alt=\"Portrait of ${personalInfo.name}\" class=\"logo-badge\">",
+            "            <img src=\"/static/images/profile-social.jpg\" alt=\"Portrait of ${personalInfo.name}\" class=\"logo-badge\" loading=\"lazy\" decoding=\"async\">",
         )
         builder.appendLine("            <h2 class=\"header-title\">${personalInfo.name}</h2>")
         builder.appendLine("        </div>")
@@ -49,7 +49,7 @@ object HeaderComponent {
         builder.appendLine("    <header>")
         builder.appendLine("        <div class=\"header-left\">")
         builder.appendLine(
-            "            <img src=\"/static/images/profile-social.jpg\" alt=\"Portrait of ${personalInfo.name}\" class=\"logo-badge\">",
+            "            <img src=\"/static/images/profile-social.jpg\" alt=\"Portrait of ${personalInfo.name}\" class=\"logo-badge\" loading=\"lazy\" decoding=\"async\">",
         )
         builder.appendLine("            <h2 class=\"header-title\">${personalInfo.name}</h2>")
         builder.appendLine("        </div>")

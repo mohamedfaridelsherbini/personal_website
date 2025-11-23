@@ -35,6 +35,12 @@ html {
   scroll-behavior: smooth;
 }
 
+:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
 body {
   font-family: 'Spline Sans', 'Noto Sans', sans-serif;
   line-height: 1.6;
@@ -161,6 +167,7 @@ header {
 }
 
 .nav-link:hover,
+.nav-link:focus-visible,
 .nav-link.active {
   color: var(--text-primary);
 }
@@ -177,6 +184,7 @@ header {
   transition: opacity 0.3s ease;
 }
 
+.nav-link:focus-visible::after,
 .nav-link:hover::after,
 .nav-link.active::after {
   opacity: 1;

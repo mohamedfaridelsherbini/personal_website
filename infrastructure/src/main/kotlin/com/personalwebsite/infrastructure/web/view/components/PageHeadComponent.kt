@@ -24,8 +24,8 @@ class PageHeadComponent {
         builder.appendLine("    <meta property=\"og:image:type\" content=\"image/jpeg\">")
         builder.appendLine("    <meta property=\"og:image:alt\" content=\"Portrait of ${personalInfo.name}\">")
         builder.appendLine("    <meta name=\"twitter:image:alt\" content=\"Portrait of ${personalInfo.name}\">")
-        builder.appendLine("    <script src=\"/static/js/smooth-scroll.js\"></script>")
-        builder.appendLine("    <script src=\"/static/js/cursor-buddy.js\"></script>")
+        builder.appendLine("    <script src=\"/static/js/smooth-scroll.js\" defer></script>")
+        builder.appendLine("    <script src=\"/static/js/cursor-buddy.js\" defer></script>")
         metadata.structuredDataJsonLd?.let { jsonLd ->
             builder.appendLine("    <script type=\"application/ld+json\">")
             builder.appendLine(jsonLd)
@@ -68,6 +68,8 @@ class PageHeadComponent {
             "    <link as=\"style\" href=\"https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Spline+Sans%3Awght%40400%3B500%3B700\" onload=\"this.rel='stylesheet'\" rel=\"stylesheet\"/>",
         )
         builder.appendLine("    <meta name=\"google-site-verification\" content=\"Va2vDXEdiRi_uhOL64PstYFMmbfnEO0xCMvhsqLSWCQ\"/>")
+        builder.appendLine("    <meta name=\"theme-color\" content=\"#03060d\">")
+        builder.appendLine("    <link rel=\"preload\" as=\"image\" href=\"/static/images/profile-social.jpg\" imagesrcset=\"/static/images/profile-social.jpg\" imagesizes=\"44px\"/>")
         builder.appendLine("    <title>${metadata.title}</title>")
         builder.appendLine("    <link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"/static/images/favicon-portrait.png?v=2\">")
         builder.appendLine("    <link rel=\"icon\" type=\"image/png\" sizes=\"64x64\" href=\"/static/images/favicon-portrait.png?v=2\">")

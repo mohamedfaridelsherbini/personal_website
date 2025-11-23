@@ -21,7 +21,7 @@ class ProjectPageRenderer(
 
         return buildString {
             appendLine("<!DOCTYPE html>")
-            appendLine("<html>")
+            appendLine("<html lang=\"en\">")
             headComponent.appendProjectHead(this, page.metadata, personalInfo)
             appendLine("<body class=\"bg-[#111714] font-['Spline_Sans']\">")
             HeaderComponent.appendProjectHeader(this, personalInfo)

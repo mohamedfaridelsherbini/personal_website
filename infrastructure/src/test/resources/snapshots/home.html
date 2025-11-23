@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8"/>
     <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
     <link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Spline+Sans%3Awght%40400%3B500%3B700" onload="this.rel='stylesheet'" rel="stylesheet"/>
+    <meta name="google-site-verification" content="Va2vDXEdiRi_uhOL64PstYFMmbfnEO0xCMvhsqLSWCQ"/>
+    <meta name="theme-color" content="#03060d">
+    <link rel="preload" as="image" href="/static/images/profile-social.jpg" imagesrcset="/static/images/profile-social.jpg" imagesizes="44px"/>
     <title>Mohamed ElSherbini - Senior Android Engineer</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/static/images/favicon-portrait.png?v=2">
     <link rel="icon" type="image/png" sizes="64x64" href="/static/images/favicon-portrait.png?v=2">
@@ -29,8 +32,8 @@
     <meta property="og:image:type" content="image/jpeg">
     <meta property="og:image:alt" content="Portrait of Mohamed ElSherbini">
     <meta name="twitter:image:alt" content="Portrait of Mohamed ElSherbini">
-    <script src="/static/js/smooth-scroll.js"></script>
-    <script src="/static/js/cursor-buddy.js"></script>
+    <script src="/static/js/smooth-scroll.js" defer></script>
+    <script src="/static/js/cursor-buddy.js" defer></script>
     <script type="application/ld+json">
 {
   \"@context\": \"https://schema.org\",
@@ -63,7 +66,7 @@
 <body class="bg-[#111714] font-['Spline_Sans']">
     <header>
         <div class="header-left">
-            <img src="/static/images/profile-social.jpg" alt="Portrait of Mohamed ElSherbini" class="logo-badge">
+            <img src="/static/images/profile-social.jpg" alt="Portrait of Mohamed ElSherbini" class="logo-badge" loading="lazy" decoding="async">
             <h2 class="header-title">Mohamed ElSherbini</h2>
         </div>
         <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" data-nav-toggle>
