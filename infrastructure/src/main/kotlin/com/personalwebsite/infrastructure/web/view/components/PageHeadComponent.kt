@@ -67,6 +67,7 @@ class PageHeadComponent {
         builder.appendLine(
             "    <link as=\"style\" href=\"https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Spline+Sans%3Awght%40400%3B500%3B700\" onload=\"this.rel='stylesheet'\" rel=\"stylesheet\"/>",
         )
+        builder.appendLine("    <meta name=\"google-site-verification\" content=\"Va2vDXEdiRi_uhOL64PstYFMmbfnEO0xCMvhsqLSWCQ\"/>")
         builder.appendLine("    <title>${metadata.title}</title>")
         builder.appendLine("    <link rel=\"icon\" type=\"image/png\" sizes=\"32x32\" href=\"/static/images/favicon-portrait.png?v=2\">")
         builder.appendLine("    <link rel=\"icon\" type=\"image/png\" sizes=\"64x64\" href=\"/static/images/favicon-portrait.png?v=2\">")
