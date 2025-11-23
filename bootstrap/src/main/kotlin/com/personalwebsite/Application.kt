@@ -3,6 +3,7 @@ package com.personalwebsite
 import com.personalwebsite.application.website.WebsiteQueries
 import com.personalwebsite.di.appModule
 import com.personalwebsite.infrastructure.admin.AdminContentService
+import com.personalwebsite.domain.usecases.GetPersonalProjectsUseCase
 import com.personalwebsite.infrastructure.web.routing.registerRoutes
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
@@ -35,10 +36,12 @@ fun Application.module() {
     // Get controller from Koin - much cleaner than manual DI
     val websiteQueries by inject<WebsiteQueries>()
     val adminContentService by inject<AdminContentService>()
+    val getPersonalProjectsUseCase by inject<GetPersonalProjectsUseCase>()
 
     val adminUser = System.getenv("ADMIN_USER")
     val adminPassword = System.getenv("ADMIN_PASSWORD")
     val adminAuthEnabled = !adminUser.isNullOrBlank() && !adminPassword.isNullOrBlank()
+    val siteBaseUrl = System.getenv("SITE_BASE_URL") ?: "https://www.mohamedfaridelsherbini.com"
 
     if (adminAuthEnabled) {
         install(Authentication) {
@@ -61,5 +64,7 @@ fun Application.module() {
         websiteQueries = websiteQueries,
         adminContentService = adminContentService,
         adminAuthEnabled = adminAuthEnabled,
+        getPersonalProjectsUseCase = getPersonalProjectsUseCase,
+        siteBaseUrl = siteBaseUrl,
     )
 }
