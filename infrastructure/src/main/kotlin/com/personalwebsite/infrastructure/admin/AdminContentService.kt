@@ -90,6 +90,7 @@ class AdminContentService(
     }
 
     fun resumeTargetPath(): Path = resumeDir.resolve(resumeFileName)
+    fun resumeDirectory(): Path = resumeDir
 
     private fun readSection(section: ContentSection): String {
         val path = section.path

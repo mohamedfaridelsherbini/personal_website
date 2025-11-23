@@ -6,6 +6,7 @@ import io.ktor.http.ContentType
 import io.ktor.http.withCharset
 import io.ktor.server.application.Application
 import io.ktor.server.http.content.staticResources
+import io.ktor.server.http.content.staticFiles
 import io.ktor.server.routing.routing
 import java.nio.charset.StandardCharsets
 
@@ -17,6 +18,7 @@ fun Application.registerRoutes(
     adminAuthEnabled: Boolean,
 ) {
     routing {
+        staticFiles("/static/files", adminContentService.resumeDirectory().toFile())
         staticResources("/static", "static")
         homeRoutes(websiteQueries)
         projectRoutes(websiteQueries)
