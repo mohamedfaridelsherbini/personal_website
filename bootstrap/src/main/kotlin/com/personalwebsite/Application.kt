@@ -2,9 +2,14 @@ package com.personalwebsite
 
 import com.personalwebsite.application.website.WebsiteQueries
 import com.personalwebsite.di.appModule
+import com.personalwebsite.infrastructure.admin.AdminContentService
 import com.personalwebsite.infrastructure.web.routing.registerRoutes
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
+import io.ktor.server.application.log
+import io.ktor.server.auth.Authentication
+import io.ktor.server.auth.UserIdPrincipal
+import io.ktor.server.auth.basic
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import org.koin.ktor.ext.inject
@@ -29,6 +34,32 @@ fun Application.module() {
 
     // Get controller from Koin - much cleaner than manual DI
     val websiteQueries by inject<WebsiteQueries>()
+    val adminContentService by inject<AdminContentService>()
 
-    registerRoutes(websiteQueries)
+    val adminUser = System.getenv("ADMIN_USER")
+    val adminPassword = System.getenv("ADMIN_PASSWORD")
+    val adminAuthEnabled = !adminUser.isNullOrBlank() && !adminPassword.isNullOrBlank()
+
+    if (adminAuthEnabled) {
+        install(Authentication) {
+            basic("adminAuth") {
+                realm = "Admin panel"
+                validate { credentials ->
+                    if (credentials.name == adminUser && credentials.password == adminPassword) {
+                        UserIdPrincipal(credentials.name)
+                    } else {
+                        null
+                    }
+                }
+            }
+        }
+    } else {
+        log.warn("Admin auth disabled. Set ADMIN_USER and ADMIN_PASSWORD to protect /admin")
+    }
+
+    registerRoutes(
+        websiteQueries = websiteQueries,
+        adminContentService = adminContentService,
+        adminAuthEnabled = adminAuthEnabled,
+    )
 }

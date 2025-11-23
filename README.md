@@ -25,6 +25,13 @@ A neon/cyberpunk-themed portfolio for **Mohamed ElSherbini** built with Kotlin +
 
 Need the full development walkthrough (tests, lint, fat JAR, snapshot updates)? See the docs below.
 
+## Admin Panel
+
+- Protected at `/admin` with HTTP Basic auth — set `ADMIN_USER` and `ADMIN_PASSWORD` before running.
+- Edit the JSON content files directly from the browser; saves to `infrastructure/src/main/resources/content/` (override with `CONTENT_DIR`).
+- Upload a new résumé PDF to replace `bootstrap/src/main/resources/static/files/Mohamed_ElSherbini_Resume.pdf` (override with `RESUME_DIR`/`RESUME_FILENAME`).
+- Saving clears the render + content caches so changes appear immediately.
+
 ## Documentation
 
 - [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) – prerequisites, seeding JSON data, running, testing, linting.
