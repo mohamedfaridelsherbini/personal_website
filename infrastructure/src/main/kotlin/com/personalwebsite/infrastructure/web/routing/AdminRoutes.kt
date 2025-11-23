@@ -21,9 +21,9 @@ import kotlinx.html.FormMethod
 import kotlinx.html.InputType
 import kotlinx.html.body
 import kotlinx.html.button
+import kotlinx.html.classes
 import kotlinx.html.div
 import kotlinx.html.form
-import kotlinx.html.htmlFor
 import kotlinx.html.h1
 import kotlinx.html.h2
 import kotlinx.html.head
@@ -37,7 +37,6 @@ import kotlinx.html.p
 import kotlinx.html.style
 import kotlinx.html.textArea
 import kotlinx.html.title
-import kotlinx.html.classes
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
@@ -128,7 +127,7 @@ fun Routing.adminRoutes(
                                 encType = FormEncType.multipartFormData
 
                                 label {
-                                    htmlFor = "resume"
+                                    attributes["for"] = "resume"
                                     +"PDF only"
                                 }
                                 input {
