@@ -1,0 +1,166 @@
+[
+  {
+    "name": "SPL Fantasy",
+    "slug": "spl-fantasy",
+    "description": "Fantasy football platform for the Saudi Pro League with live match data, player stats, and biometric-secured logins.",
+    "techStack": "Kotlin \u2022 MVVM \u2022 Fingerprint SDKs \u2022 Retrofit",
+    "category": "Sports / Fantasy",
+    "role": "Lead Android Engineer",
+    "timeline": "2018 \u2013 2019",
+    "highlights": [
+      "Designed coroutine-based data ingestion for live match updates under 5 seconds.",
+      "Implemented biometric loyalty logins using fingerprint SDKs across 3 partner clubs.",
+      "Rolled out feature flags and release trains that kept partners on a weekly cadence."
+    ],
+    "metrics": [
+      "50K+ weekly active managers",
+      "99.2% crash-free sessions"
+    ]
+  },
+  {
+    "name": "Fingerprint Attendance",
+    "slug": "fingerprint-attendance",
+    "description": "Biometric attendance tracking solution integrating ZKteco devices with a Kotlin-based Android client and real-time reporting.",
+    "techStack": "Kotlin \u2022 ZKteco SDK \u2022 Room \u2022 REST APIs",
+    "category": "Enterprise",
+    "role": "Mobile Lead",
+    "timeline": "2019",
+    "highlights": [
+      "Reverse engineered ZKteco protocol for offline-first syncing to HR dashboards.",
+      "Built resilient Room caching with conflict resolution for remote branches.",
+      "Provided real-time insights via custom widgets and admin portal integration."
+    ],
+    "metrics": [
+      "Deployed across 40+ branches",
+      "Check-in latency < 3s even on 3G"
+    ]
+  },
+  {
+    "name": "GreenHub",
+    "slug": "greenhub",
+    "description": "Community hub for plant lovers featuring care guides, social sharing, and Firebase-powered notifications.",
+    "techStack": "Kotlin \u2022 Firebase \u2022 Jetpack Compose \u2022 Social Features",
+    "category": "Social App",
+    "role": "Co-founder / Android",
+    "timeline": "2020",
+    "highlights": [
+      "Composed an adaptive UI system with plant-care timelines and reminders.",
+      "Implemented Firestore cloud functions for weekly challenges and leaderboards.",
+      "Experimented with dynamic color modes to match user mood presets."
+    ],
+    "metrics": [
+      "3K monthly active plant keepers",
+      "Push open rate consistently >45%"
+    ]
+  },
+  {
+    "name": "FocusMusic",
+    "slug": "focusmusic",
+    "description": "Meditation and focus music experience with custom soundscapes, offline caching, and adaptive UI themes.",
+    "techStack": "Kotlin \u2022 MediaPlayer \u2022 Compose \u2022 Audio Streaming",
+    "category": "Wellness",
+    "timeline": "2021",
+    "highlights": [
+      "Crafted adaptive ambient engine using Kotlin flows for mood-based playlists.",
+      "Added on-device audio analysis to blend binaural beats and white noise.",
+      "Launched offline caching with encryption for premium subscribers."
+    ],
+    "metrics": [
+      "Average session length 18 min",
+      "Play/pause latency under 200 ms"
+    ]
+  },
+  {
+    "name": "Custom Calendar Library",
+    "slug": "custom-calendar-library",
+    "description": "Reusable calendar component providing timeline, event grouping, and theming APIs for enterprise apps.",
+    "techStack": "Kotlin \u2022 Custom Views \u2022 Library Distribution",
+    "category": "Library",
+    "highlights": [
+      "Supports day, week, timeline, and agenda layouts with drag-to-reschedule.",
+      "Theme engine exposed through a Kotlin DSL for brand customization.",
+      "Adopted internally by two fintech squads without additional support."
+    ],
+    "metrics": [
+      "Published as private Maven artifact",
+      "<2 ms render time per cell on mid-tier devices"
+    ]
+  },
+  {
+    "name": "Automation Framework",
+    "slug": "automation-framework",
+    "description": "Selenium + Appium automation framework containerized with Docker and orchestrated through Jenkins pipelines.",
+    "techStack": "Selenium \u2022 Appium \u2022 Docker \u2022 Jenkins \u2022 Python",
+    "category": "Automation / DevOps",
+    "timeline": "2019 \u2013 Present",
+    "highlights": [
+      "Provisioned ephemeral Docker grids for Android/iOS suites in under 2 minutes.",
+      "Unified reporting dashboard with flaky-test quarantine and Slack alerts.",
+      "Integrated secrets management and blue/green deploy checks before releases."
+    ],
+    "metrics": [
+      "Regression run time reduced 60%",
+      "Automated 350+ test scenarios"
+    ]
+  },
+  {
+    "name": "FamilyHub",
+    "slug": "familyhub",
+    "description": "Kotlin Multiplatform + Spring Boot microservice app that keeps shared calendars, chores, and budgets synced across family devices.",
+    "techStack": "Kotlin Multiplatform \u2022 SwiftUI \u2022 Spring Boot \u2022 PostgreSQL",
+    "category": "Open Source",
+    "timeline": "2023 \u2013 Present",
+    "highlights": [
+      "Shared domain models compiled for Android, iOS, and desktop clients.",
+      "Event reconciliation service built with Spring Boot + Postgres logical decoding.",
+      "Experimented with widgets and watch complications for quick capture."
+    ],
+    "metrics": [
+      "Household sync latency < 1s",
+      "100% offline coverage for key flows"
+    ]
+  },
+  {
+    "name": "CraftMind Agentic AI",
+    "slug": "craftmind-agentic-ai",
+    "description": "Local LLM-based MCP implementation tailored for developer automation, task routing, and repo intelligence.",
+    "techStack": "Kotlin \u2022 Python \u2022 MCP \u2022 Docker \u2022 AI Tooling",
+    "category": "Open Source",
+    "timeline": "2024 \u2013 Present",
+    "highlights": [
+      "Bridges Kotlin services with local LLMs using the Model Context Protocol.",
+      "Automates PR summaries, test suggestions, and release notes via plugins.",
+      "Dockerized dev environment for reproducible agent workflows."
+    ],
+    "metrics": [
+      "Automated 40% of release note drafting",
+      "Agent tasks execute in <25s on local hardware"
+    ]
+  },
+  {
+    "name": "Personal Website",
+    "slug": "personal-website",
+    "description": "Public portfolio and blog at mohamedfaridelsherbini.com built with Ktor, Kotlin DSL templates, and neon cyberpunk styling.",
+    "techStack": "Kotlin \u2022 Ktor \u2022 Docker \u2022 CSS Animations",
+    "category": "Open Source",
+    "highlights": [
+      "Neon glassmorphism design system rendered via server-side Kotlin DSL.",
+      "Custom deployment script orchestrating Docker builds on DigitalOcean.",
+      "Animated cursor, cluster cards, and cyberpunk typography."
+    ],
+    "metrics": [
+      "Lighthouse performance score 95+",
+      "<25 KB critical CSS delivered inline"
+    ],
+    "links": [
+      {
+        "label": "Live Site",
+        "url": "https://www.mohamedfaridelsherbini.com"
+      },
+      {
+        "label": "GitHub",
+        "url": "https://github.com/mohamedfaridelsherbini/personal_website"
+      }
+    ]
+  }
+]
