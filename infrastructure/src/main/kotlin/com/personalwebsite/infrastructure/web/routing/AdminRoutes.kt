@@ -1,7 +1,8 @@
 package com.personalwebsite.infrastructure.web.routing
 
-import io.ktor.http.HttpStatusCode
 import com.personalwebsite.infrastructure.admin.AdminContentService
+import io.ktor.http.HttpStatusCode
+import io.ktor.http.content.forEachPart
 import io.ktor.server.application.call
 import io.ktor.server.auth.authenticate
 import io.ktor.server.html.respondHtml
@@ -13,9 +14,27 @@ import io.ktor.server.routing.Route
 import io.ktor.server.routing.Routing
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
-import io.ktor.http.content.forEachPart
-import kotlinx.html.*
 import io.ktor.utils.io.core.readBytes
+import kotlinx.html.ButtonType
+import kotlinx.html.FormEncType
+import kotlinx.html.FormMethod
+import kotlinx.html.InputType
+import kotlinx.html.body
+import kotlinx.html.button
+import kotlinx.html.div
+import kotlinx.html.form
+import kotlinx.html.h1
+import kotlinx.html.h2
+import kotlinx.html.head
+import kotlinx.html.html
+import kotlinx.html.input
+import kotlinx.html.label
+import kotlinx.html.link
+import kotlinx.html.meta
+import kotlinx.html.p
+import kotlinx.html.style
+import kotlinx.html.textArea
+import kotlinx.html.title
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
@@ -36,21 +55,21 @@ fun Routing.adminRoutes(
                     link(rel = "icon", href = "/static/images/favicon-portrait.png", type = "image/png")
                     style {
                         +"""
-                        body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background: #0a0c10; color: #e4ecff; margin: 0; padding: 24px; }
-                        .layout { max-width: 1200px; margin: 0 auto; display: grid; gap: 20px; }
-                        .card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.35); }
-                        h1, h2 { margin: 0 0 12px 0; letter-spacing: 0.3px; }
-                        textarea { width: 100%; min-height: 220px; background: rgba(0,0,0,0.35); color: #e4ecff; border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; padding: 12px; font-family: 'JetBrains Mono', 'SFMono-Regular', ui-monospace, monospace; font-size: 14px; }
-                        label { display: block; margin-bottom: 8px; font-weight: 600; }
-                        button { background: linear-gradient(135deg, #00e0ff, #7c3aed); color: #0a0c10; border: none; border-radius: 10px; padding: 12px 16px; font-weight: 700; cursor: pointer; box-shadow: 0 12px 30px rgba(124, 58, 237, 0.35); }
-                        button:hover { transform: translateY(-1px); transition: 150ms ease-in-out; }
-                        .status { padding: 12px 14px; border-radius: 10px; font-weight: 600; }
-                        .status.success { background: rgba(16, 185, 129, 0.16); border: 1px solid rgba(16, 185, 129, 0.35); color: #bbf7d0; }
-                        .status.error { background: rgba(248, 113, 113, 0.16); border: 1px solid rgba(248, 113, 113, 0.35); color: #fecdd3; }
-                        .section-meta { display: flex; gap: 8px; font-size: 12px; opacity: 0.8; margin-top: 6px; }
-                        .upload-input { display: block; margin: 10px 0; color: #e4ecff; }
-                        .header { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-                        """.trimIndent()
+                        |body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background: #0a0c10; color: #e4ecff; margin: 0; padding: 24px; }
+                        |.layout { max-width: 1200px; margin: 0 auto; display: grid; gap: 20px; }
+                        |.card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.35); }
+                        |h1, h2 { margin: 0 0 12px 0; letter-spacing: 0.3px; }
+                        |textarea { width: 100%; min-height: 220px; background: rgba(0,0,0,0.35); color: #e4ecff; border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; padding: 12px; font-family: 'JetBrains Mono', 'SFMono-Regular', ui-monospace, monospace; font-size: 14px; }
+                        |label { display: block; margin-bottom: 8px; font-weight: 600; }
+                        |button { background: linear-gradient(135deg, #00e0ff, #7c3aed); color: #0a0c10; border: none; border-radius: 10px; padding: 12px 16px; font-weight: 700; cursor: pointer; box-shadow: 0 12px 30px rgba(124, 58, 237, 0.35); }
+                        |button:hover { transform: translateY(-1px); transition: 150ms ease-in-out; }
+                        |.status { padding: 12px 14px; border-radius: 10px; font-weight: 600; }
+                        |.status.success { background: rgba(16, 185, 129, 0.16); border: 1px solid rgba(16, 185, 129, 0.35); color: #bbf7d0; }
+                        |.status.error { background: rgba(248, 113, 113, 0.16); border: 1px solid rgba(248, 113, 113, 0.35); color: #fecdd3; }
+                        |.section-meta { display: flex; gap: 8px; font-size: 12px; opacity: 0.8; margin-top: 6px; }
+                        |.upload-input { display: block; margin: 10px 0; color: #e4ecff; }
+                        |.header { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+                        """.trimMargin()
                     }
                 }
                 body {

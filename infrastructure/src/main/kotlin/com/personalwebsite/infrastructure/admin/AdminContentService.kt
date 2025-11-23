@@ -38,11 +38,36 @@ class AdminContentService(
 
     private val sections =
         listOf(
-            ContentSection("personal-info", "Personal Info", "personal-info.json", contentRoot.resolve("personal-info.json")),
-            ContentSection("skills", "Skills", "skills.json", contentRoot.resolve("skills.json")),
-            ContentSection("work-experience", "Work Experience", "work-experience.json", contentRoot.resolve("work-experience.json")),
-            ContentSection("personal-projects", "Personal Projects", "personal-projects.json", contentRoot.resolve("personal-projects.json")),
-            ContentSection("languages", "Languages", "languages.json", contentRoot.resolve("languages.json")),
+            ContentSection(
+                id = "personal-info",
+                label = "Personal Info",
+                fileName = "personal-info.json",
+                path = contentRoot.resolve("personal-info.json"),
+            ),
+            ContentSection(
+                id = "skills",
+                label = "Skills",
+                fileName = "skills.json",
+                path = contentRoot.resolve("skills.json"),
+            ),
+            ContentSection(
+                id = "work-experience",
+                label = "Work Experience",
+                fileName = "work-experience.json",
+                path = contentRoot.resolve("work-experience.json"),
+            ),
+            ContentSection(
+                id = "personal-projects",
+                label = "Personal Projects",
+                fileName = "personal-projects.json",
+                path = contentRoot.resolve("personal-projects.json"),
+            ),
+            ContentSection(
+                id = "languages",
+                label = "Languages",
+                fileName = "languages.json",
+                path = contentRoot.resolve("languages.json"),
+            ),
         )
 
     init {
@@ -55,7 +80,10 @@ class AdminContentService(
 
     fun loadContent(): List<ContentPayload> = sections.map { ContentPayload(it, readSection(it)) }
 
-    fun updateContent(sectionId: String, rawJson: String): ContentPayload {
+    fun updateContent(
+        sectionId: String,
+        rawJson: String,
+    ): ContentPayload {
         val section =
             sections.find { it.id == sectionId }
                 ?: throw IllegalArgumentException("Unknown content section: $sectionId")
@@ -77,19 +105,29 @@ class AdminContentService(
         return ContentPayload(section, prettyJson)
     }
 
-    fun replaceResume(fileName: String?, bytes: ByteArray): Path {
+    fun replaceResume(
+        fileName: String?,
+        bytes: ByteArray,
+    ): Path {
         if (bytes.isEmpty()) {
             throw IllegalArgumentException("Uploaded resume file is empty")
         }
 
         val target = resumeDir.resolve(resumeFileName)
-        Files.write(target, bytes, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE)
+        Files.write(
+            target,
+            bytes,
+            StandardOpenOption.CREATE,
+            StandardOpenOption.TRUNCATE_EXISTING,
+            StandardOpenOption.WRITE,
+        )
         renderCache.clear()
         logger.info { "Replaced resume with ${fileName ?: resumeFileName}, stored at $target" }
         return target
     }
 
     fun resumeTargetPath(): Path = resumeDir.resolve(resumeFileName)
+
     fun resumeDirectory(): Path = resumeDir
 
     private fun readSection(section: ContentSection): String {
@@ -110,8 +148,17 @@ class AdminContentService(
         throw IllegalStateException("Missing content file ${section.fileName} and no classpath resource found")
     }
 
-    private fun writeFile(path: Path, content: String) {
-        Files.write(path, content.toByteArray(Charsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE)
+    private fun writeFile(
+        path: Path,
+        content: String,
+    ) {
+        Files.write(
+            path,
+            content.toByteArray(Charsets.UTF_8),
+            StandardOpenOption.CREATE,
+            StandardOpenOption.TRUNCATE_EXISTING,
+            StandardOpenOption.WRITE,
+        )
     }
 
     private fun resolveContentRoot(explicit: Path?): Path {
