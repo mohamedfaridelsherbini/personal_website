@@ -63,6 +63,7 @@ class PageHeadComponent {
     ) {
         val encodedDescription = metadata.description.escapeHtmlAttribute()
         builder.appendLine("    <meta charset=\"utf-8\"/>")
+        builder.appendLine("    <link crossorigin=\"\" href=\"https://fonts.googleapis.com\" rel=\"preconnect\"/>")
         builder.appendLine("    <link crossorigin=\"\" href=\"https://fonts.gstatic.com/\" rel=\"preconnect\"/>")
         builder.appendLine(
             "    <link as=\"style\" href=\"https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Spline+Sans%3Awght%40400%3B500%3B700\" onload=\"this.rel='stylesheet'\" rel=\"stylesheet\"/>",
@@ -83,6 +84,7 @@ class PageHeadComponent {
         builder.appendLine("    <meta property=\"og:title\" content=\"${metadata.title}\">")
         builder.appendLine("    <meta property=\"og:description\" content=\"$encodedDescription\">")
         builder.appendLine("    <meta property=\"og:url\" content=\"${metadata.canonicalUrl}\">")
+        builder.appendLine("    <meta property=\"og:site_name\" content=\"${metadata.title}\">")
         builder.appendLine("    <meta property=\"og:image\" content=\"${metadata.socialImageUrl}\">")
         builder.appendLine("    <meta name=\"twitter:card\" content=\"${metadata.twitterCard}\">")
         builder.appendLine("    <meta name=\"twitter:title\" content=\"${metadata.title}\">")

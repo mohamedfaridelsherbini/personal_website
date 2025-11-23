@@ -16,7 +16,7 @@
   --surface: rgba(12, 18, 26, 0.95);
   --surface-secondary: rgba(31, 47, 38, 0.6);
   --text-primary: #f8fbff;
-  --text-secondary: #9db7ba;
+  --text-secondary: #b7c6cc;
   --border: rgba(255, 255, 255, 0.08);
   --glow: 0 25px 90px rgba(94, 242, 255, 0.2);
   --gradient-start: #040b16;
@@ -188,6 +188,33 @@ header {
 .nav-link:hover::after,
 .nav-link.active::after {
   opacity: 1;
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 10px;
+  background: var(--primary-color);
+  color: #0a0c10;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  text-decoration: none;
+  z-index: 100;
+}
+
+.skip-link:focus-visible {
+  left: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 .nav-panel {
