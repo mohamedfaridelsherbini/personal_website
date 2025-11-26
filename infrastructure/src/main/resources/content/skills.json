@@ -1,7 +1,13 @@
 [
   {
     "category": "Languages",
-    "items": ["Kotlin", "Java", "Swift", "Python", "SQL"]
+    "items": [
+      "Kotlin",
+      "Java",
+      "Swift",
+      "Python",
+      "SQL"
+    ]
   },
   {
     "category": "Mobile & Architecture",
@@ -55,7 +61,18 @@
       "SAP Integration",
       "Unity 3D",
       "Arduino & IoT",
-      "Printed Circuit Boards"
+      "Printed Circuit Boards",
+      "SAP Integration",
+      "POS Hardware Integration",
+      "Embedded Systems"
+    ]
+  },
+  {
+    "category": "Spoken Languages",
+    "items": [
+      "Arabic (Native)",
+      "English (Fluent)",
+      "German (A1 - Currently Study A2)"
     ]
   }
 ]

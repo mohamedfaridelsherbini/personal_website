@@ -5,11 +5,13 @@ import com.personalwebsite.application.website.WebsiteQueries
 import com.personalwebsite.application.website.WebsiteService
 import com.personalwebsite.application.website.ports.RenderCache
 import com.personalwebsite.application.website.ports.WebsiteView
+import com.personalwebsite.domain.repositories.EducationRepository
 import com.personalwebsite.domain.repositories.LanguageRepository
 import com.personalwebsite.domain.repositories.PersonalInfoRepository
 import com.personalwebsite.domain.repositories.PersonalProjectRepository
 import com.personalwebsite.domain.repositories.SkillRepository
 import com.personalwebsite.domain.repositories.WorkExperienceRepository
+import com.personalwebsite.domain.usecases.GetEducationUseCase
 import com.personalwebsite.domain.usecases.GetLanguagesUseCase
 import com.personalwebsite.domain.usecases.GetPersonalInfoUseCase
 import com.personalwebsite.domain.usecases.GetPersonalProjectsUseCase
@@ -18,6 +20,7 @@ import com.personalwebsite.domain.usecases.GetWorkExperienceUseCase
 import com.personalwebsite.infrastructure.admin.AdminContentService
 import com.personalwebsite.infrastructure.cache.InMemoryRenderCache
 import com.personalwebsite.infrastructure.content.ContentLoader
+import com.personalwebsite.infrastructure.content.EducationRepositoryImpl
 import com.personalwebsite.infrastructure.content.LanguageRepositoryImpl
 import com.personalwebsite.infrastructure.content.PersonalInfoRepositoryImpl
 import com.personalwebsite.infrastructure.content.PersonalProjectRepositoryImpl
@@ -44,14 +47,18 @@ val appModule =
         single<SkillRepository> { SkillRepositoryImpl(contentLoader = get()) }
         single<WorkExperienceRepository> { WorkExperienceRepositoryImpl(contentLoader = get()) }
         single<PersonalProjectRepository> { PersonalProjectRepositoryImpl(contentLoader = get()) }
+        single<PersonalProjectRepository> { PersonalProjectRepositoryImpl(contentLoader = get()) }
         single<LanguageRepository> { LanguageRepositoryImpl(contentLoader = get()) }
+        single<EducationRepository> { EducationRepositoryImpl(contentLoader = get()) }
 
         // Use cases - these are pretty straightforward
         single { GetPersonalInfoUseCase(get()) }
         single { GetSkillsUseCase(get()) }
         single { GetWorkExperienceUseCase(get()) }
         single { GetPersonalProjectsUseCase(get()) }
+        single { GetPersonalProjectsUseCase(get()) }
         single { GetLanguagesUseCase(get()) }
+        single { GetEducationUseCase(get()) }
 
         // View - only have HTML view for now, might add others later
         single<WebsiteView> { HtmlWebsiteView() }
@@ -64,6 +71,7 @@ val appModule =
                 getWorkExperienceUseCase = get(),
                 getPersonalProjectsUseCase = get(),
                 getLanguagesUseCase = get(),
+                getEducationUseCase = get(),
                 websiteView = get(),
                 renderCache = get(),
             )

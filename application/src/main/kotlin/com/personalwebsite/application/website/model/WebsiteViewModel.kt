@@ -1,5 +1,6 @@
 package com.personalwebsite.application.website.model
 
+import com.personalwebsite.domain.entities.Education
 import com.personalwebsite.domain.entities.Language
 import com.personalwebsite.domain.entities.PersonalInfo
 import com.personalwebsite.domain.entities.PersonalProject
@@ -16,4 +17,5 @@ data class WebsiteViewModel(
     val workExperience: List<WorkExperience>,
     val personalProjects: List<PersonalProject>,
     val languages: List<Language>,
+    val education: List<Education>,
 )

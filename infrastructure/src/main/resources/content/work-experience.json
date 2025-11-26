@@ -5,13 +5,13 @@
     "location": "Munich, Germany",
     "period": "Sep 2022 \u2013 Present",
     "responsibilities": [
-      "Led the development of Android loan comparison features using Kotlin, MVI, Dagger Hilt, and Jetpack.",
-      "Refactored legacy codebase into a scalable multi-module architecture with full test coverage.",
-      "Built integration layers with backend microservices using Spring Boot and PostgreSQL.",
-      "Designed and implemented automation project for Android & iOS apps using Selenium and Appium.",
-      "Extended iOS development skills with Swift (Xcode, UIKit, SwiftUI) for feature parity and cross-team collaboration.",
-      "Maintained CI/CD pipelines with Docker and Kubernetes for consistent build environments.",
-      "Collaborated in Agile teams, contributing to sprint planning, retrospectives, and code reviews."
+      "Developed loan comparison features using Kotlin, Jetpack Compose, MVVM/MVI, and Dagger.",
+      "Refactored a large legacy codebase into a scalable multi-module architecture with full test coverage.",
+      "Built integration layers for Spring Boot microservices and REST APIs.",
+      "Delivered a cross-platform automation framework using Appium, Selenium, and Java.",
+      "Contributed to iOS features using Swift, UIKit, and SwiftUI.",
+      "Maintained CI/CD systems across Docker, Kubernetes, Jenkins, and GitHub Actions.",
+      "Collaborated in Agile teams on architecture, planning, and code reviews."
     ]
   },
   {
@@ -20,10 +20,10 @@
     "location": "Cairo, Egypt",
     "period": "Dec 2020 \u2013 Sep 2022",
     "responsibilities": [
-      "Developed Evntoo User & Provider apps using Kotlin, MVVM, Room, RxKotlin, Firebase.",
-      "Implemented payment gateways, encrypted storage, Google Maps, and location services.",
-      "Added full test coverage and continuous deployment via Jenkins.",
-      "Supported DevOps readiness with Docker configurations."
+      "Developed User & Provider apps using Kotlin, MVVM, Room, RxKotlin, and Firebase.",
+      "Implemented payment gateways, encrypted storage, and location-based features.",
+      "Built automated CI/CD pipelines using Jenkins and Docker.",
+      "Improved reliability through unit and UI test coverage."
     ]
   },
   {
@@ -32,10 +32,10 @@
     "location": "Cairo, Egypt",
     "period": "Feb 2019 \u2013 Dec 2020",
     "responsibilities": [
-      "Developed mRAK Government app and Fish Market apps using Kotlin, Room, SAP integrations.",
-      "Used MVI pattern, Coroutines, Firebase, and custom QR/Live chat integrations.",
-      "Wrote and maintained Unit and UI tests using JUnit and Espresso.",
-      "Performed secure API integration and optimized performance on low-end devices."
+      "Built enterprise and government apps using Kotlin, Room, Coroutines, SAP, and REST APIs.",
+      "Implemented MVI architecture, QR scanning, live chat, and Firebase modules.",
+      "Optimized performance for low-end devices and ensured secure API communication.",
+      "Delivered high-quality releases with JUnit, Mockito, and Espresso tests."
     ]
   },
   {
@@ -44,21 +44,22 @@
     "location": "Cairo, Egypt",
     "period": "Jan 2017 \u2013 Mar 2023",
     "responsibilities": [
-      "Created apps like GreenHub (plant community), FocusMusic, Little, Eleven.",
-      "Built backend integration-ready apps with clean architecture and full Firebase stack.",
-      "Participated in testing workflows and created CI pipelines using Docker locally."
+      "Developed consumer apps, including GreenHub (Kotlin, Firebase, Jetpack) and FocusMusic (Java, MediaPlayer).",
+      "Built REST API integrations and secure local storage.",
+      "Created local CI pipelines with Docker for testing and builds."
     ]
   },
   {
-    "company": "Various Companies (Mawared / Xpress Integration / SpotEG / Freelancer)",
+    "company": "Mawared / Xpress Integration / SpotEG / Freelancer",
     "position": "Android Developer",
-    "location": "Cairo, Egypt",
+    "location": "Egypt",
     "period": "2014 \u2013 2019",
     "responsibilities": [
-      "Delivered 15+ apps, including HR systems, attendance apps, and fantasy football platforms.",
-      "Technologies: Java, Kotlin, MVVM, MVP, Retrofit, Fingerprint SDKs.",
-      "Built ERP tools with POS printer integration, map APIs, and testing modules.",
-      "Developed Android libraries (custom calendar, fingerprint API wrappers)."
+      "Delivered 15+ Android apps for HR, attendance, and enterprise systems uing Java/Kotlin.",
+      "Built SPL Fantasy (fantasy football app \u2013 Kotlin, MVVM) and Fingerprint Attendance App (hardware SDKs, ZKteco).",
+      "Developed reusable Android libraries including a custom calendar component.",
+      "Worked with Retrofit, Maps SDK, POS printer integrations, and embedded hardware.",
+      "Implemented robust API integrations, testing practices, and performance optimization."
     ]
   }
 ]

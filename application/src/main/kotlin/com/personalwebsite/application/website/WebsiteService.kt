@@ -7,6 +7,7 @@ import com.personalwebsite.application.website.ports.RenderCache
 import com.personalwebsite.application.website.ports.WebsiteView
 import com.personalwebsite.domain.entities.PersonalInfo
 import com.personalwebsite.domain.entities.PersonalProject
+import com.personalwebsite.domain.usecases.GetEducationUseCase
 import com.personalwebsite.domain.usecases.GetLanguagesUseCase
 import com.personalwebsite.domain.usecases.GetPersonalInfoUseCase
 import com.personalwebsite.domain.usecases.GetPersonalProjectsUseCase
@@ -23,6 +24,7 @@ class WebsiteService(
     private val getWorkExperienceUseCase: GetWorkExperienceUseCase,
     private val getPersonalProjectsUseCase: GetPersonalProjectsUseCase,
     private val getLanguagesUseCase: GetLanguagesUseCase,
+    private val getEducationUseCase: GetEducationUseCase,
     private val websiteView: WebsiteView,
     private val renderCache: RenderCache,
 ) : WebsiteQueries {
@@ -45,6 +47,7 @@ class WebsiteService(
                 val workExperience = getWorkExperienceUseCase()
                 val personalProjects = getPersonalProjectsUseCase()
                 val languages = getLanguagesUseCase()
+                val education = getEducationUseCase()
 
                 logger.debug {
                     "Loaded ${skills.size} skill categories, ${workExperience.size} work experiences, ${personalProjects.size} projects"
@@ -57,6 +60,7 @@ class WebsiteService(
                         workExperience = workExperience,
                         personalProjects = personalProjects,
                         languages = languages,
+                        education = education,
                     )
 
                 val metadata = buildHomeMetadata(personalInfo)
@@ -85,6 +89,7 @@ class WebsiteService(
                 val workExperience = getWorkExperienceUseCase()
                 val personalProjects = getPersonalProjectsUseCase()
                 val languages = getLanguagesUseCase()
+                val education = getEducationUseCase()
 
                 val project =
                     personalProjects.find { it.slug == slug }
@@ -97,6 +102,7 @@ class WebsiteService(
                         workExperience = workExperience,
                         personalProjects = personalProjects,
                         languages = languages,
+                        education = education,
                     )
 
                 val metadata = buildProjectMetadata(personalInfo.name, project)

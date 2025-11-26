@@ -1,5 +1,19 @@
 [
   {
+    "name": "Little",
+    "description": "A consumer app developed at Felucca.",
+    "techStack": "Android • Kotlin • Firebase",
+    "slug": "little",
+    "category": "Consumer App"
+  },
+  {
+    "name": "Eleven",
+    "description": "A consumer app developed at Felucca.",
+    "techStack": "Android • Kotlin • Firebase",
+    "slug": "eleven",
+    "category": "Consumer App"
+  },
+  {
     "name": "SPL Fantasy",
     "slug": "spl-fantasy",
     "description": "Fantasy football platform for the Saudi Pro League with live match data, player stats, and biometric-secured logins.",

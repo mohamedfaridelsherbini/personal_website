@@ -57,6 +57,12 @@ class AdminContentService(
                 path = contentRoot.resolve("work-experience.json"),
             ),
             ContentSection(
+                id = "education",
+                label = "Education",
+                fileName = "education.json",
+                path = contentRoot.resolve("education.json"),
+            ),
+            ContentSection(
                 id = "personal-projects",
                 label = "Personal Projects",
                 fileName = "personal-projects.json",

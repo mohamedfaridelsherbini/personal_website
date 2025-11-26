@@ -22,11 +22,16 @@ object SkillsSectionComponent {
         )
         builder.appendLine("                <div class=\"skills-grid\">")
         skills.forEach { skill ->
-            builder.appendLine("                    <div class=\"skill-cluster cluster-card\">")
-            builder.appendLine("                        <div class=\"skill-cluster-header\">")
-            builder.appendLine("                            <span class=\"skill-cluster-badge\">${skill.category}</span>")
+            val categoryClass = "skill-cat-" + skill.category.lowercase()
+                .replace(" & ", "-")
+                .replace(" ", "-")
+                .replace("/", "-")
+
+            builder.appendLine("                    <div class=\"skill-group $categoryClass\">")
+            builder.appendLine("                        <div class=\"skill-group-header\">")
+            builder.appendLine("                            <span class=\"skill-group-title\">${skill.category}</span>")
             builder.appendLine("                        </div>")
-            builder.appendLine("                        <div class=\"skill-cluster-tags\">")
+            builder.appendLine("                        <div class=\"skill-tags\">")
             skill.items.forEach { item ->
                 builder.appendLine("                            <div class=\"skill-tag\">$item</div>")
             }

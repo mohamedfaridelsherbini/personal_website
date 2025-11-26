@@ -3,6 +3,7 @@ package com.personalwebsite.application.website
 import com.google.gson.Gson
 import com.personalwebsite.application.website.ports.RenderCache
 import com.personalwebsite.application.website.ports.WebsiteView
+import com.personalwebsite.domain.usecases.GetEducationUseCase
 import com.personalwebsite.domain.usecases.GetLanguagesUseCase
 import com.personalwebsite.domain.usecases.GetPersonalInfoUseCase
 import com.personalwebsite.domain.usecases.GetPersonalProjectsUseCase
@@ -10,6 +11,7 @@ import com.personalwebsite.domain.usecases.GetSkillsUseCase
 import com.personalwebsite.domain.usecases.GetWorkExperienceUseCase
 import com.personalwebsite.infrastructure.cache.InMemoryRenderCache
 import com.personalwebsite.infrastructure.content.ContentLoader
+import com.personalwebsite.infrastructure.content.EducationRepositoryImpl
 import com.personalwebsite.infrastructure.content.LanguageRepositoryImpl
 import com.personalwebsite.infrastructure.content.PersonalInfoRepositoryImpl
 import com.personalwebsite.infrastructure.content.PersonalProjectRepositoryImpl
@@ -41,12 +43,14 @@ class WebsiteViewSnapshotTest {
         val workRepository = WorkExperienceRepositoryImpl(loader)
         val projectRepository = PersonalProjectRepositoryImpl(loader)
         val languageRepository = LanguageRepositoryImpl(loader)
+        val educationRepository = EducationRepositoryImpl(loader)
 
         val getPersonalInfo = GetPersonalInfoUseCase(personalInfoRepository)
         val getSkills = GetSkillsUseCase(skillRepository)
         val getWork = GetWorkExperienceUseCase(workRepository)
         val getProjects = GetPersonalProjectsUseCase(projectRepository)
         val getLanguages = GetLanguagesUseCase(languageRepository)
+        val getEducation = GetEducationUseCase(educationRepository)
 
         websiteView = HtmlWebsiteView()
         renderCache = InMemoryRenderCache()
@@ -57,6 +61,7 @@ class WebsiteViewSnapshotTest {
                 getWorkExperienceUseCase = getWork,
                 getPersonalProjectsUseCase = getProjects,
                 getLanguagesUseCase = getLanguages,
+                getEducationUseCase = getEducation,
                 websiteView = websiteView,
                 renderCache = renderCache,
             )

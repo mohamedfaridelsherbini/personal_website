@@ -23,7 +23,7 @@ class ProjectPageRenderer(
             appendLine("<!DOCTYPE html>")
             appendLine("<html lang=\"en\">")
             headComponent.appendProjectHead(this, page.metadata, personalInfo)
-            appendLine("<body class=\"bg-[#111714] font-['Spline_Sans']\">")
+            appendLine("<body>")
             appendLine("    <a class=\"skip-link\" href=\"#main\">Skip to content</a>")
             HeaderComponent.appendProjectHeader(this, personalInfo)
             appendLine("    <main id=\"main\" class=\"project-detail\">")
