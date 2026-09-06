@@ -1,120 +1,96 @@
 # Deployment Guide
 
-This project can be deployed to various cloud platforms. Here are the most common deployment options:
+Production runs on **Cloud Run** (container) behind **Firebase Hosting** (custom domain, CDN, TLS). GitHub Actions builds and deploys on every push to `main`. The old droplet/Docker Compose path is kept below as a legacy/local option only.
 
 ## Prerequisites
 
-- Java 17 or higher
-- Docker (for containerized deployment)
-- Cloud platform account (DigitalOcean, AWS, Google Cloud, etc.)
+- Java 21
+- Docker (for local container testing)
+- A Google Cloud project with billing enabled and Firebase added to it (this repo targets `personal-website-d0cd0` via `.firebaserc`)
+- `gcloud` and `firebase` CLIs installed locally for one-time setup and manual deploys
 
 ## Local Development
 
 ```bash
-# Run the application locally
-./gradlew run
-
+./gradlew :bootstrap:run
 # Access at http://localhost:8080
 ```
 
-## Docker Deployment
-
-### Build and Run with Docker
+## Docker (local only)
 
 ```bash
-# Build the Docker image
 docker build -t personal-website .
-
-# Run the container
 docker run -p 8080:8080 personal-website
-```
-
-### Docker Compose
-
-```bash
-# Use the provided docker-compose.yml
+# or
 docker-compose up -d
 ```
 
-## Cloud Platform Deployment
+The `Dockerfile` is a multi-stage build (Gradle build stage → slim JRE runtime stage), so it builds from source — no pre-built jar is required, which lets Cloud Build run it directly via `gcloud run deploy --source .`.
 
-### DigitalOcean App Platform
+## Cloud Run + Firebase Hosting
 
-1. Connect your GitHub repository
-2. Set build command: `./gradlew build --no-daemon`
-3. Set run command: `java -jar build/libs/personal-website-1.0-SNAPSHOT.jar`
-4. Deploy
+### One-time GCP setup
 
-### Heroku
+Run these yourself (they need your authenticated `gcloud`/`firebase` session):
 
-1. Create a `Procfile`:
-   ```
-   web: java -jar build/libs/personal-website-1.0-SNAPSHOT.jar
-   ```
-2. Deploy using Heroku CLI or GitHub integration
+```bash
+gcloud auth login
+gcloud config set project personal-website-d0cd0
 
-### AWS/GCP/Azure
+gcloud services enable run.googleapis.com artifactregistry.googleapis.com cloudbuild.googleapis.com
 
-Use container services like:
-- AWS ECS/Fargate
-- Google Cloud Run
-- Azure Container Instances
+# Service account GitHub Actions will deploy as
+gcloud iam service-accounts create gh-deployer --display-name "GitHub Actions Deployer"
 
-## Environment Variables
+for role in roles/run.admin roles/artifactregistry.writer roles/iam.serviceAccountUser roles/firebasehosting.admin roles/cloudbuild.builds.editor roles/storage.admin; do
+  gcloud projects add-iam-policy-binding personal-website-d0cd0 \
+    --member="serviceAccount:gh-deployer@personal-website-d0cd0.iam.gserviceaccount.com" \
+    --role="$role"
+done
 
-Configure the application via environment variables when deploying:
+gcloud iam service-accounts keys create gh-deployer-key.json \
+  --iam-account=gh-deployer@personal-website-d0cd0.iam.gserviceaccount.com
+```
 
-- `PORT`: Server port (default: 8080)
-- `HOST`: Server host (default: 0.0.0.0)
+Add the contents of `gh-deployer-key.json` as a GitHub secret named `GCP_SA_KEY` (Settings → Environments → **Deploy info**), then delete the local file — it's a live credential. Also add:
 
-## Production Considerations
+- `GCP_PROJECT_ID` = `personal-website-d0cd0`
+- `ADMIN_USER` / `ADMIN_PASSWORD` — protects `/admin` (same as before)
 
-- Terminate TLS via a reverse proxy (Nginx, Caddy, Cloudflare Tunnel, etc.).
-- Configure structured logging and metrics exporters.
-- Keep secrets (API keys, deploy scripts) outside the public repo.
-- Automate health checks and uptime monitors to detect regressions quickly.
+### First manual deploy (verifies everything before wiring CI)
 
-## Automated Deployments
+```bash
+gcloud run deploy personal-website \
+  --source . \
+  --project personal-website-d0cd0 \
+  --region europe-west3 \
+  --allow-unauthenticated \
+  --set-env-vars "SITE_BASE_URL=https://www.mohamedfaridelsherbini.com"
 
-`.deploy.sh` automates the same workflow you would run manually on the droplet (pull latest code, rebuild the Docker image, restart the container, and run a health check). The GitHub Actions deploy job writes `.deploy.env` on the droplet each run using repository secrets/variables so sensitive values never enter git. For manual runs, create the file from `.deploy.env.sample`, keep it on the server, and do **not** commit it.
+firebase deploy --only hosting --project personal-website-d0cd0
+```
+
+### Custom domain
+
+In the Firebase console: **Hosting → Add custom domain** → `www.mohamedfaridelsherbini.com` (and the apex if desired). Firebase gives you TXT/A/CNAME records to add at your DNS registrar; propagation + TLS issuance can take up to 24h. Keep the domain pointed at Firebase Hosting, not directly at Cloud Run — Hosting is what terminates TLS and applies the `firebase.json` rewrite to the Cloud Run service.
+
+### Continuous deployment
+
+`.github/workflows/deploy-cloud-run.yml` runs after `.github/workflows/ci.yml` succeeds on `main`: it authenticates as `gh-deployer` via `google-github-actions/auth`, runs `gcloud run deploy --source .` (Cloud Build builds the Dockerfile), then `firebase deploy --only hosting` to keep the rewrite current.
+
+### Storage note
+
+Cloud Run's filesystem is ephemeral per revision/instance. The `/admin` panel's "save" writes JSON content and résumé uploads to local disk (`CONTENT_DIR`/`RESUME_DIR`) — on Cloud Run those edits do **not** persist across redeploys or scale-to-zero. If in-browser content editing needs to survive, migrate `AdminContentService` to Cloud Storage/Firestore first. For now, content changes should go through git (edit the JSON in `infrastructure/src/main/resources/content/`, commit, push).
 
 ## Uptime Monitoring
 
-Use the `bin/uptime-check.sh` helper to verify that the production site stays reachable.
+`bin/uptime-check.sh` still works against any URL:
 
-Run it manually (replace the URL with your production domain):
 ```bash
 LOG_PATH=/var/log/personal-website-uptime.log \
-bin/uptime-check.sh https://example.com
+bin/uptime-check.sh https://www.mohamedfaridelsherbini.com
 ```
 
-To check automatically every 5 minutes on the droplet, add a cron entry:
-```bash
-*/5 * * * * LOG_PATH=/var/log/personal-website-uptime.log /opt/personal-website/bin/uptime-check.sh https://example.com
-```
-The script only logs failures (and returns a non-zero exit code so cron can alert you by email if configured).
+## Legacy: DigitalOcean droplet
 
-## Continuous Integration
-
-GitHub Actions (`.github/workflows/ci.yml`) now handles build + deploy:
-
-1. **Build job** runs on every push/PR to `main`: checks out code, sets up Temurin JDK 21, runs ktlint/tests, builds `:bootstrap:shadowJar`, and uploads `dist/app-all.jar` as a workflow artifact.
-2. **Deploy job** runs only on pushes to `main`: downloads the artifact, uploads `dist/app-all.jar` and `.deploy.sh` to the droplet, regenerates `.deploy.env`, then executes `.deploy.sh` in `sync`, `deploy`, and `health` modes.
-
-Required environment secrets (store them under **Settings → Environments → Deploy info** so the deploy job can read them):
-
-- `DEPLOY_HOST` – Droplet IP/hostname
-- `DEPLOY_USER` – SSH user (e.g., `root`)
-- `DEPLOY_SSH_KEY` – Private key with access to the droplet
-- `DEPLOY_PATH` – Path to the project on the droplet (e.g., `/opt/personal-website`)
-
-Optional repository variables (override defaults baked into `.deploy.sh`):
-
-- `DEPLOY_BRANCH`
-- `DEPLOY_IMAGE_NAME`
-- `DEPLOY_CONTAINER_NAME`
-- `DEPLOY_CONTAINER_PORT`
-- `DEPLOY_PUBLIC_PORT`
-- `DEPLOY_HEALTHCHECK_URL`
-
-The Dockerfile now expects the pre-built jar at `dist/app-all.jar`, so deployments reuse Actions artifacts instead of rebuilding inside the container.
+The droplet path (`.deploy.sh`, `docker-compose.yml`, `.do/app.yaml`) is no longer wired into CI but is left in the repo in case you need a fallback. See git history before this migration for the old `ci.yml` deploy job and required `DEPLOY_HOST`/`DEPLOY_USER`/`DEPLOY_SSH_KEY`/`DEPLOY_PATH` secrets.

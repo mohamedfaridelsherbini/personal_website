@@ -1,17 +1,17 @@
-# Personal Website (Neon Portfolio)
+# Personal Website (Datasheet)
 
-A neon/cyberpunk-themed portfolio for **Mohamed ElSherbini** built with Kotlin + Ktor. Structured JSON content flows through a clean architecture stack to render snapshot-tested HTML pages with glowing cluster cards, project case studies, and animated UI flourishes. The repository is public, so keep secrets in GitHub Actions or droplet env files rather than committing them.
+A schematic/engineering-drawing portfolio for **Mohamed ElSherbini** built with Kotlin + Ktor. Structured JSON content flows through a clean architecture stack to render snapshot-tested HTML pages with a blueprint dimension-line timeline, wire-color-coded projects, and project case studies. Visual tokens live in [`DESIGN.md`](DESIGN.md); design screens are in [`design/`](design/). The repository is public, so keep secrets in GitHub Actions/Google Cloud rather than committing them.
 
-> Latest refresh (Q1 2025): modularized the renderer, introduced JSON-backed repositories with caching, and kicked off the Hexagonal Architecture migration while wiring GitHub Actions + ktlint quality gates.
+> Latest refresh (2026): Datasheet design system, migration from a DigitalOcean droplet to Cloud Run + Firebase Hosting.
 
 ## Highlights
 
 - ⚙️ **Kotlin + Ktor** backend with `kotlinx.html` templates and modular view components
 - 🧠 **Domain-driven data flow** – repositories feed a typed view model per page
-- ✨ **Neon UI system** – cluster cards, glassmorphism, animated cursor, and SVG flourishes
+- ✨ **Datasheet UI** – paper ground, hairline rules, blueprint timeline spine, wire-coded categories
 - 📚 **Structured content** – résumé data lives in `infrastructure/src/main/resources/content/*.json`
 - 🧪 **Snapshot-tested renderer** – golden files guard against accidental regressions
-- 🚀 **Automation ready** – `.deploy.sh`, GitHub Actions pipeline, uptime checker, and ktlint gate
+- 🚀 **Automation ready** – GitHub Actions → Cloud Run + Firebase Hosting pipeline, uptime checker, and ktlint gate
 
 ## Quick Start
 
@@ -21,7 +21,7 @@ A neon/cyberpunk-themed portfolio for **Mohamed ElSherbini** built with Kotlin +
    ```bash
    ./gradlew :bootstrap:run
    ```
-4. Visit `http://localhost:8080` to see the neon UI.
+4. Visit `http://localhost:8080` to see the site.
 
 Need the full development walkthrough (tests, lint, fat JAR, snapshot updates)? See the docs below.
 
@@ -34,46 +34,36 @@ Need the full development walkthrough (tests, lint, fat JAR, snapshot updates)? 
 
 ## Documentation
 
+- [`DESIGN.md`](DESIGN.md) – design tokens and UI rules ([DESIGN.md spec](https://github.com/google-labs-code/design.md)); validate with `npx @google/design.md lint DESIGN.md`.
 - [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) – prerequisites, seeding JSON data, running, testing, linting.
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) – clean architecture overview, project layout, customization tips.
-- [`DEPLOYMENT.md`](DEPLOYMENT.md) – Docker builds, droplet automation, uptime monitoring, GitHub Actions workflow.
+- [`DEPLOYMENT.md`](DEPLOYMENT.md) – Cloud Run + Firebase Hosting setup, Docker builds, uptime monitoring, GitHub Actions workflow.
 - [`docs/ROADMAP.md`](docs/ROADMAP.md) – upcoming enhancements and future experiments.
 
 ## Deployment Overview
 
-Quick steps (details live in `DEPLOYMENT.md`):
+Production is **Cloud Run** (container) behind **Firebase Hosting** (custom domain + TLS). Full one-time setup and manual-deploy commands live in `DEPLOYMENT.md`; the short version:
 
-1. **Prepare the droplet:** clone this repo to `/opt/personal-website`, install Docker, and create `.deploy.env` from the sample (contains host, branch, image/container names, ports, health URL). Keep this file on the droplet only.
-2. **Build locally (optional):** `./gradlew --build-cache :bootstrap:shadowJar` produces `dist/app-all.jar`. Running `.deploy.sh deploy` locally with `DEPLOY_RUN_LOCAL=true` can double-check Docker builds before pushing.
-3. **Automated path (recommended):** GitHub Actions (`.github/workflows/ci.yml`) runs ktlint + tests, builds the fat JAR, then uploads it and `.deploy.sh` to the droplet. Set environment-level secrets `DEPLOY_HOST`, `DEPLOY_USER`, `DEPLOY_SSH_KEY`, and `DEPLOY_PATH` (under Repository Settings → Environments) so only the `Deploy info` environment can read them (the deploy job is pinned to that environment).
-4. **Manual path:** From your workstation run:
+1. **CI** (`.github/workflows/ci.yml`) runs ktlint + tests + a `shadowJar` build sanity check on every push/PR.
+2. **Deploy** (`.github/workflows/deploy-cloud-run.yml`) runs after CI succeeds on `main`: authenticates as a `gh-deployer` service account, runs `gcloud run deploy --source .` (Cloud Build builds the multi-stage `Dockerfile`), then `firebase deploy --only hosting` to keep the Hosting → Cloud Run rewrite current.
+3. **Manual deploy** (emergencies, or the first run):
    ```bash
-   scp dist/app-all.jar root@<droplet>:/opt/personal-website/dist/app-all.jar
-   ssh root@<droplet> "cd /opt/personal-website && ./deploy.sh sync && ARTIFACT_PATH=dist/app-all.jar ./deploy.sh deploy && ./deploy.sh health"
+   gcloud run deploy personal-website --source . --project personal-website-d0cd0 --region europe-west3 --allow-unauthenticated
+   firebase deploy --only hosting --project personal-website-d0cd0
    ```
-   This mirrors the CI workflow for emergencies.
 
-`.deploy.sh` handles git pull, Docker build, container restart, and the post-deploy health check for both manual and automated runs.
+The DigitalOcean droplet path (`.deploy.sh`, `docker-compose.yml`, `.do/app.yaml`) is no longer wired into CI and is kept only as a legacy fallback.
 
 ## Security & Secrets
 
-This GitHub repository stays **public**, so never commit API keys, SSH keys, or `.env` files. Keep runtime configuration in `.deploy.env` on the droplet and surface deployment credentials through GitHub Actions environment secrets (`DEPLOY_HOST`, `DEPLOY_USER`, `DEPLOY_SSH_KEY`, `DEPLOY_PATH`). Optional repository variables (`DEPLOY_BRANCH`, `DEPLOY_IMAGE_NAME`, `DEPLOY_CONTAINER_NAME`, `DEPLOY_CONTAINER_PORT`, `DEPLOY_PUBLIC_PORT`, `DEPLOY_HEALTHCHECK_URL`) let the workflow generate `.deploy.env` automatically each run, so no sensitive data ever lands in git history.
+This GitHub repository stays **public**, so never commit API keys, service-account JSON keys, or `.env` files. Deployment credentials live in GitHub Actions environment secrets only.
 
 ### GitHub Actions configuration checklist
 
 Environment secrets (Settings → Environments → `Deploy info` → Secrets):
-- `DEPLOY_HOST` – droplet IP/host
-- `DEPLOY_USER` – SSH username (e.g., `root`)
-- `DEPLOY_SSH_KEY` – private key with access to the droplet
-- `DEPLOY_PATH` – absolute path to the project on the droplet (e.g., `/opt/personal-website`)
-
-Repository variables (Settings → Secrets and variables → Actions → Variables) – optional overrides used when generating `.deploy.env`:
-- `DEPLOY_BRANCH` (default `main`)
-- `DEPLOY_IMAGE_NAME` (default `personal-website:latest`)
-- `DEPLOY_CONTAINER_NAME` (default `personal-website-container`)
-- `DEPLOY_CONTAINER_PORT` (default `8080`)
-- `DEPLOY_PUBLIC_PORT` (default `8080`)
-- `DEPLOY_HEALTHCHECK_URL` (default `https://www.mohamedfaridelsherbini.com`)
+- `GCP_SA_KEY` – JSON key for the `gh-deployer` service account (Cloud Run admin, Artifact Registry writer, Firebase Hosting admin, Cloud Build editor)
+- `GCP_PROJECT_ID` – `personal-website-d0cd0`
+- `ADMIN_USER` / `ADMIN_PASSWORD` – protects `/admin` on the deployed service
 
 ## Tech Stack
 
