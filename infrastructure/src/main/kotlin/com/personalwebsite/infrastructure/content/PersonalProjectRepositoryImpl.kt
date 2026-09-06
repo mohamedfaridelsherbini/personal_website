@@ -27,6 +27,7 @@ class PersonalProjectRepositoryImpl(
         val highlights: List<String>? = null,
         val metrics: List<String>? = null,
         val links: List<ProjectLink>? = null,
+        val featured: Boolean? = null,
     ) {
         fun toDomain(): PersonalProject =
             PersonalProject(
@@ -41,6 +42,7 @@ class PersonalProjectRepositoryImpl(
                 highlights = highlights ?: emptyList(),
                 metrics = metrics ?: emptyList(),
                 links = links ?: emptyList(),
+                featured = featured ?: false,
             )
     }
 }

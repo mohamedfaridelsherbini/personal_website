@@ -1744,3 +1744,169 @@ main {
   .project-title { font-size: 16px; }
   .project-description { font-size: 13px; }
 }
+/* Projects Section: filter chips */
+.projects-filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 1px solid var(--line);
+  background: var(--paper-bright);
+  color: var(--text-secondary);
+}
+
+.filter-chip.active {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper-bright);
+}
+
+.filter-chip-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* Projects Section: featured spotlight */
+.featured-projects-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+.featured-project-card {
+  flex: 1 1 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 32px;
+  border-radius: 0;
+  background: var(--paper-bright);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--wire-color, var(--signal-orange));
+  text-decoration: none;
+  transition: transform 0.15s var(--ease-default), box-shadow 0.15s var(--ease-default);
+}
+
+.featured-project-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-md);
+}
+
+.featured-project-title {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+
+.featured-project-description {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.featured-project-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.metric-chip {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 0;
+  border: 1px solid var(--line);
+  background: var(--paper-dim);
+  color: var(--text-primary);
+}
+
+/* Projects Section: "All Projects" grid */
+.all-projects-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.all-projects-title {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+
+.all-projects-count {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+.all-projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+/* Wire colors for filter chips, badges, and featured cards */
+.filter-chip.category-sports-fantasy,
+.project-category.category-sports-fantasy,
+.featured-project-card.category-sports-fantasy { --wire-color: var(--wire-red); }
+
+.filter-chip.category-enterprise,
+.project-category.category-enterprise,
+.featured-project-card.category-enterprise { --wire-color: var(--wire-teal); }
+
+.filter-chip.category-consumer-app,
+.project-category.category-consumer-app,
+.featured-project-card.category-consumer-app,
+.filter-chip.category-social-app,
+.project-category.category-social-app,
+.featured-project-card.category-social-app { --wire-color: var(--wire-blue); }
+
+.filter-chip.category-wellness,
+.project-category.category-wellness,
+.featured-project-card.category-wellness { --wire-color: var(--wire-green); }
+
+.filter-chip.category-library,
+.project-category.category-library,
+.featured-project-card.category-library { --wire-color: var(--wire-violet); }
+
+.filter-chip.category-automation-devops,
+.project-category.category-automation-devops,
+.featured-project-card.category-automation-devops { --wire-color: var(--wire-amber); }
+
+.filter-chip.category-open-source,
+.project-category.category-open-source,
+.featured-project-card.category-open-source { --wire-color: var(--wire-copper); }
+
+.filter-chip[class*="category-"] {
+  border-color: var(--wire-color);
+  color: var(--wire-color);
+}
+
+.project-category[class*="category-"] {
+  border-color: var(--wire-color);
+  color: var(--wire-color);
+}

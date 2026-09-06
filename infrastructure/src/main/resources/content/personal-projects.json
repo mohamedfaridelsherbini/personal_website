@@ -19,6 +19,7 @@
     "description": "Fantasy football platform for the Saudi Pro League with live match data, player stats, and biometric-secured logins.",
     "techStack": "Kotlin \u2022 MVVM \u2022 Fingerprint SDKs \u2022 Retrofit",
     "category": "Sports / Fantasy",
+    "featured": true,
     "role": "Lead Android Engineer",
     "timeline": "2018 \u2013 2019",
     "highlights": [
@@ -140,6 +141,7 @@
     "description": "Local LLM-based MCP implementation tailored for developer automation, task routing, and repo intelligence.",
     "techStack": "Kotlin \u2022 Python \u2022 MCP \u2022 Docker \u2022 AI Tooling",
     "category": "Open Source",
+    "featured": true,
     "timeline": "2024 \u2013 Present",
     "highlights": [
       "Bridges Kotlin services with local LLMs using the Model Context Protocol.",
@@ -148,7 +150,7 @@
     ],
     "metrics": [
       "Automated 40% of release note drafting",
-      "Agent tasks execute in <25s on local hardware"
+      "Agent tasks execute in under 25s on local hardware"
     ]
   },
   {

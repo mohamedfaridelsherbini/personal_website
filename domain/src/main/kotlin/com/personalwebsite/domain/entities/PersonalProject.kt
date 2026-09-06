@@ -15,6 +15,7 @@ data class PersonalProject(
     val highlights: List<String> = emptyList(),
     val metrics: List<String> = emptyList(),
     val links: List<ProjectLink> = emptyList(),
+    val featured: Boolean = false,
 )
 
 data class ProjectLink(
