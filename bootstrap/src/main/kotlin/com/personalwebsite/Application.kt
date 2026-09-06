@@ -2,8 +2,8 @@ package com.personalwebsite
 
 import com.personalwebsite.application.website.WebsiteQueries
 import com.personalwebsite.di.appModule
-import com.personalwebsite.infrastructure.admin.AdminContentService
 import com.personalwebsite.domain.usecases.GetPersonalProjectsUseCase
+import com.personalwebsite.infrastructure.admin.AdminContentService
 import com.personalwebsite.infrastructure.web.routing.registerRoutes
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
