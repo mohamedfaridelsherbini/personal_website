@@ -32,17 +32,23 @@ object AboutSectionComponent {
         builder.appendLine("                    <div class=\"about-card\">")
         builder.appendLine("                        <div class=\"about-card-icon\">🏗️</div>")
         builder.appendLine("                        <h3 class=\"about-card-title\">Composable Architecture</h3>")
-        builder.appendLine("                        <p class=\"about-card-desc\">Modular Kotlin bases, KMP adoption, and Jetpack Compose design systems that scale across brands.</p>")
+        builder.appendLine(
+            "                        <p class=\"about-card-desc\">Modular Kotlin bases, KMP adoption, and Jetpack Compose design systems that scale across brands.</p>",
+        )
         builder.appendLine("                    </div>")
         builder.appendLine("                    <div class=\"about-card\">")
         builder.appendLine("                        <div class=\"about-card-icon\">📊</div>")
         builder.appendLine("                        <h3 class=\"about-card-title\">Observability & Automation</h3>")
-        builder.appendLine("                        <p class=\"about-card-desc\">Selenium/Appium frameworks, Jenkins pipelines, and live dashboards keeping KPIs in sight.</p>")
+        builder.appendLine(
+            "                        <p class=\"about-card-desc\">Selenium/Appium frameworks, Jenkins pipelines, and live dashboards keeping KPIs in sight.</p>",
+        )
         builder.appendLine("                    </div>")
         builder.appendLine("                    <div class=\"about-card\">")
         builder.appendLine("                        <div class=\"about-card-icon\">🛡️</div>")
         builder.appendLine("                        <h3 class=\"about-card-title\">Reliability First</h3>")
-        builder.appendLine("                        <p class=\"about-card-desc\">Performance and security-first mobile experiences for millions of users in finance and regulated sectors.</p>")
+        builder.appendLine(
+            "                        <p class=\"about-card-desc\">Performance and security-first mobile experiences for millions of users in finance and regulated sectors.</p>",
+        )
         builder.appendLine("                    </div>")
         builder.appendLine("                </div>")
 

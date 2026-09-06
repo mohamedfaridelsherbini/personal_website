@@ -9,14 +9,14 @@ object EducationSectionComponent {
     ) {
         if (education.isEmpty()) return
 
-        builder.appendLine("        <section class=\"page-section\" id=\"education\">")
-        builder.appendLine("            <div class=\"section-container\">")
-        builder.appendLine("                <div class=\"section-header\">")
+        builder.appendLine("        <section class=\"page-section\" id=\"education\" data-scroll-target=\"education\">")
+        builder.appendLine("            <div class=\"page-content\">")
+        builder.appendLine("                <div class=\"section-heading\">")
+        builder.appendLine("                    <p class=\"section-kicker\">Credentials</p>")
         builder.appendLine("                    <h2 class=\"section-title\">Education</h2>")
-        builder.appendLine("                    <p class=\"section-subtitle\">Academic background and qualifications.</p>")
         builder.appendLine("                </div>")
         builder.appendLine("                <div class=\"timeline\">")
-        
+
         education.forEach { edu ->
             builder.appendLine("                    <div class=\"timeline-item\">")
             builder.appendLine("                        <div class=\"timeline-marker\"></div>")
@@ -29,7 +29,7 @@ object EducationSectionComponent {
             builder.appendLine("                        </div>")
             builder.appendLine("                    </div>")
         }
-        
+
         builder.appendLine("                </div>")
         builder.appendLine("            </div>")
         builder.appendLine("        </section>")

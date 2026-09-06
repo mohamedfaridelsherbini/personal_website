@@ -22,19 +22,21 @@ object ProjectsSectionComponent {
         )
         builder.appendLine("                <div class=\"projects-category-grid\">")
         val groupedProjects = projects.groupBy { it.category }
-        
+
         groupedProjects.forEach { (category, items) ->
-            val categoryClass = "category-" + category.lowercase()
-                .replace(" / ", "-")
-                .replace(" & ", "-")
-                .replace(" ", "-")
+            val categoryClass =
+                "category-" +
+                    category.lowercase()
+                        .replace(" / ", "-")
+                        .replace(" & ", "-")
+                        .replace(" ", "-")
 
             builder.appendLine("                    <div class=\"project-group $categoryClass\">")
             builder.appendLine("                        <div class=\"project-group-header\">")
             builder.appendLine("                            <h3 class=\"project-group-title\">$category</h3>")
             builder.appendLine("                        </div>")
             builder.appendLine("                        <div class=\"project-cards\">")
-            
+
             items.forEach { project ->
                 builder.appendLine(
                     "                            <a href=\"/projects/${project.slug}\" class=\"minimal-project-card $categoryClass\">",
