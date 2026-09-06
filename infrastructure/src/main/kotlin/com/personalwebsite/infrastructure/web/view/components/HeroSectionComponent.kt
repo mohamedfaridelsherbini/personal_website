@@ -17,9 +17,12 @@ object HeroSectionComponent {
         builder.appendLine("                        <span class=\"hero-chip\">CI/CD</span>")
         builder.appendLine("                        <span class=\"hero-chip\">KMP</span>")
         builder.appendLine("                    </div>")
-        builder.appendLine("                    <h1 class=\"hero-title\">Resilient mobile apps for a neon future</h1>")
+        builder.appendLine("                    <h1 class=\"hero-title\">Mohamed ElSherbini</h1>")
         builder.appendLine(
-            "                    <p class=\"hero-subtitle\">Senior Android Engineer blending Kotlin, Swift, and automation to ship maintainable products that scale globally. I design architecture, pipelines, and UX together so regulated journeys stay fast, secure, and delightful.</p>",
+            "                    <p class=\"hero-subtitle\">Senior Android Engineer · Kotlin · KMP · Automation</p>",
+        )
+        builder.appendLine(
+            "                    <p class=\"hero-lead\">Senior Android Engineer with 8+ years building reliable mobile applications and scalable architectures across Europe and MENA. Focused on Android, KMP, automation, and high-quality delivery within Agile, cross-functional teams.</p>",
         )
         builder.appendLine("                    <ul class=\"hero-highlight-list\">")
         builder.appendLine(
@@ -31,9 +34,10 @@ object HeroSectionComponent {
         )
         builder.appendLine("                    </ul>")
         builder.appendLine("                    <div class=\"hero-actions hero-cta-row\">")
-        builder.appendLine("                        <a href=\"#contact\" class=\"primary-button\">Partner with me</a>")
+        builder.appendLine("                        <a href=\"#personal-projects\" class=\"button-accent\">View Projects</a>")
+        builder.appendLine("                        <a href=\"#contact\" class=\"secondary-button\">Contact</a>")
         builder.appendLine(
-            "                        <a href=\"/static/files/Mohamed_ElSherbini_Resume.pdf\" class=\"secondary-button\" target=\"_blank\" rel=\"noopener\">Download résumé</a>",
+            "                        <a href=\"/static/files/Mohamed_ElSherbini_Resume.pdf\" class=\"ghost-button\" target=\"_blank\" rel=\"noopener\">Résumé</a>",
         )
         builder.appendLine("                    </div>")
         builder.appendLine("                    <div class=\"hero-meta-row\">")
@@ -51,7 +55,7 @@ object HeroSectionComponent {
         builder.appendLine("                    <div class=\"hero-panel cluster-card hero-signal\">")
         builder.appendLine("                        <h3>Systems online</h3>")
         builder.appendLine(
-            "                        <p>Composable design systems, real-time observability, and battle-tested release trains keep every build stable under neon lights.</p>",
+            "                        <p>Composable design systems, real-time observability, and battle-tested release trains keep every build stable in production.</p>",
         )
         builder.appendLine("                        <ul class=\"hero-signal-list\">")
         builder.appendLine("                            <li>Jetpack Compose and KMP rolled out across multi-brand Android platforms</li>")
