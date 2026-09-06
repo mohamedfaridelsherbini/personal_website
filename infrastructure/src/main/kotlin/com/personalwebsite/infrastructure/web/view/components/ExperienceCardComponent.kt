@@ -12,7 +12,8 @@ object ExperienceCardComponent {
         experiences: List<WorkExperience>,
     ) {
         experiences.forEach { experience ->
-            builder.appendLine("                    <article class=\"timeline-item\">")
+            val currentClass = if (experience.period.contains("Present")) " timeline-item--current" else ""
+            builder.appendLine("                    <article class=\"timeline-item$currentClass\">")
             builder.appendLine("                        <div class=\"timeline-header\">")
             builder.appendLine("                            <h3 class=\"timeline-role\">${experience.position}</h3>")
             builder.appendLine("                            <div class=\"timeline-meta\">")

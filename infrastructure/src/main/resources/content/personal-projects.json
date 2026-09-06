@@ -154,7 +154,7 @@
   {
     "name": "Personal Website",
     "slug": "personal-website",
-    "description": "Public portfolio and blog at mohamedfaridelsherbini.com built with Ktor, Kotlin DSL templates, and neon cyberpunk styling.",
+    "description": "Public portfolio and blog at mohamedfaridelsherbini.com built with Ktor, Kotlin DSL templates, and a schematic/datasheet-inspired design system.",
     "techStack": "Kotlin \u2022 Ktor \u2022 Docker \u2022 CSS Animations",
     "category": "Open Source",
     "highlights": [

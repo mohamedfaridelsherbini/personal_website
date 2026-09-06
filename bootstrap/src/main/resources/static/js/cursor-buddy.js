@@ -13,15 +13,15 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const stopStart = document.createElementNS(svgNS, 'stop');
   stopStart.setAttribute('offset', '0%');
-  stopStart.setAttribute('stop-color', 'rgba(56, 224, 123, 0)');
+  stopStart.setAttribute('stop-color', 'rgba(36, 86, 168, 0)');
 
   const stopMid = document.createElementNS(svgNS, 'stop');
   stopMid.setAttribute('offset', '60%');
-  stopMid.setAttribute('stop-color', 'rgba(56, 224, 123, 0.8)');
+  stopMid.setAttribute('stop-color', 'rgba(36, 86, 168, 0.7)');
 
   const stopEnd = document.createElementNS(svgNS, 'stop');
   stopEnd.setAttribute('offset', '100%');
-  stopEnd.setAttribute('stop-color', 'rgba(255, 255, 255, 1)');
+  stopEnd.setAttribute('stop-color', 'rgba(232, 99, 28, 0.9)');
 
   gradient.append(stopStart, stopMid, stopEnd);
   defs.appendChild(gradient);

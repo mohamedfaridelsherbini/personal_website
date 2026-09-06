@@ -66,7 +66,7 @@ class PageHeadComponent {
         builder.appendLine("    <link crossorigin=\"\" href=\"https://fonts.googleapis.com\" rel=\"preconnect\"/>")
         builder.appendLine("    <link crossorigin=\"\" href=\"https://fonts.gstatic.com/\" rel=\"preconnect\"/>")
         builder.appendLine("    <meta name=\"google-site-verification\" content=\"Va2vDXEdiRi_uhOL64PstYFMmbfnEO0xCMvhsqLSWCQ\"/>")
-        builder.appendLine("    <meta name=\"theme-color\" content=\"#03060d\">")
+        builder.appendLine("    <meta name=\"theme-color\" content=\"#f2efe6\">")
         builder.appendLine(
             "    <link rel=\"preload\" as=\"image\" href=\"/static/images/profile-social.jpg\" imagesrcset=\"/static/images/profile-social.jpg\" imagesizes=\"44px\"/>",
         )
