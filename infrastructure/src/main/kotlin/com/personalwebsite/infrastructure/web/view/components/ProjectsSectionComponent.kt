@@ -22,7 +22,7 @@ object ProjectsSectionComponent {
             "                <p class=\"section-subtitle\">A blend of flagship launches, automation frameworks, and open source experiments that showcase architecture, AI, and platform integration work.</p>",
         )
 
-        appendFilterChips(builder, projects)
+        appendCategoryLegend(builder, projects)
 
         val featured = projects.filter { it.featured }
         val rest = projects.filterNot { it.featured }
@@ -37,20 +37,19 @@ object ProjectsSectionComponent {
         builder.appendLine("        </section>")
     }
 
-    private fun appendFilterChips(
+    private fun appendCategoryLegend(
         builder: StringBuilder,
         projects: List<PersonalProject>,
     ) {
         val categories = projects.map { it.category }.distinct()
-        builder.appendLine("                <div class=\"projects-filter-chips\">")
-        builder.appendLine("                    <span class=\"filter-chip active\">All Projects</span>")
+        builder.appendLine("                <ul class=\"category-legend\">")
         categories.forEach { category ->
             val categoryClass = categoryClassFor(category)
             builder.appendLine(
-                "                    <span class=\"filter-chip $categoryClass\"><span class=\"filter-chip-dot\"></span>$category</span>",
+                "                    <li class=\"legend-chip $categoryClass\"><span class=\"legend-chip-dot\"></span>$category</li>",
             )
         }
-        builder.appendLine("                </div>")
+        builder.appendLine("                </ul>")
     }
 
     private fun appendFeaturedGrid(

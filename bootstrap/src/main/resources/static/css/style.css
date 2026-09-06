@@ -1745,14 +1745,15 @@ main {
   .project-description { font-size: 13px; }
 }
 /* Projects Section: filter chips */
-.projects-filter-chips {
+.category-legend {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 32px;
+  list-style: none;
 }
 
-.filter-chip {
+.legend-chip {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -1768,13 +1769,7 @@ main {
   color: var(--text-secondary);
 }
 
-.filter-chip.active {
-  background: var(--ink);
-  border-color: var(--ink);
-  color: var(--paper-bright);
-}
-
-.filter-chip-dot {
+.legend-chip-dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
@@ -1869,39 +1864,39 @@ main {
   gap: 20px;
 }
 
-/* Wire colors for filter chips, badges, and featured cards */
-.filter-chip.category-sports-fantasy,
+/* Wire colors for the category legend, badges, and featured cards */
+.legend-chip.category-sports-fantasy,
 .project-category.category-sports-fantasy,
 .featured-project-card.category-sports-fantasy { --wire-color: var(--wire-red); }
 
-.filter-chip.category-enterprise,
+.legend-chip.category-enterprise,
 .project-category.category-enterprise,
 .featured-project-card.category-enterprise { --wire-color: var(--wire-teal); }
 
-.filter-chip.category-consumer-app,
+.legend-chip.category-consumer-app,
 .project-category.category-consumer-app,
 .featured-project-card.category-consumer-app,
-.filter-chip.category-social-app,
+.legend-chip.category-social-app,
 .project-category.category-social-app,
 .featured-project-card.category-social-app { --wire-color: var(--wire-blue); }
 
-.filter-chip.category-wellness,
+.legend-chip.category-wellness,
 .project-category.category-wellness,
 .featured-project-card.category-wellness { --wire-color: var(--wire-green); }
 
-.filter-chip.category-library,
+.legend-chip.category-library,
 .project-category.category-library,
 .featured-project-card.category-library { --wire-color: var(--wire-violet); }
 
-.filter-chip.category-automation-devops,
+.legend-chip.category-automation-devops,
 .project-category.category-automation-devops,
 .featured-project-card.category-automation-devops { --wire-color: var(--wire-amber); }
 
-.filter-chip.category-open-source,
+.legend-chip.category-open-source,
 .project-category.category-open-source,
 .featured-project-card.category-open-source { --wire-color: var(--wire-copper); }
 
-.filter-chip[class*="category-"] {
+.legend-chip[class*="category-"] {
   border-color: var(--wire-color);
   color: var(--wire-color);
 }
