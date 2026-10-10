@@ -178,5 +178,18 @@
         "url": "https://github.com/mohamedfaridelsherbini/personal_website"
       }
     ]
+  },
+  {
+    "name": "Alabal",
+    "slug": "alabal",
+    "description": "A web project hosted at alabal.mohamedfaridelsherbini.com.",
+    "techStack": "Web",
+    "category": "Open Source",
+    "links": [
+      {
+        "label": "Live Site",
+        "url": "https://alabal.mohamedfaridelsherbini.com/"
+      }
+    ]
   }
 ]
