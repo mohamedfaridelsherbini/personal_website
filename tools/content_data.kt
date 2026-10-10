@@ -282,44 +282,6 @@ val projects = listOf(
         links = emptyList()
     ),
     PersonalProject(
-        name = "FamilyHub",
-        slug = "familyhub",
-        description = "Kotlin Multiplatform + Spring Boot microservice app that keeps shared calendars, chores, and budgets synced across family devices.",
-        techStack = "Kotlin Multiplatform • SwiftUI • Spring Boot • PostgreSQL",
-        category = "Open Source",
-        role = null,
-        timeline = "2023 \u2013 Present",
-        highlights = listOf(
-            "Shared domain models compiled for Android, iOS, and desktop clients.",
-            "Event reconciliation service built with Spring Boot + Postgres logical decoding.",
-            "Experimented with widgets and watch complications for quick capture.",
-        ),
-        metrics = listOf(
-            "Household sync latency < 1s",
-            "100% offline coverage for key flows",
-        ),
-        links = emptyList()
-    ),
-    PersonalProject(
-        name = "CraftMind Agentic AI",
-        slug = "craftmind-agentic-ai",
-        description = "Local LLM-based MCP implementation tailored for developer automation, task routing, and repo intelligence.",
-        techStack = "Kotlin • Python • MCP • Docker • AI Tooling",
-        category = "Open Source",
-        role = null,
-        timeline = "2024 \u2013 Present",
-        highlights = listOf(
-            "Bridges Kotlin services with local LLMs using the Model Context Protocol.",
-            "Automates PR summaries, test suggestions, and release notes via plugins.",
-            "Dockerized dev environment for reproducible agent workflows.",
-        ),
-        metrics = listOf(
-            "Automated 40% of release note drafting",
-            "Agent tasks execute in <25s on local hardware",
-        ),
-        links = emptyList()
-    ),
-    PersonalProject(
         name = "Personal Website",
         slug = "personal-website",
         description = "Public portfolio and blog at mohamedfaridelsherbini.com built with Ktor, Kotlin DSL templates, and neon cyberpunk styling.",
