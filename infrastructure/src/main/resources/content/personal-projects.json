@@ -119,41 +119,6 @@
     ]
   },
   {
-    "name": "FamilyHub",
-    "slug": "familyhub",
-    "description": "Kotlin Multiplatform + Spring Boot microservice app that keeps shared calendars, chores, and budgets synced across family devices.",
-    "techStack": "Kotlin Multiplatform \u2022 SwiftUI \u2022 Spring Boot \u2022 PostgreSQL",
-    "category": "Open Source",
-    "timeline": "2023 \u2013 Present",
-    "highlights": [
-      "Shared domain models compiled for Android, iOS, and desktop clients.",
-      "Event reconciliation service built with Spring Boot + Postgres logical decoding.",
-      "Experimented with widgets and watch complications for quick capture."
-    ],
-    "metrics": [
-      "Household sync latency < 1s",
-      "100% offline coverage for key flows"
-    ]
-  },
-  {
-    "name": "CraftMind Agentic AI",
-    "slug": "craftmind-agentic-ai",
-    "description": "Local LLM-based MCP implementation tailored for developer automation, task routing, and repo intelligence.",
-    "techStack": "Kotlin \u2022 Python \u2022 MCP \u2022 Docker \u2022 AI Tooling",
-    "category": "Open Source",
-    "featured": true,
-    "timeline": "2024 \u2013 Present",
-    "highlights": [
-      "Bridges Kotlin services with local LLMs using the Model Context Protocol.",
-      "Automates PR summaries, test suggestions, and release notes via plugins.",
-      "Dockerized dev environment for reproducible agent workflows."
-    ],
-    "metrics": [
-      "Automated 40% of release note drafting",
-      "Agent tasks execute in under 25s on local hardware"
-    ]
-  },
-  {
     "name": "Personal Website",
     "slug": "personal-website",
     "description": "Public portfolio and blog at mohamedfaridelsherbini.com built with Ktor, Kotlin DSL templates, and a schematic/datasheet-inspired design system.",
