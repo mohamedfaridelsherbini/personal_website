@@ -13,8 +13,24 @@
     var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var restExpression = 'neutral';
 
+    var reactionTimer = null;
+    var welcoming = false;
+
     function setExpression(name) {
         avatar.setAttribute('data-expression', name);
+    }
+
+    // Short, user-triggered reactions that fall back to the resting expression. None run with reduced motion.
+    function react(name, ms) {
+        if (reducedMotion || welcoming) return;
+        clearTimeout(reactionTimer);
+        setExpression(name);
+        reactionTimer = setTimeout(function () { setExpression(restExpression); }, ms);
+    }
+
+    function settle() {
+        clearTimeout(reactionTimer);
+        setExpression(restExpression);
     }
 
     function openMenu() {
@@ -32,21 +48,92 @@
         if (returnFocus) button.focus();
     }
 
+    var clicks = [];
     button.addEventListener('click', function () {
+        var now = Date.now();
+        clicks = clicks.filter(function (t) { return now - t < 1500; });
+        clicks.push(now);
+        if (clicks.length >= 4) {
+            clicks = [];
+            react('frustrated', 1800);
+            return;
+        }
         if (popover.hidden) openMenu(); else closeMenu(false);
     });
+    button.addEventListener('pointerenter', function () { if (popover.hidden) react('curious', 4000); });
+    button.addEventListener('pointerleave', function () { if (popover.hidden) settle(); });
+    button.addEventListener('pointerdown', function () { if (popover.hidden) react('surprised', 600); });
     popover.addEventListener('click', function (event) {
-        if (event.target.closest('a')) closeMenu(false);
+        if (event.target.closest('a')) {
+            closeMenu(false);
+            react('excited', 1800);
+        }
     });
     popover.querySelectorAll('a').forEach(function (link) {
-        link.addEventListener('pointerenter', function () { setExpression('wink'); });
-        link.addEventListener('pointerleave', function () { setExpression(restExpression); });
+        link.addEventListener('pointerenter', function () { react('wink', 4000); });
+        link.addEventListener('pointerleave', settle);
     });
     document.addEventListener('keydown', function (event) {
         if (event.key === 'Escape' && !popover.hidden) closeMenu(true);
     });
     document.addEventListener('pointerdown', function (event) {
         if (!popover.hidden && !root.contains(event.target)) closeMenu(false);
+    });
+
+    // Reads thoughtful when the visitor reaches the career and skills sections, once each.
+    if ('IntersectionObserver' in window && !reducedMotion) {
+        var seen = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (!entry.isIntersecting) return;
+                seen.unobserve(entry.target);
+                if (popover.hidden) react('thoughtful', 2500);
+            });
+        }, { threshold: 0.1 });
+        ['experience', 'skills'].forEach(function (id) {
+            var section = document.getElementById(id);
+            if (section) seen.observe(section);
+        });
+    }
+
+    // Falls asleep after a minute without input and wakes up surprised.
+    var idleTimer = null;
+    var asleep = false;
+    function resetIdle() {
+        if (reducedMotion) return;
+        if (asleep) {
+            asleep = false;
+            restExpression = popover.hidden ? 'neutral' : 'happy';
+            react('surprised', 800);
+        }
+        clearTimeout(idleTimer);
+        idleTimer = setTimeout(function () {
+            if (!popover.hidden || welcoming) return;
+            asleep = true;
+            restExpression = 'sleepy';
+            setExpression('sleepy');
+        }, 60000);
+    }
+    ['pointermove', 'keydown', 'scroll', 'touchstart'].forEach(function (type) {
+        window.addEventListener(type, resetIdle, { passive: true });
+    });
+    resetIdle();
+
+    // Concerned when the connection drops, sad if it stays down, happy when it returns.
+    var offlineTimer = null;
+    window.addEventListener('offline', function () {
+        if (reducedMotion) return;
+        restExpression = 'concerned';
+        setExpression('concerned');
+        offlineTimer = setTimeout(function () {
+            restExpression = 'sad';
+            setExpression('sad');
+        }, 10000);
+    });
+    window.addEventListener('online', function () {
+        if (reducedMotion) return;
+        clearTimeout(offlineTimer);
+        restExpression = popover.hidden ? 'neutral' : 'happy';
+        react('happy', 1800);
     });
 
     function eligibleForWelcome() {
@@ -68,6 +155,7 @@
         var big = layer.querySelector('[data-welcome-avatar]');
         var docked = false;
         var timers = [];
+        welcoming = true;
 
         function dock(instant) {
             if (docked) return;
@@ -79,6 +167,7 @@
             var finish = function () {
                 layer.hidden = true;
                 root.classList.remove('is-waiting');
+                welcoming = false;
                 setExpression('neutral');
             };
             if (instant || !from.width) {
