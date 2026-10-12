@@ -34,6 +34,7 @@
     <meta property="og:image:alt" content="Portrait of Mohamed ElSherbini">
     <meta name="twitter:image:alt" content="Portrait of Mohamed ElSherbini">
     <script src="/static/js/smooth-scroll.js" defer></script>
+    <script src="/static/js/companion.js" defer></script>
     <script src="/static/js/cursor-buddy.js" defer></script>
     <script type="application/ld+json">
 {
@@ -505,5 +506,26 @@
     <footer class="site-footer">
         <p>© 2026 Mohamed ElSherbini · Built with Kotlin &amp; Ktor</p>
     </footer>
+    <div class="companion" data-companion data-welcome="true">
+        <div class="companion-welcome" data-companion-welcome hidden aria-live="polite">
+            <div class="companion-welcome-inner">
+                <span class="companion-avatar companion-avatar--large" data-expression="greeting" data-welcome-avatar aria-hidden="true"></span>
+                <h2 class="companion-welcome-title">Hi, I’m Mohamed.</h2>
+                <p class="companion-welcome-role">Senior Android Engineer</p>
+                <p class="companion-welcome-copy">Welcome to my portfolio.</p>
+                <a class="ds-button ds-button--primary" href="#big-projects">Explore my work</a>
+            </div>
+        </div>
+        <div class="companion-popover" data-companion-popover id="companion-menu" hidden>
+            <p class="companion-popover-title">Open contact options</p>
+            <a href="mailto:m.farid.shawky@gmail.com">Email</a>
+            <a href="https://linkedin.com/in/mofaridelsherbini" target="_blank" rel="noopener">LinkedIn</a>
+            <a href="https://github.com/mohamedfaridelsherbini" target="_blank" rel="noopener">GitHub</a>
+            <p class="companion-popover-note">No chat, microphone or online status.</p>
+        </div>
+        <button class="companion-button" type="button" aria-label="Open contact options" aria-expanded="false" aria-controls="companion-menu" data-companion-button>
+            <span class="companion-avatar" data-expression="neutral" data-companion-avatar aria-hidden="true"></span>
+        </button>
+    </div>
 </body>
 </html>

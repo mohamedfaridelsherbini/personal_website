@@ -3,6 +3,7 @@ package com.personalwebsite.infrastructure.web.view.templates
 import com.personalwebsite.application.website.model.PageModel
 import com.personalwebsite.infrastructure.web.view.components.AboutSectionComponent
 import com.personalwebsite.infrastructure.web.view.components.BigProjectsComponent
+import com.personalwebsite.infrastructure.web.view.components.CompanionComponent
 import com.personalwebsite.infrastructure.web.view.components.ContactSectionComponent
 import com.personalwebsite.infrastructure.web.view.components.EducationSectionComponent
 import com.personalwebsite.infrastructure.web.view.components.FooterComponent
@@ -43,6 +44,7 @@ class HomePageRenderer(
             QuoteSectionComponent.append(this, personalInfo)
             appendLine("    </main>")
             FooterComponent.append(this, personalInfo)
+            CompanionComponent.append(this, personalInfo, withWelcome = true)
             appendLine("</body>")
             appendLine("</html>")
         }
