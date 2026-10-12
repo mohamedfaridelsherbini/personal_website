@@ -55,7 +55,20 @@ gcloud iam service-accounts keys create gh-deployer-key.json \
 Add the contents of `gh-deployer-key.json` as a GitHub secret named `GCP_SA_KEY` (Settings → Environments → **Deploy info**), then delete the local file — it's a live credential. Also add:
 
 - `GCP_PROJECT_ID` = `personal-website-d0cd0`
-- `ADMIN_USER` / `ADMIN_PASSWORD` — protects `/admin` (same as before)
+- `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `ADMIN_GOOGLE_EMAIL`, `SESSION_SECRET` — Google sign-in for `/admin` (see below)
+
+### Admin sign-in with Google
+
+`/admin` is protected by Google sign-in and stays disabled (404) until all four values below are set.
+
+1. In Google Cloud Console → **APIs & Services → Credentials**, create an **OAuth client ID** (type *Web application*). Add the authorized redirect URI `https://www.mohamedfaridelsherbini.com/admin/auth/callback` (and `http://localhost:8080/admin/auth/callback` for local use).
+2. Set these as GitHub environment secrets (the deploy workflow passes them to Cloud Run):
+   - `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` — from the OAuth client
+   - `ADMIN_GOOGLE_EMAIL` — the one Google account allowed in (must be a verified Google email)
+   - `SESSION_SECRET` — a random string of 16+ characters, e.g. `openssl rand -hex 32`
+3. Local run: `SITE_BASE_URL=http://localhost:8080 GOOGLE_CLIENT_ID=… GOOGLE_CLIENT_SECRET=… ADMIN_GOOGLE_EMAIL=you@gmail.com SESSION_SECRET=… ./gradlew :bootstrap:run`.
+
+The session cookie is named `__session` because Firebase Hosting only forwards that cookie to Cloud Run. Sessions last 8 hours.
 
 ### First manual deploy (verifies everything before wiring CI)
 
