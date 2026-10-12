@@ -12,7 +12,7 @@ object ProjectHighlightsComponent {
         project: PersonalProject,
     ) {
         if (project.highlights.isEmpty()) return
-        builder.appendLine("        <section class=\"project-section cluster-card\">")
+        builder.appendLine("        <section class=\"project-section\">")
         builder.appendLine("            <h2>Highlights</h2>")
         builder.appendLine("            <ul class=\"project-highlights\">")
         project.highlights.forEach { highlight ->

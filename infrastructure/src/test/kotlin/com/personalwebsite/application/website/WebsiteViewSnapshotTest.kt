@@ -27,6 +27,7 @@ import kotlin.io.path.writeText
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class WebsiteViewSnapshotTest {
     private lateinit var websiteView: WebsiteView
@@ -81,6 +82,21 @@ class WebsiteViewSnapshotTest {
             renderCache.clear()
             val html = websiteQueries.renderProject("spl-fantasy")
             assertMatchesSnapshot("project-spl-fantasy", html)
+        }
+
+    @Test
+    fun homePageShowsBigProjectsAndProfileLinks() =
+        runBlocking {
+            val html = websiteQueries.renderHome()
+            listOf("AlaBal", "Aldaem", "What I build with", "github.com", "linkedin.com").forEach {
+                assertTrue(html.contains(it), "$it should appear on the home page")
+            }
+            listOf("craftmind-agentic-ai", "familyhub").forEach {
+                assertTrue(!html.contains("href=\"/projects/$it\""), "$it should not be linked from the home page")
+            }
+            assertTrue(html.contains("href=\"/projects/spl-fantasy\""))
+            val order = listOf("id=\"big-projects\"", "id=\"personal-projects\"", "id=\"about\"", "id=\"skills\"", "id=\"contact\"")
+            assertEquals(order, order.sortedBy { html.indexOf(it) }, "home sections should keep design order")
         }
 
     private fun assertMatchesSnapshot(

@@ -17,7 +17,10 @@ class ProjectPageRenderer(
 ) {
     fun render(page: PageModel.Project): String {
         val personalInfo = page.site.personalInfo
-        val relatedProjects = page.site.personalProjects.filter { it.slug != page.project.slug }
+        val relatedProjects =
+            page.site.personalProjects.filter {
+                it.slug != page.project.slug && it.slug !in setOf("craftmind-agentic-ai", "familyhub")
+            }
 
         return buildString {
             appendLine("<!DOCTYPE html>")

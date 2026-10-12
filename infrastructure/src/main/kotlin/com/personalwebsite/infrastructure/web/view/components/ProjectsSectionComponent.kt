@@ -7,21 +7,22 @@ import com.personalwebsite.domain.entities.PersonalProject
  * Personal projects grid on the home page.
  */
 object ProjectsSectionComponent {
+    private val excludedSlugs = setOf("craftmind-agentic-ai", "familyhub")
+
     fun append(
         builder: StringBuilder,
         projects: List<PersonalProject>,
     ) {
-        builder.appendLine("        <section class=\"page-section\" id=\"personal-projects\" data-scroll-target=\"personal-projects\">")
-        builder.appendLine("            <div class=\"page-content\">")
-        builder.appendLine("                <div class=\"section-heading\">")
-        builder.appendLine("                    <p class=\"section-kicker\">Lab notes</p>")
-        builder.appendLine("                    <h1 class=\"section-title\">Notable Projects & Open Source</h1>")
-        builder.appendLine("                </div>")
         builder.appendLine(
-            "                <p class=\"section-subtitle\">A blend of flagship launches, automation frameworks, and open source experiments that showcase architecture, AI, and platform integration work.</p>",
+            "        <section class=\"page-section projects-section\" id=\"personal-projects\" data-scroll-target=\"personal-projects\">",
         )
+        builder.appendLine("            <div class=\"ds-container\">")
+        builder.appendLine("                <div class=\"ds-heading-row\">")
+        builder.appendLine("                    <h2 class=\"ds-h2 ds-h2--xl\">More projects</h2>")
+        builder.appendLine("                    <p class=\"ds-muted\">Apps, reusable libraries, and engineering tools.</p>")
+        builder.appendLine("                </div>")
         builder.appendLine("                <div class=\"projects-category-grid\">")
-        val groupedProjects = projects.groupBy { it.category }
+        val groupedProjects = projects.filterNot { it.slug in excludedSlugs }.groupBy { it.category }
 
         groupedProjects.forEach { (category, items) ->
             val categoryClass =
@@ -39,7 +40,7 @@ object ProjectsSectionComponent {
 
             items.forEach { project ->
                 builder.appendLine(
-                    "                            <a href=\"/projects/${project.slug}\" class=\"minimal-project-card $categoryClass\">",
+                    "                            <a href=\"/projects/${project.slug}\" class=\"minimal-project-card $categoryClass\" data-project-reveal>",
                 )
                 builder.appendLine("                                <div class=\"project-header\">")
                 builder.appendLine("                                    <h3 class=\"project-title\">${project.name}</h3>")

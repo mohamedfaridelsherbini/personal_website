@@ -1,43 +1,26 @@
 @file:Suppress("ktlint:standard:max-line-length")
 
 package com.personalwebsite.infrastructure.web.view.components
+
 import com.personalwebsite.domain.entities.Skill
 
 /**
- * Technical skills grid.
+ * Technical skills, one row per group.
  */
 object SkillsSectionComponent {
     fun append(
         builder: StringBuilder,
         skills: List<Skill>,
     ) {
-        builder.appendLine("        <section class=\"page-section\" id=\"skills\" data-scroll-target=\"skills\">")
-        builder.appendLine("            <div class=\"page-content\">")
-        builder.appendLine("                <div class=\"section-heading\">")
-        builder.appendLine("                    <p class=\"section-kicker\">Capability stack</p>")
-        builder.appendLine("                    <h1 class=\"section-title\">Technical Skills</h1>")
-        builder.appendLine("                </div>")
-        builder.appendLine(
-            "                <p class=\"section-subtitle\">Tooling and languages I reach for when blueprinting performant, future-proof Android ecosystems.</p>",
-        )
-        builder.appendLine("                <div class=\"skills-grid\">")
+        builder.appendLine("        <section class=\"page-section skills-section\" id=\"skills\" data-scroll-target=\"skills\">")
+        builder.appendLine("            <div class=\"ds-container\">")
+        builder.appendLine("                <h2 class=\"ds-h2 ds-h2--xl\">Technical skills</h2>")
+        builder.appendLine("                <p class=\"ds-muted\">The tools and practices behind my mobile work.</p>")
+        builder.appendLine("                <div class=\"skill-rows\">")
         skills.forEach { skill ->
-            val categoryClass =
-                "skill-cat-" +
-                    skill.category.lowercase()
-                        .replace(" & ", "-")
-                        .replace(" ", "-")
-                        .replace("/", "-")
-
-            builder.appendLine("                    <div class=\"skill-group $categoryClass\">")
-            builder.appendLine("                        <div class=\"skill-group-header\">")
-            builder.appendLine("                            <span class=\"skill-group-title\">${skill.category}</span>")
-            builder.appendLine("                        </div>")
-            builder.appendLine("                        <div class=\"skill-tags\">")
-            skill.items.forEach { item ->
-                builder.appendLine("                            <div class=\"skill-tag\">$item</div>")
-            }
-            builder.appendLine("                        </div>")
+            builder.appendLine("                    <div class=\"skill-row\">")
+            builder.appendLine("                        <h3>${skill.category.escapeHtml()}</h3>")
+            builder.appendLine("                        <p>${skill.items.joinToString(" · ") { it.escapeHtml() }}</p>")
             builder.appendLine("                    </div>")
         }
         builder.appendLine("                </div>")

@@ -78,347 +78,128 @@
         </button>
         <nav class="nav-panel" data-nav-panel>
             <div class="nav-links">
+                <a class="nav-link" href="#big-projects">Work</a>
                 <a class="nav-link" href="#about">About</a>
-                <a class="nav-link" href="#skills">Skills</a>
-                <a class="nav-link" href="#personal-projects">Projects</a>
                 <a class="nav-link" href="#contact">Contact</a>
             </div>
             <div class="nav-actions">
-                <a href="mailto:m.farid.shawky@gmail.com" class="contact-button">Let's Talk</a>
                 <a href="/static/files/Mohamed_ElSherbini_Resume.pdf" class="resume-button" target="_blank" download="Mohamed_ElSherbini_Resume.pdf">Resume</a>
             </div>
         </nav>
     </header>
     <main id="main">
-        <section class="hero" id="home" data-scroll-target="home">
-            <div class="hero-content">
-                <div class="hero-text cluster-card">
-                    <div class="hero-chip-row">
-                        <span class="hero-chip">Augsburg</span>
-                        <span class="hero-chip">Kotlin</span>
-                        <span class="hero-chip">Swift</span>
-                        <span class="hero-chip">CI/CD</span>
-                        <span class="hero-chip">KMP</span>
-                    </div>
-                    <h1 class="hero-title">Mohamed ElSherbini</h1>
-                    <p class="hero-subtitle">Senior Android Engineer · Kotlin · KMP · Automation</p>
-                    <p class="hero-lead">Senior Android Engineer with 8+ years building reliable mobile applications and scalable architectures across Europe and MENA. Focused on Android, KMP, automation, and high-quality delivery within Agile, cross-functional teams.</p>
-                    <ul class="hero-highlight-list">
-                        <li>Composable Android & KMP architectures rolled out across multi-brand platforms</li>
-                        <li>Automation frameworks (Selenium, Appium) powering Android/iOS CI/CD</li>
-                        <li>Reliability, performance, and security-first mobile experiences for millions of users.</li>
-                    </ul>
-                    <div class="hero-actions hero-cta-row">
-                        <a href="#personal-projects" class="button-accent">View Projects</a>
-                        <a href="#contact" class="secondary-button">Contact</a>
-                        <a href="/static/files/Mohamed_ElSherbini_Resume.pdf" class="ghost-button" target="_blank" rel="noopener">Résumé</a>
-                    </div>
-                    <div class="hero-meta-row">
-                        <div class="hero-meta-pill">
-                            <span class="hero-meta-label">Availability</span>
-                            <span class="hero-meta-value">Q1 2026</span>
-                        </div>
-                        <div class="hero-meta-pill">
-                            <span class="hero-meta-label">Current mission</span>
-                            <span class="hero-meta-value">CHECK24 Mobile Platform</span>
-                        </div>
-                    </div>
+        <section class="hero hero-intro" id="home" data-scroll-target="home">
+            <div class="hero-intro-inner">
+                <p class="hero-eyebrow">Senior Android Engineer · Augsburg, Germany · 8+ years</p>
+                <h1 class="hero-headline">Android.<br>Kotlin Multiplatform.<br>Automation. Built to last.</h1>
+                <p class="hero-intro-lead">I design and ship reliable mobile products and the architecture, test automation and delivery pipelines behind them — across Europe and MENA.</p>
+                <ul class="hero-skill-chips" aria-label="Core skills">
+                    <li>Kotlin</li>
+                    <li>Jetpack Compose</li>
+                    <li>Kotlin Multiplatform</li>
+                    <li>MVVM · MVI</li>
+                    <li>Appium · Selenium</li>
+                    <li>Spring Boot</li>
+                    <li>Docker · Jenkins</li>
+                </ul>
+                <div class="hero-intro-actions">
+                    <a href="#big-projects" class="ds-button ds-button--primary">View big projects</a>
+                    <a href="https://github.com/mohamedfaridelsherbini" class="ds-button ds-button--outline" target="_blank" rel="noopener">GitHub ↗</a>
+                    <a href="https://linkedin.com/in/mofaridelsherbini" class="ds-button ds-button--outline" target="_blank" rel="noopener">LinkedIn ↗</a>
                 </div>
-                <div class="hero-panels">
-                    <div class="hero-panel cluster-card hero-signal">
-                        <h3>Systems online</h3>
-                        <p>Composable design systems, real-time observability, and battle-tested release trains keep every build stable in production.</p>
-                        <ul class="hero-signal-list">
-                            <li>Jetpack Compose and KMP rolled out across multi-brand Android platforms</li>
-                            <li>Automation frameworks (Selenium, Appium) powering shared Android/iOS pipelines</li>
-                            <li>Security reviews covering encryption, biometric flows, and fintech compliance</li>
+            </div>
+        </section>
+        <section class="skills-overview" aria-labelledby="skills-overview-title">
+            <div class="ds-container">
+                <h2 class="ds-h2" id="skills-overview-title">What I build with</h2>
+                <div class="skills-overview-grid">
+                    <div class="skills-overview-col">
+                        <h3>Mobile</h3>
+                        <ul>
+                            <li>Android · Jetpack Compose</li>
+                            <li>MVVM · MVI · Clean architecture</li>
+                            <li>Kotlin Multiplatform · SwiftUI</li>
                         </ul>
-                        <div class="hero-tag-cloud">
-                            <span class="hero-tag">Kotlin</span>
-                            <span class="hero-tag">Compose</span>
-                            <span class="hero-tag">Swift</span>
-                            <span class="hero-tag">KMP</span>
-                            <span class="hero-tag">CI/CD</span>
-                        </div>
+                    </div>
+                    <div class="skills-overview-col">
+                        <h3>Test automation</h3>
+                        <ul>
+                            <li>Appium &amp; Selenium (Android/iOS)</li>
+                            <li>Espresso · JUnit · Mockito</li>
+                            <li>Automation framework design</li>
+                        </ul>
+                    </div>
+                    <div class="skills-overview-col">
+                        <h3>Backend</h3>
+                        <ul>
+                            <li>Spring Boot microservices</li>
+                            <li>REST APIs · PostgreSQL</li>
+                            <li>SAP integration</li>
+                        </ul>
+                    </div>
+                    <div class="skills-overview-col">
+                        <h3>Delivery</h3>
+                        <ul>
+                            <li>Docker · Kubernetes</li>
+                            <li>Jenkins · GitHub Actions</li>
+                            <li>Code review · Agile</li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </section>
-        <section class="page-section" id="about" data-scroll-target="about">
-            <div class="page-content">
-                <div class="about-header">
-                    <h1 class="about-name">Mohamed ElSherbini</h1>
-                    <p class="about-title">Senior Android Engineer</p>
-                    <p class="about-location">📍 Augsburg, Bavaria, Germany</p>
+        <section class="page-section big-projects" id="big-projects" data-scroll-target="big-projects">
+            <div class="ds-container">
+                <div class="ds-heading-row">
+                    <h2 class="ds-h2 ds-h2--xl">Big projects</h2>
+                    <p class="ds-muted">Products I own end to end</p>
                 </div>
-                <div class="section-heading">
-                    <p class="section-kicker">Human layer</p>
-                    <h2 class="section-title">About Me</h2>
-                </div>
-                <p class="about-description">Senior Android Engineer with 8+ years of experience building reliable mobile applications and scalable architectures across Europe and MENA. Focused on Android, KMP, automation, and high-quality delivery within Agile, cross-functional teams.</p>
-                <p class="about-description">Proficient in Appium, Selenium, Docker, Jenkins, and Spring Boot microservices. I focus on maintainable products that blend technical excellence with delightful user journeys, especially across finance, automation, and highly regulated experiences.</p>
-                <div class="about-grid">
-                    <div class="about-card">
-                        <div class="about-card-icon">🏗️</div>
-                        <h3 class="about-card-title">Composable Architecture</h3>
-                        <p class="about-card-desc">Modular Kotlin bases, KMP adoption, and Jetpack Compose design systems that scale across brands.</p>
-                    </div>
-                    <div class="about-card">
-                        <div class="about-card-icon">📊</div>
-                        <h3 class="about-card-title">Observability & Automation</h3>
-                        <p class="about-card-desc">Selenium/Appium frameworks, Jenkins pipelines, and live dashboards keeping KPIs in sight.</p>
-                    </div>
-                    <div class="about-card">
-                        <div class="about-card-icon">🛡️</div>
-                        <h3 class="about-card-title">Reliability First</h3>
-                        <p class="about-card-desc">Performance and security-first mobile experiences for millions of users in finance and regulated sectors.</p>
-                    </div>
-                </div>
-                <div class="section-heading">
-                    <p class="section-kicker">Career signal</p>
-                    <h2 class="section-title">Experience</h2>
-                </div>
-                <div class="timeline">
-                    <article class="timeline-item timeline-item--current">
-                        <div class="timeline-header">
-                            <h3 class="timeline-role">Senior Android Engineer</h3>
-                            <div class="timeline-meta">
-                                <span class="timeline-company">Check24 Vergleich GmbH</span>
-                                <span>•</span>
-                                <span class="timeline-period">Sep 2022 – Present</span>
-                                <span>•</span>
-                                <span class="timeline-location">Munich, Germany</span>
-                            </div>
+                <div class="big-project-grid">
+                    <article class="big-project big-project--featured">
+                        <div>
+                            <p class="big-project-status">Featured · Personal project</p>
+                            <h3>AlaBal</h3>
+                            <p class="big-project-desc">A private place-sharing app for family.</p>
                         </div>
-                        <ul class="timeline-highlights">
-                            <li class="timeline-highlight">Developed loan comparison features using Kotlin, Jetpack Compose, MVVM/MVI, and Dagger.</li>
-                            <li class="timeline-highlight">Refactored a large legacy codebase into a scalable multi-module architecture with full test coverage.</li>
-                            <li class="timeline-highlight">Built integration layers for Spring Boot microservices and REST APIs.</li>
-                        </ul>
                     </article>
-                    <article class="timeline-item">
-                        <div class="timeline-header">
-                            <h3 class="timeline-role">Senior Android Engineer</h3>
-                            <div class="timeline-meta">
-                                <span class="timeline-company">Evntoo</span>
-                                <span>•</span>
-                                <span class="timeline-period">Dec 2020 – Sep 2022</span>
-                                <span>•</span>
-                                <span class="timeline-location">Cairo, Egypt</span>
-                            </div>
+                    <article class="big-project big-project--soon">
+                        <div>
+                            <p class="big-project-status">Coming soon</p>
+                            <h3>Aldaem</h3>
+                            <p class="big-project-desc">Next big project — details to be announced.</p>
                         </div>
-                        <ul class="timeline-highlights">
-                            <li class="timeline-highlight">Developed User & Provider apps using Kotlin, MVVM, Room, RxKotlin, and Firebase.</li>
-                            <li class="timeline-highlight">Implemented payment gateways, encrypted storage, and location-based features.</li>
-                            <li class="timeline-highlight">Built automated CI/CD pipelines using Jenkins and Docker.</li>
-                        </ul>
-                    </article>
-                    <article class="timeline-item">
-                        <div class="timeline-header">
-                            <h3 class="timeline-role">Senior Android Engineer</h3>
-                            <div class="timeline-meta">
-                                <span class="timeline-company">Julfar Consultancy Services</span>
-                                <span>•</span>
-                                <span class="timeline-period">Feb 2019 – Dec 2020</span>
-                                <span>•</span>
-                                <span class="timeline-location">Cairo, Egypt</span>
-                            </div>
-                        </div>
-                        <ul class="timeline-highlights">
-                            <li class="timeline-highlight">Built enterprise and government apps using Kotlin, Room, Coroutines, SAP, and REST APIs.</li>
-                            <li class="timeline-highlight">Implemented MVI architecture, QR scanning, live chat, and Firebase modules.</li>
-                            <li class="timeline-highlight">Optimized performance for low-end devices and ensured secure API communication.</li>
-                        </ul>
-                    </article>
-                    <article class="timeline-item">
-                        <div class="timeline-header">
-                            <h3 class="timeline-role">Co-Founder / Part-Time Android Engineer</h3>
-                            <div class="timeline-meta">
-                                <span class="timeline-company">Felucca</span>
-                                <span>•</span>
-                                <span class="timeline-period">Jan 2017 – Mar 2023</span>
-                                <span>•</span>
-                                <span class="timeline-location">Cairo, Egypt</span>
-                            </div>
-                        </div>
-                        <ul class="timeline-highlights">
-                            <li class="timeline-highlight">Developed consumer apps, including GreenHub (Kotlin, Firebase, Jetpack) and FocusMusic (Java, MediaPlayer).</li>
-                            <li class="timeline-highlight">Built REST API integrations and secure local storage.</li>
-                            <li class="timeline-highlight">Created local CI pipelines with Docker for testing and builds.</li>
-                        </ul>
-                    </article>
-                    <article class="timeline-item">
-                        <div class="timeline-header">
-                            <h3 class="timeline-role">Android Developer</h3>
-                            <div class="timeline-meta">
-                                <span class="timeline-company">Mawared / Xpress Integration / SpotEG / Freelancer</span>
-                                <span>•</span>
-                                <span class="timeline-period">2014 – 2019</span>
-                                <span>•</span>
-                                <span class="timeline-location">Egypt</span>
-                            </div>
-                        </div>
-                        <ul class="timeline-highlights">
-                            <li class="timeline-highlight">Delivered 15+ Android apps for HR, attendance, and enterprise systems uing Java/Kotlin.</li>
-                            <li class="timeline-highlight">Built SPL Fantasy (fantasy football app – Kotlin, MVVM) and Fingerprint Attendance App (hardware SDKs, ZKteco).</li>
-                            <li class="timeline-highlight">Developed reusable Android libraries including a custom calendar component.</li>
-                        </ul>
                     </article>
                 </div>
             </div>
         </section>
-        <section class="page-section" id="education" data-scroll-target="education">
-            <div class="page-content">
-                <div class="section-heading">
-                    <p class="section-kicker">Credentials</p>
-                    <h2 class="section-title">Education</h2>
+        <section class="page-section projects-section" id="personal-projects" data-scroll-target="personal-projects">
+            <div class="ds-container">
+                <div class="ds-heading-row">
+                    <h2 class="ds-h2 ds-h2--xl">More projects</h2>
+                    <p class="ds-muted">Apps, reusable libraries, and engineering tools.</p>
                 </div>
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-marker"></div>
-                        <div class="timeline-content">
-                            <div class="timeline-header">
-                                <h3 class="timeline-title">Bachelor of Engineering – Computer & Systems</h3>
-                                <span class="timeline-period">Sep 2009 – Jul 2014</span>
-                            </div>
-                            <p class="timeline-company">Mansoura University, Egypt</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="page-section" id="skills" data-scroll-target="skills">
-            <div class="page-content">
-                <div class="section-heading">
-                    <p class="section-kicker">Capability stack</p>
-                    <h1 class="section-title">Technical Skills</h1>
-                </div>
-                <p class="section-subtitle">Tooling and languages I reach for when blueprinting performant, future-proof Android ecosystems.</p>
-                <div class="skills-grid">
-                    <div class="skill-group skill-cat-languages">
-                        <div class="skill-group-header">
-                            <span class="skill-group-title">Languages</span>
-                        </div>
-                        <div class="skill-tags">
-                            <div class="skill-tag">Kotlin</div>
-                            <div class="skill-tag">Java</div>
-                            <div class="skill-tag">Swift</div>
-                            <div class="skill-tag">Python</div>
-                            <div class="skill-tag">SQL</div>
-                        </div>
-                    </div>
-                    <div class="skill-group skill-cat-mobile-architecture">
-                        <div class="skill-group-header">
-                            <span class="skill-group-title">Mobile & Architecture</span>
-                        </div>
-                        <div class="skill-tags">
-                            <div class="skill-tag">Android (Jetpack Compose, MVVM, MVI)</div>
-                            <div class="skill-tag">iOS (Xcode, UIKit, SwiftUI)</div>
-                            <div class="skill-tag">Kotlin Multiplatform</div>
-                            <div class="skill-tag">Clean Architecture Patterns</div>
-                        </div>
-                    </div>
-                    <div class="skill-group skill-cat-testing-automation">
-                        <div class="skill-group-header">
-                            <span class="skill-group-title">Testing & Automation</span>
-                        </div>
-                        <div class="skill-tags">
-                            <div class="skill-tag">Selenium & Appium (Android/iOS)</div>
-                            <div class="skill-tag">Espresso & JUnit</div>
-                            <div class="skill-tag">Mockito</div>
-                            <div class="skill-tag">Automation Framework Design</div>
-                        </div>
-                    </div>
-                    <div class="skill-group skill-cat-backend-devops">
-                        <div class="skill-group-header">
-                            <span class="skill-group-title">Backend & DevOps</span>
-                        </div>
-                        <div class="skill-tags">
-                            <div class="skill-tag">Spring Boot Microservices</div>
-                            <div class="skill-tag">REST API Design</div>
-                            <div class="skill-tag">PostgreSQL</div>
-                            <div class="skill-tag">Docker, Kubernetes, Jenkins, GitHub Actions</div>
-                        </div>
-                    </div>
-                    <div class="skill-group skill-cat-frameworks-sdks">
-                        <div class="skill-group-header">
-                            <span class="skill-group-title">Frameworks & SDKs</span>
-                        </div>
-                        <div class="skill-tags">
-                            <div class="skill-tag">Room, Retrofit, Firebase</div>
-                            <div class="skill-tag">Dagger Hilt, Koin, RxJava</div>
-                            <div class="skill-tag">Google Maps SDK</div>
-                            <div class="skill-tag">ZKteco Biometric SDKs</div>
-                        </div>
-                    </div>
-                    <div class="skill-group skill-cat-tools-collaboration">
-                        <div class="skill-group-header">
-                            <span class="skill-group-title">Tools & Collaboration</span>
-                        </div>
-                        <div class="skill-tags">
-                            <div class="skill-tag">Android Studio & Gradle</div>
-                            <div class="skill-tag">Postman & Charles</div>
-                            <div class="skill-tag">Figma & Design Systems</div>
-                            <div class="skill-tag">Agile Delivery & Code Review</div>
-                        </div>
-                    </div>
-                    <div class="skill-group skill-cat-other-skills">
-                        <div class="skill-group-header">
-                            <span class="skill-group-title">Other Skills</span>
-                        </div>
-                        <div class="skill-tags">
-                            <div class="skill-tag">RESTful API Integration</div>
-                            <div class="skill-tag">SAP Integration</div>
-                            <div class="skill-tag">Unity 3D</div>
-                            <div class="skill-tag">Arduino & IoT</div>
-                            <div class="skill-tag">Printed Circuit Boards</div>
-                            <div class="skill-tag">SAP Integration</div>
-                            <div class="skill-tag">POS Hardware Integration</div>
-                            <div class="skill-tag">Embedded Systems</div>
-                        </div>
-                    </div>
-                    <div class="skill-group skill-cat-spoken-languages">
-                        <div class="skill-group-header">
-                            <span class="skill-group-title">Spoken Languages</span>
-                        </div>
-                        <div class="skill-tags">
-                            <div class="skill-tag">Arabic (Native)</div>
-                            <div class="skill-tag">English (Fluent)</div>
-                            <div class="skill-tag">German (A1 - Currently Study A2)</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="page-section" id="personal-projects" data-scroll-target="personal-projects">
-            <div class="page-content">
-                <div class="section-heading">
-                    <p class="section-kicker">Lab notes</p>
-                    <h1 class="section-title">Notable Projects & Open Source</h1>
-                </div>
-                <p class="section-subtitle">A blend of flagship launches, automation frameworks, and open source experiments that showcase architecture, AI, and platform integration work.</p>
                 <div class="projects-category-grid">
                     <div class="project-group category-consumer-app">
                         <div class="project-group-header">
                             <h3 class="project-group-title">Consumer App</h3>
                         </div>
                         <div class="project-cards">
-                            <a href="/projects/little" class="minimal-project-card category-consumer-app">
+                            <a href="/projects/little" class="minimal-project-card category-consumer-app" data-project-reveal>
                                 <div class="project-header">
                                     <h3 class="project-title">Little</h3>
                                 </div>
-                                <p class="project-description">A consumer app developed at Felucca.</p>
+                                <p class="project-description">Consumer Android app built at Felucca Studio for everyday utility and engagement.</p>
                                 <div class="project-tech-stack">
                                     <span class="tech-tag">Android</span>
                                     <span class="tech-tag">Kotlin</span>
                                     <span class="tech-tag">Firebase</span>
                                 </div>
                             </a>
-                            <a href="/projects/eleven" class="minimal-project-card category-consumer-app">
+                            <a href="/projects/eleven" class="minimal-project-card category-consumer-app" data-project-reveal>
                                 <div class="project-header">
                                     <h3 class="project-title">Eleven</h3>
                                 </div>
-                                <p class="project-description">A consumer app developed at Felucca.</p>
+                                <p class="project-description">Companion consumer app from Felucca Studio focused on mobile engagement and retention.</p>
                                 <div class="project-tech-stack">
                                     <span class="tech-tag">Android</span>
                                     <span class="tech-tag">Kotlin</span>
@@ -432,7 +213,7 @@
                             <h3 class="project-group-title">Sports / Fantasy</h3>
                         </div>
                         <div class="project-cards">
-                            <a href="/projects/spl-fantasy" class="minimal-project-card category-sports-fantasy">
+                            <a href="/projects/spl-fantasy" class="minimal-project-card category-sports-fantasy" data-project-reveal>
                                 <div class="project-header">
                                     <h3 class="project-title">SPL Fantasy</h3>
                                 </div>
@@ -451,7 +232,7 @@
                             <h3 class="project-group-title">Enterprise</h3>
                         </div>
                         <div class="project-cards">
-                            <a href="/projects/fingerprint-attendance" class="minimal-project-card category-enterprise">
+                            <a href="/projects/fingerprint-attendance" class="minimal-project-card category-enterprise" data-project-reveal>
                                 <div class="project-header">
                                     <h3 class="project-title">Fingerprint Attendance</h3>
                                 </div>
@@ -470,7 +251,7 @@
                             <h3 class="project-group-title">Social App</h3>
                         </div>
                         <div class="project-cards">
-                            <a href="/projects/greenhub" class="minimal-project-card category-social-app">
+                            <a href="/projects/greenhub" class="minimal-project-card category-social-app" data-project-reveal>
                                 <div class="project-header">
                                     <h3 class="project-title">GreenHub</h3>
                                 </div>
@@ -489,7 +270,7 @@
                             <h3 class="project-group-title">Wellness</h3>
                         </div>
                         <div class="project-cards">
-                            <a href="/projects/focusmusic" class="minimal-project-card category-wellness">
+                            <a href="/projects/focusmusic" class="minimal-project-card category-wellness" data-project-reveal>
                                 <div class="project-header">
                                     <h3 class="project-title">FocusMusic</h3>
                                 </div>
@@ -508,7 +289,7 @@
                             <h3 class="project-group-title">Library</h3>
                         </div>
                         <div class="project-cards">
-                            <a href="/projects/custom-calendar-library" class="minimal-project-card category-library">
+                            <a href="/projects/custom-calendar-library" class="minimal-project-card category-library" data-project-reveal>
                                 <div class="project-header">
                                     <h3 class="project-title">Custom Calendar Library</h3>
                                 </div>
@@ -526,7 +307,7 @@
                             <h3 class="project-group-title">Automation / DevOps</h3>
                         </div>
                         <div class="project-cards">
-                            <a href="/projects/automation-framework" class="minimal-project-card category-automation-devops">
+                            <a href="/projects/automation-framework" class="minimal-project-card category-automation-devops" data-project-reveal>
                                 <div class="project-header">
                                     <h3 class="project-title">Automation Framework</h3>
                                 </div>
@@ -546,32 +327,7 @@
                             <h3 class="project-group-title">Open Source</h3>
                         </div>
                         <div class="project-cards">
-                            <a href="/projects/familyhub" class="minimal-project-card category-open-source">
-                                <div class="project-header">
-                                    <h3 class="project-title">FamilyHub</h3>
-                                </div>
-                                <p class="project-description">Kotlin Multiplatform + Spring Boot microservice app that keeps shared calendars, chores, and budgets synced across family devices.</p>
-                                <div class="project-tech-stack">
-                                    <span class="tech-tag">Kotlin Multiplatform</span>
-                                    <span class="tech-tag">SwiftUI</span>
-                                    <span class="tech-tag">Spring Boot</span>
-                                    <span class="tech-tag">PostgreSQL</span>
-                                </div>
-                            </a>
-                            <a href="/projects/craftmind-agentic-ai" class="minimal-project-card category-open-source">
-                                <div class="project-header">
-                                    <h3 class="project-title">CraftMind Agentic AI</h3>
-                                </div>
-                                <p class="project-description">Local LLM-based MCP implementation tailored for developer automation, task routing, and repo intelligence.</p>
-                                <div class="project-tech-stack">
-                                    <span class="tech-tag">Kotlin</span>
-                                    <span class="tech-tag">Python</span>
-                                    <span class="tech-tag">MCP</span>
-                                    <span class="tech-tag">Docker</span>
-                                    <span class="tech-tag">AI Tooling</span>
-                                </div>
-                            </a>
-                            <a href="/projects/personal-website" class="minimal-project-card category-open-source">
+                            <a href="/projects/personal-website" class="minimal-project-card category-open-source" data-project-reveal>
                                 <div class="project-header">
                                     <h3 class="project-title">Personal Website</h3>
                                 </div>
@@ -588,66 +344,156 @@
                 </div>
             </div>
         </section>
-        <section class="page-section" id="contact" data-scroll-target="contact">
-            <div class="page-content">
-                <div class="section-heading">
-                    <p class="section-kicker">Comm link</p>
-                    <h1 class="section-title">Get In Touch</h1>
+        <section class="page-section about-section" id="about" data-scroll-target="about">
+            <div class="ds-container">
+                <h2 class="ds-h2 ds-h2--xl">Engineering with care.</h2>
+                <div class="about-columns">
+                    <p class="about-summary">Senior Android Engineer with 8+ years of experience building reliable mobile applications and scalable architectures across Europe and MENA. Focused on Android, KMP, automation, and high-quality delivery within Agile, cross-functional teams.</p>
+                    <p class="ds-muted">Maintainable products, thoughtful user journeys, and dependable delivery — supported by Appium, Selenium, Docker, Jenkins, and Spring Boot microservices.</p>
                 </div>
-                <p class="section-subtitle">Tell me about the Android platform you’re scaling, the audit you need, or the release train that keeps wobbling. I’ll get back within 24 hours.</p>
-                <div class="contact-grid">
-                    <a href="mailto:m.farid.shawky@gmail.com" class="contact-card">
-                        <div class="contact-header">
-                            <div class="contact-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-                            </div>
-                            <span class="contact-title">Email</span>
+            </div>
+        </section>
+        <section class="page-section experience-section" id="experience" data-scroll-target="experience">
+            <div class="ds-container">
+                <h2 class="ds-h2 ds-h2--xl">Experience</h2>
+                <div class="role-list">
+                    <article class="role role--current">
+                        <div class="role-head">
+                            <h3 class="role-company">Check24 Vergleich GmbH</h3>
+                            <p class="role-title">Senior Android Engineer</p>
+                            <p class="role-meta">Sep 2022 – Present · Munich, Germany</p>
                         </div>
-                        <p class="contact-description">Fastest path for briefs, contracts, and support requests.</p>
-                        <span class="contact-action">Send Message</span>
-                    </a>
-                    
-                    <a href="https://linkedin.com/in/mofaridelsherbini" target="_blank" rel="noopener" class="contact-card">
-                        <div class="contact-header">
-                            <div class="contact-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-                            </div>
-                            <span class="contact-title">LinkedIn</span>
+                        <ul class="role-highlights">
+                            <li>Developed loan comparison features using Kotlin, Jetpack Compose, MVVM/MVI, and Dagger.</li>
+                            <li>Refactored a large legacy codebase into a scalable multi-module architecture with full test coverage.</li>
+                            <li>Built integration layers for Spring Boot microservices and REST APIs.</li>
+                        </ul>
+                    </article>
+                    <article class="role">
+                        <div class="role-head">
+                            <h3 class="role-company">Evntoo</h3>
+                            <p class="role-title">Senior Android Engineer</p>
+                            <p class="role-meta">Dec 2020 – Sep 2022 · Cairo, Egypt</p>
                         </div>
-                        <p class="contact-description">Follow product drops, speaking gigs, and fintech notes.</p>
-                        <span class="contact-action">Connect</span>
-                    </a>
-                    
-                    <a href="https://github.com/mohamedfaridelsherbini" target="_blank" rel="noopener" class="contact-card">
-                        <div class="contact-header">
-                            <div class="contact-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-                            </div>
-                            <span class="contact-title">GitHub</span>
+                        <ul class="role-highlights">
+                            <li>Developed User &amp; Provider apps using Kotlin, MVVM, Room, RxKotlin, and Firebase.</li>
+                            <li>Implemented payment gateways, encrypted storage, and location-based features.</li>
+                            <li>Built automated CI/CD pipelines using Jenkins and Docker.</li>
+                        </ul>
+                    </article>
+                    <article class="role">
+                        <div class="role-head">
+                            <h3 class="role-company">Julfar Consultancy Services</h3>
+                            <p class="role-title">Senior Android Engineer</p>
+                            <p class="role-meta">Feb 2019 – Dec 2020 · Cairo, Egypt</p>
                         </div>
-                        <p class="contact-description">Inspect OSS libraries, experiments, and CI templates.</p>
-                        <span class="contact-action">View Profile</span>
-                    </a>
+                        <ul class="role-highlights">
+                            <li>Built enterprise and government apps using Kotlin, Room, Coroutines, SAP, and REST APIs.</li>
+                            <li>Implemented MVI architecture, QR scanning, live chat, and Firebase modules.</li>
+                            <li>Optimized performance for low-end devices and ensured secure API communication.</li>
+                        </ul>
+                    </article>
+                    <article class="role">
+                        <div class="role-head">
+                            <h3 class="role-company">Felucca</h3>
+                            <p class="role-title">Co-Founder / Part-Time Android Engineer</p>
+                            <p class="role-meta">Jan 2017 – Mar 2023 · Cairo, Egypt</p>
+                        </div>
+                        <ul class="role-highlights">
+                            <li>Developed consumer apps, including GreenHub (Kotlin, Firebase, Jetpack) and FocusMusic (Java, MediaPlayer).</li>
+                            <li>Built REST API integrations and secure local storage.</li>
+                            <li>Created local CI pipelines with Docker for testing and builds.</li>
+                        </ul>
+                    </article>
+                    <article class="role">
+                        <div class="role-head">
+                            <h3 class="role-company">Mawared / Xpress Integration / SpotEG / Freelancer</h3>
+                            <p class="role-title">Android Developer</p>
+                            <p class="role-meta">2014 – 2019 · Egypt</p>
+                        </div>
+                        <ul class="role-highlights">
+                            <li>Delivered 15+ Android apps for HR, attendance, and enterprise systems using Java/Kotlin.</li>
+                            <li>Built SPL Fantasy (fantasy football app – Kotlin, MVVM) and Fingerprint Attendance App (hardware SDKs, ZKteco).</li>
+                            <li>Developed reusable Android libraries including a custom calendar component.</li>
+                        </ul>
+                    </article>
                 </div>
-                <div class="languages-section">
-                    <div class="section-heading">
-                        <p class="section-kicker">Signal clarity</p>
-                        <h2 class="section-title">Languages</h2>
+            </div>
+        </section>
+        <section class="page-section skills-section" id="skills" data-scroll-target="skills">
+            <div class="ds-container">
+                <h2 class="ds-h2 ds-h2--xl">Technical skills</h2>
+                <p class="ds-muted">The tools and practices behind my mobile work.</p>
+                <div class="skill-rows">
+                    <div class="skill-row">
+                        <h3>Languages</h3>
+                        <p>Kotlin · Java · Swift · Python · SQL</p>
                     </div>
-                    <div class="languages-grid">
-                        <div class="language-item">
-                            <span class="language">Arabic</span>
-                            <span class="level">Native</span>
-                        </div>
-                        <div class="language-item">
-                            <span class="language">English</span>
-                            <span class="level">Fluent</span>
-                        </div>
-                        <div class="language-item">
-                            <span class="language">German</span>
-                            <span class="level">A1 (Currently studying A2)</span>
-                        </div>
+                    <div class="skill-row">
+                        <h3>Mobile &amp; Architecture</h3>
+                        <p>Android (Jetpack Compose, MVVM, MVI) · iOS (Xcode, UIKit, SwiftUI) · Kotlin Multiplatform · Clean Architecture Patterns</p>
                     </div>
+                    <div class="skill-row">
+                        <h3>Testing &amp; Automation</h3>
+                        <p>Selenium &amp; Appium (Android/iOS) · Espresso &amp; JUnit · Mockito · Automation Framework Design</p>
+                    </div>
+                    <div class="skill-row">
+                        <h3>Backend &amp; DevOps</h3>
+                        <p>Spring Boot Microservices · REST API Design · PostgreSQL · Docker, Kubernetes, Jenkins, GitHub Actions</p>
+                    </div>
+                    <div class="skill-row">
+                        <h3>Frameworks &amp; SDKs</h3>
+                        <p>Room, Retrofit, Firebase · Dagger Hilt, Koin, RxJava · Google Maps SDK · ZKteco Biometric SDKs</p>
+                    </div>
+                    <div class="skill-row">
+                        <h3>Tools &amp; Collaboration</h3>
+                        <p>Android Studio &amp; Gradle · Postman &amp; Charles · Figma &amp; Design Systems · Agile Delivery &amp; Code Review</p>
+                    </div>
+                    <div class="skill-row">
+                        <h3>Other Skills</h3>
+                        <p>RESTful API Integration · SAP Integration · Unity 3D · Arduino &amp; IoT · Printed Circuit Boards · POS Hardware Integration · Embedded Systems</p>
+                    </div>
+                    <div class="skill-row">
+                        <h3>Spoken Languages</h3>
+                        <p>Arabic (Native) · English (Fluent) · German (A1 - Currently Study A2)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="page-section education-section" id="education" data-scroll-target="education">
+            <div class="ds-container education-columns">
+                <div>
+                    <h2 class="ds-h2">Education</h2>
+                    <p class="edu-degree">Bachelor of Engineering – Computer &amp; Systems</p>
+                    <p class="ds-muted">Mansoura University, Egypt · Sep 2009 – Jul 2014</p>
+                </div>
+                <div>
+                    <h2 class="ds-h2">Spoken languages</h2>
+                    <div class="language-row"><span>Arabic</span><span class="ds-muted">Native</span></div>
+                    <div class="language-row"><span>English</span><span class="ds-muted">Fluent</span></div>
+                    <div class="language-row"><span>German</span><span class="ds-muted">A1 (Currently studying A2)</span></div>
+                </div>
+            </div>
+        </section>
+        <section class="page-section contact-section" id="contact" data-scroll-target="contact">
+            <div class="ds-container">
+                <h2 class="ds-h2 ds-h2--xl">Let’s build something thoughtful.</h2>
+                <div class="link-card-grid">
+                    <a class="link-card" href="https://github.com/mohamedfaridelsherbini" target="_blank" rel="noopener">
+                        <h3>GitHub ↗</h3>
+                        <p>Source code, libraries and automation work</p>
+                        <span class="link-card-url">github.com/mohamedfaridelsherbini</span>
+                    </a>
+                    <a class="link-card" href="https://linkedin.com/in/mofaridelsherbini" target="_blank" rel="noopener">
+                        <h3>LinkedIn ↗</h3>
+                        <p>Experience, roles and contact</p>
+                        <span class="link-card-url">linkedin.com/in/mofaridelsherbini</span>
+                    </a>
+                    <a class="link-card" href="mailto:m.farid.shawky@gmail.com">
+                        <h3>Email ↗</h3>
+                        <p>The fastest way to reach me</p>
+                        <span class="link-card-url">m.farid.shawky@gmail.com</span>
+                    </a>
                 </div>
             </div>
         </section>
@@ -657,7 +503,7 @@
         </section>
     </main>
     <footer class="site-footer">
-        <p>© 2025 Mohamed ElSherbini. Built with Kotlin, Ktor & Clean Architecture.</p>
+        <p>© 2026 Mohamed ElSherbini · Built with Kotlin &amp; Ktor</p>
     </footer>
 </body>
 </html>
