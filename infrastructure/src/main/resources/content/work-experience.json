@@ -55,7 +55,7 @@
     "location": "Egypt",
     "period": "2014 \u2013 2019",
     "responsibilities": [
-      "Delivered 15+ Android apps for HR, attendance, and enterprise systems uing Java/Kotlin.",
+      "Delivered 15+ Android apps for HR, attendance, and enterprise systems using Java/Kotlin.",
       "Built SPL Fantasy (fantasy football app \u2013 Kotlin, MVVM) and Fingerprint Attendance App (hardware SDKs, ZKteco).",
       "Developed reusable Android libraries including a custom calendar component.",
       "Worked with Retrofit, Maps SDK, POS printer integrations, and embedded hardware.",

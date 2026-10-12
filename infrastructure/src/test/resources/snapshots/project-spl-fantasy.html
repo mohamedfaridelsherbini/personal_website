@@ -27,6 +27,8 @@
     <meta name="twitter:description" content="Fantasy football platform for the Saudi Pro League with live match data, player stats, and biometric-secured logins.">
     <meta name="twitter:image" content="https://www.mohamedfaridelsherbini.com/static/images/profile-social.jpg">
     <meta property="og:image:alt" content="Mohamed ElSherbini case study">
+    <script src="/static/js/smooth-scroll.js" defer></script>
+    <script src="/static/js/companion.js" defer></script>
     <script type="application/ld+json">
 {
   \"@context\": \"https://schema.org\",
@@ -50,22 +52,25 @@
             <img src="/static/images/profile-social.jpg" alt="Portrait of Mohamed ElSherbini" class="logo-badge" loading="lazy" decoding="async">
             <h2 class="header-title">Mohamed ElSherbini</h2>
         </div>
-        <nav class="nav-panel is-static">
+        <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" data-nav-toggle>
+            <span class="nav-toggle-bar"></span>
+            <span class="nav-toggle-bar"></span>
+            <span class="nav-toggle-bar"></span>
+        </button>
+        <nav class="nav-panel is-static" data-nav-panel>
             <div class="nav-links">
                 <a class="nav-link" href="/">Home</a>
+                <a class="nav-link" href="/#big-projects">Work</a>
                 <a class="nav-link" href="/#about">About</a>
-                <a class="nav-link" href="/#skills">Skills</a>
-                <a class="nav-link" href="/#personal-projects">Projects</a>
                 <a class="nav-link" href="/#contact">Contact</a>
             </div>
             <div class="nav-actions">
-                <a href="mailto:m.farid.shawky@gmail.com" class="contact-button">Let's Talk</a>
                 <a href="/static/files/Mohamed_ElSherbini_Resume.pdf" class="resume-button" target="_blank" download="Mohamed_ElSherbini_Resume.pdf">Resume</a>
             </div>
         </nav>
     </header>
     <main id="main" class="project-detail">
-        <section class="project-hero cluster-card">
+        <section class="project-hero">
             <div class="project-pills">
                 <span class="project-pill">2018 – 2019</span>
                 <span class="project-pill">Lead Android Engineer</span>
@@ -91,7 +96,7 @@
                 </div>
             </div>
         </section>
-        <section class="project-section cluster-card">
+        <section class="project-section">
             <h2>Highlights</h2>
             <ul class="project-highlights">
                 <li>Designed coroutine-based data ingestion for live match updates under 5 seconds.</li>
@@ -100,18 +105,15 @@
             </ul>
         </section>
         <section class="project-section">
-            <div class="section-heading">
-                <p class="section-kicker">More case studies</p>
-                <h2 class="section-title">Other projects</h2>
-            </div>
+            <h2 class="ds-h2 ds-h2--xl">Other projects</h2>
             <div class="projects-grid">
-                <a href="/projects/little" class="project-card personal-project-card cluster-card">
+                <a href="/projects/little" class="project-card personal-project-card">
                     <div class="project-content">
                         <div class="project-header">
                             <h3 class="project-title">Little</h3>
                             <span class="project-category">Consumer App</span>
                         </div>
-                        <p class="project-description">A consumer app developed at Felucca.</p>
+                        <p class="project-description">Consumer Android app built at Felucca Studio for everyday utility and engagement.</p>
                         <div class="project-tech-stack">
                             <span class="tech-tag">Android</span>
                             <span class="tech-tag">Kotlin</span>
@@ -119,13 +121,13 @@
                         </div>
                     </div>
                 </a>
-                <a href="/projects/eleven" class="project-card personal-project-card cluster-card">
+                <a href="/projects/eleven" class="project-card personal-project-card">
                     <div class="project-content">
                         <div class="project-header">
                             <h3 class="project-title">Eleven</h3>
                             <span class="project-category">Consumer App</span>
                         </div>
-                        <p class="project-description">A consumer app developed at Felucca.</p>
+                        <p class="project-description">Companion consumer app from Felucca Studio focused on mobile engagement and retention.</p>
                         <div class="project-tech-stack">
                             <span class="tech-tag">Android</span>
                             <span class="tech-tag">Kotlin</span>
@@ -133,7 +135,7 @@
                         </div>
                     </div>
                 </a>
-                <a href="/projects/fingerprint-attendance" class="project-card personal-project-card cluster-card">
+                <a href="/projects/fingerprint-attendance" class="project-card personal-project-card">
                     <div class="project-content">
                         <div class="project-header">
                             <h3 class="project-title">Fingerprint Attendance</h3>
@@ -148,7 +150,7 @@
                         </div>
                     </div>
                 </a>
-                <a href="/projects/greenhub" class="project-card personal-project-card cluster-card">
+                <a href="/projects/greenhub" class="project-card personal-project-card">
                     <div class="project-content">
                         <div class="project-header">
                             <h3 class="project-title">GreenHub</h3>
@@ -163,7 +165,7 @@
                         </div>
                     </div>
                 </a>
-                <a href="/projects/focusmusic" class="project-card personal-project-card cluster-card">
+                <a href="/projects/focusmusic" class="project-card personal-project-card">
                     <div class="project-content">
                         <div class="project-header">
                             <h3 class="project-title">FocusMusic</h3>
@@ -178,7 +180,7 @@
                         </div>
                     </div>
                 </a>
-                <a href="/projects/custom-calendar-library" class="project-card personal-project-card cluster-card">
+                <a href="/projects/custom-calendar-library" class="project-card personal-project-card">
                     <div class="project-content">
                         <div class="project-header">
                             <h3 class="project-title">Custom Calendar Library</h3>
@@ -192,7 +194,7 @@
                         </div>
                     </div>
                 </a>
-                <a href="/projects/automation-framework" class="project-card personal-project-card cluster-card">
+                <a href="/projects/automation-framework" class="project-card personal-project-card">
                     <div class="project-content">
                         <div class="project-header">
                             <h3 class="project-title">Automation Framework</h3>
@@ -208,7 +210,7 @@
                         </div>
                     </div>
                 </a>
-                <a href="/projects/personal-website" class="project-card personal-project-card cluster-card">
+                <a href="/projects/personal-website" class="project-card personal-project-card">
                     <div class="project-content">
                         <div class="project-header">
                             <h3 class="project-title">Personal Website</h3>
@@ -223,7 +225,7 @@
                         </div>
                     </div>
                 </a>
-                <a href="/projects/alabal" class="project-card personal-project-card cluster-card">
+                <a href="/projects/alabal" class="project-card personal-project-card">
                     <div class="project-content">
                         <div class="project-header">
                             <h3 class="project-title">Alabal</h3>
@@ -243,7 +245,19 @@
         </section>
     </main>
     <footer class="site-footer">
-        <p>© 2025 Mohamed ElSherbini. Built with Kotlin, Ktor & Clean Architecture.</p>
+        <p>© 2026 Mohamed ElSherbini · Built with Kotlin &amp; Ktor</p>
     </footer>
+    <div class="companion" data-companion data-welcome="false">
+        <div class="companion-popover" data-companion-popover id="companion-menu" hidden>
+            <p class="companion-popover-title">Open contact options</p>
+            <a href="mailto:m.farid.shawky@gmail.com">Email</a>
+            <a href="https://linkedin.com/in/mofaridelsherbini" target="_blank" rel="noopener">LinkedIn</a>
+            <a href="https://github.com/mohamedfaridelsherbini" target="_blank" rel="noopener">GitHub</a>
+            <p class="companion-popover-note">No chat, microphone or online status.</p>
+        </div>
+        <button class="companion-button" type="button" aria-label="Open contact options" aria-expanded="false" aria-controls="companion-menu" data-companion-button>
+            <span class="companion-avatar" data-expression="neutral" data-companion-avatar aria-hidden="true"></span>
+        </button>
+    </div>
 </body>
 </html>

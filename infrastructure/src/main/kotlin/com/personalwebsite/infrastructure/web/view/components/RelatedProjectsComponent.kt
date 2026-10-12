@@ -13,14 +13,11 @@ object RelatedProjectsComponent {
     ) {
         if (relatedProjects.isEmpty()) return
         builder.appendLine("        <section class=\"project-section\">")
-        builder.appendLine("            <div class=\"section-heading\">")
-        builder.appendLine("                <p class=\"section-kicker\">More case studies</p>")
-        builder.appendLine("                <h2 class=\"section-title\">Other projects</h2>")
-        builder.appendLine("            </div>")
+        builder.appendLine("            <h2 class=\"ds-h2 ds-h2--xl\">Other projects</h2>")
         builder.appendLine("            <div class=\"projects-grid\">")
         relatedProjects.forEach { project ->
             builder.appendLine(
-                "                <a href=\"/projects/${project.slug}\" class=\"project-card personal-project-card cluster-card\">",
+                "                <a href=\"/projects/${project.slug}\" class=\"project-card personal-project-card\">",
             )
             builder.appendLine("                    <div class=\"project-content\">")
             builder.appendLine("                        <div class=\"project-header\">")

@@ -27,13 +27,11 @@ object HeaderComponent {
         builder.appendLine("        </button>")
         builder.appendLine("        <nav class=\"nav-panel\" data-nav-panel>")
         builder.appendLine("            <div class=\"nav-links\">")
+        builder.appendLine("                <a class=\"nav-link\" href=\"#big-projects\">Work</a>")
         builder.appendLine("                <a class=\"nav-link\" href=\"#about\">About</a>")
-        builder.appendLine("                <a class=\"nav-link\" href=\"#skills\">Skills</a>")
-        builder.appendLine("                <a class=\"nav-link\" href=\"#personal-projects\">Projects</a>")
         builder.appendLine("                <a class=\"nav-link\" href=\"#contact\">Contact</a>")
         builder.appendLine("            </div>")
         builder.appendLine("            <div class=\"nav-actions\">")
-        builder.appendLine("                <a href=\"mailto:${personalInfo.email}\" class=\"contact-button\">Let's Talk</a>")
         builder.appendLine(
             "                <a href=\"/static/files/Mohamed_ElSherbini_Resume.pdf\" class=\"resume-button\" target=\"_blank\" download=\"Mohamed_ElSherbini_Resume.pdf\">Resume</a>",
         )
@@ -53,16 +51,21 @@ object HeaderComponent {
         )
         builder.appendLine("            <h2 class=\"header-title\">${personalInfo.name}</h2>")
         builder.appendLine("        </div>")
-        builder.appendLine("        <nav class=\"nav-panel is-static\">")
+        builder.appendLine(
+            "        <button class=\"nav-toggle\" type=\"button\" aria-label=\"Toggle navigation\" aria-expanded=\"false\" data-nav-toggle>",
+        )
+        builder.appendLine("            <span class=\"nav-toggle-bar\"></span>")
+        builder.appendLine("            <span class=\"nav-toggle-bar\"></span>")
+        builder.appendLine("            <span class=\"nav-toggle-bar\"></span>")
+        builder.appendLine("        </button>")
+        builder.appendLine("        <nav class=\"nav-panel is-static\" data-nav-panel>")
         builder.appendLine("            <div class=\"nav-links\">")
         builder.appendLine("                <a class=\"nav-link\" href=\"/\">Home</a>")
+        builder.appendLine("                <a class=\"nav-link\" href=\"/#big-projects\">Work</a>")
         builder.appendLine("                <a class=\"nav-link\" href=\"/#about\">About</a>")
-        builder.appendLine("                <a class=\"nav-link\" href=\"/#skills\">Skills</a>")
-        builder.appendLine("                <a class=\"nav-link\" href=\"/#personal-projects\">Projects</a>")
         builder.appendLine("                <a class=\"nav-link\" href=\"/#contact\">Contact</a>")
         builder.appendLine("            </div>")
         builder.appendLine("            <div class=\"nav-actions\">")
-        builder.appendLine("                <a href=\"mailto:${personalInfo.email}\" class=\"contact-button\">Let's Talk</a>")
         builder.appendLine(
             "                <a href=\"/static/files/Mohamed_ElSherbini_Resume.pdf\" class=\"resume-button\" target=\"_blank\" download=\"Mohamed_ElSherbini_Resume.pdf\">Resume</a>",
         )

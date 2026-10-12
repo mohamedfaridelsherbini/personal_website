@@ -2,78 +2,41 @@
 
 package com.personalwebsite.infrastructure.web.view.components
 
+import com.personalwebsite.domain.entities.PersonalInfo
+
 /**
- * Home page hero section.
+ * Skills-led home page hero.
  */
 object HeroSectionComponent {
-    fun append(builder: StringBuilder) {
-        builder.appendLine("        <section class=\"hero\" id=\"home\" data-scroll-target=\"home\">")
-        builder.appendLine("            <div class=\"hero-content\">")
-        builder.appendLine("                <div class=\"hero-text cluster-card\">")
-        builder.appendLine("                    <div class=\"hero-chip-row\">")
-        builder.appendLine("                        <span class=\"hero-chip\">Augsburg</span>")
-        builder.appendLine("                        <span class=\"hero-chip\">Kotlin</span>")
-        builder.appendLine("                        <span class=\"hero-chip\">Swift</span>")
-        builder.appendLine("                        <span class=\"hero-chip\">CI/CD</span>")
-        builder.appendLine("                        <span class=\"hero-chip\">KMP</span>")
-        builder.appendLine("                    </div>")
-        builder.appendLine("                    <h1 class=\"hero-title\">Mohamed ElSherbini</h1>")
+    private val skillChips =
+        listOf("Kotlin", "Jetpack Compose", "Kotlin Multiplatform", "MVVM · MVI", "Appium · Selenium", "Spring Boot", "Docker · Jenkins")
+
+    fun append(
+        builder: StringBuilder,
+        personalInfo: PersonalInfo,
+    ) {
+        builder.appendLine("        <section class=\"hero hero-intro\" id=\"home\" data-scroll-target=\"home\">")
+        builder.appendLine("            <div class=\"hero-intro-inner\">")
         builder.appendLine(
-            "                    <p class=\"hero-subtitle\">Senior Android Engineer · Kotlin · KMP · Automation</p>",
+            "                <p class=\"hero-eyebrow\">${personalInfo.title.escapeHtml()} · Augsburg, Germany · 8+ years</p>",
         )
         builder.appendLine(
-            "                    <p class=\"hero-lead\">Senior Android Engineer with 8+ years building reliable mobile applications and scalable architectures across Europe and MENA. Focused on Android, KMP, automation, and high-quality delivery within Agile, cross-functional teams.</p>",
-        )
-        builder.appendLine("                    <ul class=\"hero-highlight-list\">")
-        builder.appendLine(
-            "                        <li>Composable Android & KMP architectures rolled out across multi-brand platforms</li>",
-        )
-        builder.appendLine("                        <li>Automation frameworks (Selenium, Appium) powering Android/iOS CI/CD</li>")
-        builder.appendLine(
-            "                        <li>Reliability, performance, and security-first mobile experiences for millions of users.</li>",
-        )
-        builder.appendLine("                    </ul>")
-        builder.appendLine("                    <div class=\"hero-actions hero-cta-row\">")
-        builder.appendLine("                        <a href=\"#personal-projects\" class=\"button-accent\">View Projects</a>")
-        builder.appendLine("                        <a href=\"#contact\" class=\"secondary-button\">Contact</a>")
-        builder.appendLine(
-            "                        <a href=\"/static/files/Mohamed_ElSherbini_Resume.pdf\" class=\"ghost-button\" target=\"_blank\" rel=\"noopener\">Résumé</a>",
-        )
-        builder.appendLine("                    </div>")
-        builder.appendLine("                    <div class=\"hero-meta-row\">")
-        builder.appendLine("                        <div class=\"hero-meta-pill\">")
-        builder.appendLine("                            <span class=\"hero-meta-label\">Availability</span>")
-        builder.appendLine("                            <span class=\"hero-meta-value\">Q1 2026</span>")
-        builder.appendLine("                        </div>")
-        builder.appendLine("                        <div class=\"hero-meta-pill\">")
-        builder.appendLine("                            <span class=\"hero-meta-label\">Current mission</span>")
-        builder.appendLine("                            <span class=\"hero-meta-value\">CHECK24 Mobile Platform</span>")
-        builder.appendLine("                        </div>")
-        builder.appendLine("                    </div>")
-        builder.appendLine("                </div>")
-        builder.appendLine("                <div class=\"hero-panels\">")
-        builder.appendLine("                    <div class=\"hero-panel cluster-card hero-signal\">")
-        builder.appendLine("                        <h3>Systems online</h3>")
-        builder.appendLine(
-            "                        <p>Composable design systems, real-time observability, and battle-tested release trains keep every build stable in production.</p>",
-        )
-        builder.appendLine("                        <ul class=\"hero-signal-list\">")
-        builder.appendLine("                            <li>Jetpack Compose and KMP rolled out across multi-brand Android platforms</li>")
-        builder.appendLine(
-            "                            <li>Automation frameworks (Selenium, Appium) powering shared Android/iOS pipelines</li>",
+            "                <h1 class=\"hero-headline\">Android.<br>Kotlin Multiplatform.<br>Automation. Built to last.</h1>",
         )
         builder.appendLine(
-            "                            <li>Security reviews covering encryption, biometric flows, and fintech compliance</li>",
+            "                <p class=\"hero-intro-lead\">I design and ship reliable mobile products and the architecture, test automation and delivery pipelines behind them — across Europe and MENA.</p>",
         )
-        builder.appendLine("                        </ul>")
-        builder.appendLine("                        <div class=\"hero-tag-cloud\">")
-        builder.appendLine("                            <span class=\"hero-tag\">Kotlin</span>")
-        builder.appendLine("                            <span class=\"hero-tag\">Compose</span>")
-        builder.appendLine("                            <span class=\"hero-tag\">Swift</span>")
-        builder.appendLine("                            <span class=\"hero-tag\">KMP</span>")
-        builder.appendLine("                            <span class=\"hero-tag\">CI/CD</span>")
-        builder.appendLine("                        </div>")
-        builder.appendLine("                    </div>")
+        builder.appendLine("                <ul class=\"hero-skill-chips\" aria-label=\"Core skills\">")
+        skillChips.forEach { builder.appendLine("                    <li>${it.escapeHtml()}</li>") }
+        builder.appendLine("                </ul>")
+        builder.appendLine("                <div class=\"hero-intro-actions\">")
+        builder.appendLine("                    <a href=\"#big-projects\" class=\"ds-button ds-button--primary\">View big projects</a>")
+        builder.appendLine(
+            "                    <a href=\"${personalInfo.github.escapeHtml()}\" class=\"ds-button ds-button--outline\" target=\"_blank\" rel=\"noopener\">GitHub ↗</a>",
+        )
+        builder.appendLine(
+            "                    <a href=\"${personalInfo.linkedin.escapeHtml()}\" class=\"ds-button ds-button--outline\" target=\"_blank\" rel=\"noopener\">LinkedIn ↗</a>",
+        )
         builder.appendLine("                </div>")
         builder.appendLine("            </div>")
         builder.appendLine("        </section>")

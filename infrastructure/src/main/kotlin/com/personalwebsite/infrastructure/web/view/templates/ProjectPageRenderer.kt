@@ -1,6 +1,7 @@
 package com.personalwebsite.infrastructure.web.view.templates
 
 import com.personalwebsite.application.website.model.PageModel
+import com.personalwebsite.infrastructure.web.view.components.CompanionComponent
 import com.personalwebsite.infrastructure.web.view.components.FooterComponent
 import com.personalwebsite.infrastructure.web.view.components.HeaderComponent
 import com.personalwebsite.infrastructure.web.view.components.PageHeadComponent
@@ -33,6 +34,7 @@ class ProjectPageRenderer(
             QuoteSectionComponent.append(this, personalInfo)
             appendLine("    </main>")
             FooterComponent.append(this, personalInfo)
+            CompanionComponent.append(this, personalInfo, withWelcome = false)
             appendLine("</body>")
             appendLine("</html>")
         }

@@ -25,6 +25,7 @@ class PageHeadComponent {
         builder.appendLine("    <meta property=\"og:image:alt\" content=\"Portrait of ${personalInfo.name}\">")
         builder.appendLine("    <meta name=\"twitter:image:alt\" content=\"Portrait of ${personalInfo.name}\">")
         builder.appendLine("    <script src=\"/static/js/smooth-scroll.js\" defer></script>")
+        builder.appendLine("    <script src=\"/static/js/companion.js\" defer></script>")
         builder.appendLine("    <script src=\"/static/js/cursor-buddy.js\" defer></script>")
         metadata.structuredDataJsonLd?.let { jsonLd ->
             builder.appendLine("    <script type=\"application/ld+json\">")
@@ -49,6 +50,8 @@ class PageHeadComponent {
         builder.appendLine("<head>")
         appendCommonHead(builder, metadata)
         builder.appendLine("    <meta property=\"og:image:alt\" content=\"${personalInfo.name} case study\">")
+        builder.appendLine("    <script src=\"/static/js/smooth-scroll.js\" defer></script>")
+        builder.appendLine("    <script src=\"/static/js/companion.js\" defer></script>")
         metadata.structuredDataJsonLd?.let { jsonLd ->
             builder.appendLine("    <script type=\"application/ld+json\">")
             builder.appendLine(jsonLd)

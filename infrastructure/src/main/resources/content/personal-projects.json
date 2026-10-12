@@ -1,17 +1,31 @@
 [
   {
     "name": "Little",
-    "description": "A consumer app developed at Felucca.",
+    "description": "Consumer Android app built at Felucca Studio for everyday utility and engagement.",
     "techStack": "Android • Kotlin • Firebase",
     "slug": "little",
-    "category": "Consumer App"
+    "category": "Consumer App",
+    "role": "Android Engineer",
+    "timeline": "2017 – 2023",
+    "highlights": [
+      "Shipped Kotlin-first features with Firebase auth, analytics, and remote config.",
+      "Integrated REST APIs with offline-friendly caching for unreliable networks.",
+      "Maintained release cadence with local Docker-based CI for builds and tests."
+    ]
   },
   {
     "name": "Eleven",
-    "description": "A consumer app developed at Felucca.",
+    "description": "Companion consumer app from Felucca Studio focused on mobile engagement and retention.",
     "techStack": "Android • Kotlin • Firebase",
     "slug": "eleven",
-    "category": "Consumer App"
+    "category": "Consumer App",
+    "role": "Android Engineer",
+    "timeline": "2017 – 2023",
+    "highlights": [
+      "Built MVVM screens with Jetpack components and Firebase-backed user flows.",
+      "Optimized startup and memory usage for mid-range devices.",
+      "Collaborated on shared Felucca architecture patterns across consumer apps."
+    ]
   },
   {
     "name": "SPL Fantasy",

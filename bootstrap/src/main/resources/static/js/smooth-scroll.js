@@ -5,6 +5,28 @@ document.addEventListener('DOMContentLoaded', function() {
     const navPanel = document.querySelector('[data-nav-panel]');
     const navLinks = document.querySelectorAll('nav a[href^="#"]');
     const sections = document.querySelectorAll('[data-scroll-target]');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const projectCards = document.querySelectorAll('[data-project-reveal]');
+    if (!reducedMotion.matches && 'IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.remove('project-reveal-pending');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.08 });
+        projectCards.forEach(card => {
+            card.classList.add('project-reveal-pending');
+            observer.observe(card);
+        });
+        reducedMotion.addEventListener('change', () => {
+            if (reducedMotion.matches) {
+                observer.disconnect();
+                projectCards.forEach(card => card.classList.remove('project-reveal-pending'));
+            }
+        });
+    }
 
     function closeNavPanel() {
         if (!navPanel) return;
@@ -34,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 window.scrollTo({
                     top: targetPosition,
-                    behavior: 'smooth'
+                    behavior: reducedMotion.matches ? 'auto' : 'smooth'
                 });
             }
 

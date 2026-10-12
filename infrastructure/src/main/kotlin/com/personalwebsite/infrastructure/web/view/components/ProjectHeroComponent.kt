@@ -11,7 +11,7 @@ object ProjectHeroComponent {
         builder: StringBuilder,
         project: PersonalProject,
     ) {
-        builder.appendLine("        <section class=\"project-hero cluster-card\">")
+        builder.appendLine("        <section class=\"project-hero\">")
         if (!project.timeline.isNullOrBlank() || !project.role.isNullOrBlank()) {
             builder.appendLine("            <div class=\"project-pills\">")
             project.timeline?.let {
