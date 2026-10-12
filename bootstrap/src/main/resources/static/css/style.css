@@ -1954,3 +1954,33 @@ header { height: 80px; padding: 0 max(24px, calc((100% - 1200px) / 2 + 24px)); b
   .project-hero, .project-section { padding-left: 20px; padding-right: 20px; }
 }
 .project-category { background: var(--ds-bg); border: 1px solid var(--ds-border); border-radius: 8px; color: var(--ds-slate); font-family: var(--font-sans); letter-spacing: 0; text-transform: none; }
+
+@media (max-width: 960px) {
+  .nav-toggle { flex-direction: column; width: 44px; height: 44px; }
+  .nav-panel { top: 72px; background: var(--ds-surface); border: 1px solid var(--ds-border); border-radius: 16px; box-shadow: 0 8px 24px rgba(32, 36, 43, 0.12); }
+  .nav-link { font-size: 18px; }
+}
+@media (max-width: 600px) {
+  .nav-panel { top: 72px; }
+}
+@media (max-width: 600px) {
+  .ds-h2 { font-size: 28px; }
+  .ds-h2--xl { font-size: 32px; }
+  .education-columns { gap: 40px; }
+  .edu-degree { margin-top: 16px; }
+  .nav-links { gap: 0; }
+  .nav-link { padding: 10px 0; }
+  .link-card h3 { font-size: 28px; }
+}
+@media (max-width: 600px) {
+  .link-card { padding: 24px; }
+  .link-card-url { font-size: 15px; }
+}
+@media (max-width: 960px) {
+  .nav-panel.is-static { position: absolute; }
+}
+@media (max-width: 600px) {
+  .project-pill + .project-pill::before { content: none; }
+  .project-pills { gap: 4px 12px; }
+  .header-title { font-size: 15px; }
+}

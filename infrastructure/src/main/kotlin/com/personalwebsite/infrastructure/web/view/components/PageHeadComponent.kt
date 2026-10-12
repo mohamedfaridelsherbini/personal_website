@@ -49,6 +49,7 @@ class PageHeadComponent {
         builder.appendLine("<head>")
         appendCommonHead(builder, metadata)
         builder.appendLine("    <meta property=\"og:image:alt\" content=\"${personalInfo.name} case study\">")
+        builder.appendLine("    <script src=\"/static/js/smooth-scroll.js\" defer></script>")
         metadata.structuredDataJsonLd?.let { jsonLd ->
             builder.appendLine("    <script type=\"application/ld+json\">")
             builder.appendLine(jsonLd)

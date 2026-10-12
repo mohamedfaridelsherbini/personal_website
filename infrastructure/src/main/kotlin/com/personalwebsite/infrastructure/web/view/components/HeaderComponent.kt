@@ -51,7 +51,14 @@ object HeaderComponent {
         )
         builder.appendLine("            <h2 class=\"header-title\">${personalInfo.name}</h2>")
         builder.appendLine("        </div>")
-        builder.appendLine("        <nav class=\"nav-panel is-static\">")
+        builder.appendLine(
+            "        <button class=\"nav-toggle\" type=\"button\" aria-label=\"Toggle navigation\" aria-expanded=\"false\" data-nav-toggle>",
+        )
+        builder.appendLine("            <span class=\"nav-toggle-bar\"></span>")
+        builder.appendLine("            <span class=\"nav-toggle-bar\"></span>")
+        builder.appendLine("            <span class=\"nav-toggle-bar\"></span>")
+        builder.appendLine("        </button>")
+        builder.appendLine("        <nav class=\"nav-panel is-static\" data-nav-panel>")
         builder.appendLine("            <div class=\"nav-links\">")
         builder.appendLine("                <a class=\"nav-link\" href=\"/\">Home</a>")
         builder.appendLine("                <a class=\"nav-link\" href=\"/#big-projects\">Work</a>")
