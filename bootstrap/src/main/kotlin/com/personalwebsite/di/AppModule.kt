@@ -47,7 +47,6 @@ val appModule =
         single<SkillRepository> { SkillRepositoryImpl(contentLoader = get()) }
         single<WorkExperienceRepository> { WorkExperienceRepositoryImpl(contentLoader = get()) }
         single<PersonalProjectRepository> { PersonalProjectRepositoryImpl(contentLoader = get()) }
-        single<PersonalProjectRepository> { PersonalProjectRepositoryImpl(contentLoader = get()) }
         single<LanguageRepository> { LanguageRepositoryImpl(contentLoader = get()) }
         single<EducationRepository> { EducationRepositoryImpl(contentLoader = get()) }
 
@@ -55,7 +54,6 @@ val appModule =
         single { GetPersonalInfoUseCase(get()) }
         single { GetSkillsUseCase(get()) }
         single { GetWorkExperienceUseCase(get()) }
-        single { GetPersonalProjectsUseCase(get()) }
         single { GetPersonalProjectsUseCase(get()) }
         single { GetLanguagesUseCase(get()) }
         single { GetEducationUseCase(get()) }

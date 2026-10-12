@@ -142,7 +142,6 @@
         if (window.innerWidth < 320 || window.innerHeight < 480) return false;
         try {
             if (window.sessionStorage.getItem(STORAGE_KEY)) return false;
-            window.sessionStorage.setItem(STORAGE_KEY, '1');
         } catch (e) {
             return false;
         }
@@ -207,7 +206,9 @@
         var timeout = setTimeout(function () { settled = true; }, 1200);
         probe.onload = function () {
             clearTimeout(timeout);
-            if (!settled) runWelcome();
+            if (settled) return;
+            try { window.sessionStorage.setItem(STORAGE_KEY, '1'); } catch (e) { return; }
+            runWelcome();
         };
         probe.onerror = function () { clearTimeout(timeout); };
         probe.src = SHEET;

@@ -4,9 +4,12 @@ package com.personalwebsite.infrastructure.web.view.components
 
 /**
  * Big projects area: AlaBal (featured) and Aldaem (coming soon).
- * Details for both are still to be supplied by the owner, so no features or outcomes are invented.
+ * AlaBal links to its project page; Aldaem has no page yet, so no details are invented.
  */
 object BigProjectsComponent {
+    /** Slugs shown here, so the "More projects" grid does not repeat them. */
+    val SLUGS = setOf("alabal")
+
     fun append(builder: StringBuilder) {
         builder.appendLine(
             "        <section class=\"page-section big-projects\" id=\"big-projects\" data-scroll-target=\"big-projects\">",
@@ -17,13 +20,14 @@ object BigProjectsComponent {
         builder.appendLine("                    <p class=\"ds-muted\">Products I own end to end</p>")
         builder.appendLine("                </div>")
         builder.appendLine("                <div class=\"big-project-grid\">")
-        builder.appendLine("                    <article class=\"big-project big-project--featured\">")
+        builder.appendLine("                    <a class=\"big-project big-project--featured\" href=\"/projects/alabal\">")
         builder.appendLine("                        <div>")
         builder.appendLine("                            <p class=\"big-project-status\">Featured · Personal project</p>")
         builder.appendLine("                            <h3>AlaBal</h3>")
         builder.appendLine("                            <p class=\"big-project-desc\">A private place-sharing app for family.</p>")
         builder.appendLine("                        </div>")
-        builder.appendLine("                    </article>")
+        builder.appendLine("                        <span class=\"big-project-action\">Explore AlaBal ↗</span>")
+        builder.appendLine("                    </a>")
         builder.appendLine("                    <article class=\"big-project big-project--soon\">")
         builder.appendLine("                        <div>")
         builder.appendLine("                            <p class=\"big-project-status\">Coming soon</p>")

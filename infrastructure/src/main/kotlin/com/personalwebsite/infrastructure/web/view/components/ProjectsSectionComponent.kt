@@ -7,7 +7,7 @@ import com.personalwebsite.domain.entities.PersonalProject
  * Personal projects grid on the home page.
  */
 object ProjectsSectionComponent {
-    private val excludedSlugs = setOf("craftmind-agentic-ai", "familyhub")
+    private val excludedSlugs = BigProjectsComponent.SLUGS
 
     fun append(
         builder: StringBuilder,
