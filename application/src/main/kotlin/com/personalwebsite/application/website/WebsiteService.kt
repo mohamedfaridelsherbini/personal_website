@@ -124,8 +124,8 @@ class WebsiteService(
 
     private fun buildHomeMetadata(personalInfo: PersonalInfo): PageMetadata {
         val metaDescription =
-            "Senior Android engineer crafting Kotlin and Jetpack Compose experiences for fintech and product teams across Europe. " +
-                "Currently at Check24 in Munich, open to remote consulting and leadership opportunities."
+            "Senior Android Engineer in Augsburg building Android and Kotlin Multiplatform apps, test automation and delivery " +
+                "pipelines across Europe and MENA. 8+ years of reliable mobile work."
         val socialImageUrl = "$baseUrl/static/images/profile-social.jpg"
         val jsonLd = createPersonSchema(personalInfo, baseUrl, socialImageUrl, metaDescription)
 

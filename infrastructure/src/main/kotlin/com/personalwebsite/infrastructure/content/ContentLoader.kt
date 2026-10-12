@@ -22,7 +22,7 @@ class ContentLoader(
     private val diskContentRoot: Path? =
         listOfNotNull(
             System.getenv("CONTENT_DIR")?.takeIf { it.isNotBlank() }?.let { Paths.get(it) },
-            Paths.get("infrastructure/src/main/resources"),
+            ContentRoots.findUp("infrastructure/src/main/resources"),
             Paths.get("src/main/resources"),
         ).map { it.toAbsolutePath().normalize() }
             .firstOrNull { Files.exists(it) }

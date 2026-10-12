@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonElement
 import com.personalwebsite.application.website.ports.RenderCache
 import com.personalwebsite.infrastructure.content.ContentLoader
+import com.personalwebsite.infrastructure.content.ContentRoots
 import mu.KotlinLogging
 import java.nio.file.Files
 import java.nio.file.Path
@@ -171,7 +172,7 @@ class AdminContentService(
         val candidates =
             listOfNotNull(
                 explicit,
-                Paths.get("infrastructure/src/main/resources/content"),
+                ContentRoots.findUp("infrastructure/src/main/resources/content"),
                 Paths.get("src/main/resources/content"),
                 Paths.get("content"),
             )
