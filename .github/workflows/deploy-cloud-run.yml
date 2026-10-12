@@ -35,7 +35,7 @@ jobs:
             --project "${{ secrets.GCP_PROJECT_ID }}" \
             --region europe-west3 \
             --allow-unauthenticated \
-            --set-env-vars "SITE_BASE_URL=https://www.mohamedfaridelsherbini.com,ADMIN_USER=${{ secrets.ADMIN_USER }},ADMIN_PASSWORD=${{ secrets.ADMIN_PASSWORD }}"
+            --set-env-vars "SITE_BASE_URL=https://www.mohamedfaridelsherbini.com,GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }},GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }},ADMIN_GOOGLE_EMAIL=${{ secrets.ADMIN_GOOGLE_EMAIL }},SESSION_SECRET=${{ secrets.SESSION_SECRET }}"
 
       - name: Deploy Firebase Hosting rewrites
         env:

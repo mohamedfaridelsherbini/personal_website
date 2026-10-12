@@ -1,6 +1,8 @@
 package com.personalwebsite.infrastructure.web.routing
 
 import com.personalwebsite.infrastructure.admin.AdminContentService
+import com.personalwebsite.infrastructure.web.auth.ADMIN_SESSION_AUTH
+import com.personalwebsite.infrastructure.web.auth.AdminSession
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.content.forEachPart
 import io.ktor.server.application.call
@@ -14,6 +16,8 @@ import io.ktor.server.routing.Route
 import io.ktor.server.routing.Routing
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
+import io.ktor.server.sessions.get
+import io.ktor.server.sessions.sessions
 import io.ktor.utils.io.core.readBytes
 import kotlinx.html.ButtonType
 import kotlinx.html.FormEncType
@@ -40,10 +44,7 @@ import kotlinx.html.title
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
-fun Routing.adminRoutes(
-    adminContentService: AdminContentService,
-    authEnabled: Boolean,
-) {
+fun Routing.adminRoutes(adminContentService: AdminContentService) {
     val adminRoutes: Route.() -> Unit = {
         get("/admin") {
             val message = call.request.queryParameters["message"]
@@ -78,10 +79,9 @@ fun Routing.adminRoutes(
                     div("layout") {
                         div("header") {
                             h1 { +"Admin panel" }
-                            if (authEnabled) {
-                                p { +"Protected with HTTP Basic auth (ADMIN_USER/ADMIN_PASSWORD)." }
-                            } else {
-                                p { +"Warning: ADMIN_USER/ADMIN_PASSWORD not set. Admin panel is not authenticated." }
+                            p { +"Signed in as ${call.sessions.get<AdminSession>()?.email.orEmpty()}" }
+                            form(action = "/admin/logout", method = FormMethod.post) {
+                                button(type = ButtonType.submit) { +"Sign out" }
                             }
                         }
 
@@ -201,11 +201,7 @@ fun Routing.adminRoutes(
         }
     }
 
-    if (authEnabled) {
-        authenticate("adminAuth") {
-            adminRoutes()
-        }
-    } else {
+    authenticate(ADMIN_SESSION_AUTH) {
         adminRoutes()
     }
 }

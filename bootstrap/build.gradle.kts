@@ -14,6 +14,7 @@ dependencies {
 
     implementation(libs.ktor.server.netty)
     implementation(libs.ktor.server.auth)
+    implementation("io.ktor:ktor-server-sessions-jvm:${libs.versions.ktor.get()}")
     implementation(libs.koin.ktor)
     implementation(libs.koin.logger.slf4j)
     implementation(libs.logback.classic)

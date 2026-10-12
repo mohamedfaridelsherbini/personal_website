@@ -4,13 +4,13 @@ import com.personalwebsite.application.website.WebsiteQueries
 import com.personalwebsite.di.appModule
 import com.personalwebsite.domain.usecases.GetPersonalProjectsUseCase
 import com.personalwebsite.infrastructure.admin.AdminContentService
+import com.personalwebsite.infrastructure.web.auth.AdminAuth
+import com.personalwebsite.infrastructure.web.auth.GoogleAdminConfig
+import com.personalwebsite.infrastructure.web.auth.installAdminAuth
 import com.personalwebsite.infrastructure.web.routing.registerRoutes
 import io.ktor.server.application.Application
 import io.ktor.server.application.install
 import io.ktor.server.application.log
-import io.ktor.server.auth.Authentication
-import io.ktor.server.auth.UserIdPrincipal
-import io.ktor.server.auth.basic
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import org.koin.ktor.ext.inject
@@ -39,32 +39,21 @@ fun Application.module() {
     val adminContentService by inject<AdminContentService>()
     val getPersonalProjectsUseCase by inject<GetPersonalProjectsUseCase>()
 
-    val adminUser = System.getenv("ADMIN_USER")
-    val adminPassword = System.getenv("ADMIN_PASSWORD")
-    val adminAuthEnabled = !adminUser.isNullOrBlank() && !adminPassword.isNullOrBlank()
     val siteBaseUrl = System.getenv("SITE_BASE_URL") ?: "https://www.mohamedfaridelsherbini.com"
+    val adminAuth = GoogleAdminConfig.fromEnv(siteBaseUrl)?.let(::AdminAuth)
 
-    if (adminAuthEnabled) {
-        install(Authentication) {
-            basic("adminAuth") {
-                realm = "Admin panel"
-                validate { credentials ->
-                    if (credentials.name == adminUser && credentials.password == adminPassword) {
-                        UserIdPrincipal(credentials.name)
-                    } else {
-                        null
-                    }
-                }
-            }
-        }
+    if (adminAuth != null) {
+        installAdminAuth(adminAuth)
     } else {
-        log.warn("Admin auth disabled. Set ADMIN_USER and ADMIN_PASSWORD to protect /admin")
+        log.warn(
+            "Admin disabled. Set GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, ADMIN_GOOGLE_EMAIL and SESSION_SECRET to enable /admin",
+        )
     }
 
     registerRoutes(
         websiteQueries = websiteQueries,
         adminContentService = adminContentService,
-        adminAuthEnabled = adminAuthEnabled,
+        adminAuth = adminAuth,
         getPersonalProjectsUseCase = getPersonalProjectsUseCase,
         siteBaseUrl = siteBaseUrl,
     )
