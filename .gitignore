@@ -94,3 +94,6 @@ ktlint
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Stray content copy created when running from bootstrap/ (see ContentRoots)
+bootstrap/infrastructure/
