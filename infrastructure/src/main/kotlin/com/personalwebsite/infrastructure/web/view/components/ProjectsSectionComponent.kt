@@ -5,13 +5,14 @@ package com.personalwebsite.infrastructure.web.view.components
 import com.personalwebsite.domain.entities.PersonalProject
 
 /**
- * "More projects": a flat grid of white cards for everything that is not a big project.
+ * "More projects": a grid of compact project cards.
  */
 object ProjectsSectionComponent {
     fun append(
         builder: StringBuilder,
         projects: List<PersonalProject>,
     ) {
+        val shown = projects.filterNot { it.featured }
         builder.appendLine(
             "        <section class=\"page-section projects-section\" id=\"personal-projects\" data-scroll-target=\"personal-projects\">",
         )
@@ -21,19 +22,7 @@ object ProjectsSectionComponent {
         builder.appendLine("                    <p class=\"ds-muted\">Apps, reusable libraries, and engineering tools.</p>")
         builder.appendLine("                </div>")
         builder.appendLine("                <div class=\"more-projects-grid\">")
-        projects.filterNot { it.featured }.forEach { project ->
-            builder.appendLine("                    <a class=\"more-project-card\" href=\"/projects/${project.slug.escapeHtml()}\">")
-            builder.appendLine("                        <span class=\"more-project-category\">${project.category.escapeHtml()}</span>")
-            builder.appendLine("                        <h3>${project.name.escapeHtml()}</h3>")
-            builder.appendLine("                        <p>${project.description.escapeHtml()}</p>")
-            builder.appendLine("                        <ul class=\"more-project-tags\">")
-            project.techStack.split(" • ").filter { it.isNotBlank() }.forEach { tech ->
-                builder.appendLine("                            <li>${tech.escapeHtml()}</li>")
-            }
-            builder.appendLine("                        </ul>")
-            builder.appendLine("                        <span class=\"more-project-action\">Explore project ↗</span>")
-            builder.appendLine("                    </a>")
-        }
+        shown.forEach { ProjectCardComponent.append(builder, it) }
         builder.appendLine("                </div>")
         builder.appendLine("            </div>")
         builder.appendLine("        </section>")
