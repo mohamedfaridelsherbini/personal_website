@@ -31,11 +31,6 @@ object HeaderComponent {
         builder.appendLine("                <a class=\"nav-link\" href=\"#about\">About</a>")
         builder.appendLine("                <a class=\"nav-link\" href=\"#contact\">Contact</a>")
         builder.appendLine("            </div>")
-        builder.appendLine("            <div class=\"nav-actions\">")
-        builder.appendLine(
-            "                <a href=\"/static/files/Mohamed_ElSherbini_Resume.pdf\" class=\"resume-button\" target=\"_blank\" download=\"Mohamed_ElSherbini_Resume.pdf\">Resume</a>",
-        )
-        builder.appendLine("            </div>")
         builder.appendLine("        </nav>")
         builder.appendLine("    </header>")
     }
@@ -64,11 +59,6 @@ object HeaderComponent {
         builder.appendLine("                <a class=\"nav-link\" href=\"/#big-projects\">Work</a>")
         builder.appendLine("                <a class=\"nav-link\" href=\"/#about\">About</a>")
         builder.appendLine("                <a class=\"nav-link\" href=\"/#contact\">Contact</a>")
-        builder.appendLine("            </div>")
-        builder.appendLine("            <div class=\"nav-actions\">")
-        builder.appendLine(
-            "                <a href=\"/static/files/Mohamed_ElSherbini_Resume.pdf\" class=\"resume-button\" target=\"_blank\" download=\"Mohamed_ElSherbini_Resume.pdf\">Resume</a>",
-        )
         builder.appendLine("            </div>")
         builder.appendLine("        </nav>")
         builder.appendLine("    </header>")
