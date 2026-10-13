@@ -8,8 +8,6 @@ import com.personalwebsite.domain.entities.PersonalProject
  * "More projects": a flat grid of white cards for everything that is not a big project.
  */
 object ProjectsSectionComponent {
-    private val excludedSlugs = BigProjectsComponent.SLUGS
-
     fun append(
         builder: StringBuilder,
         projects: List<PersonalProject>,
@@ -23,13 +21,13 @@ object ProjectsSectionComponent {
         builder.appendLine("                    <p class=\"ds-muted\">Apps, reusable libraries, and engineering tools.</p>")
         builder.appendLine("                </div>")
         builder.appendLine("                <div class=\"more-projects-grid\">")
-        projects.filterNot { it.slug in excludedSlugs }.forEach { project ->
+        projects.filterNot { it.featured }.forEach { project ->
             builder.appendLine("                    <a class=\"more-project-card\" href=\"/projects/${project.slug.escapeHtml()}\">")
             builder.appendLine("                        <span class=\"more-project-category\">${project.category.escapeHtml()}</span>")
             builder.appendLine("                        <h3>${project.name.escapeHtml()}</h3>")
             builder.appendLine("                        <p>${project.description.escapeHtml()}</p>")
             builder.appendLine("                        <ul class=\"more-project-tags\">")
-            project.techStack.split(" • ").forEach { tech ->
+            project.techStack.split(" • ").filter { it.isNotBlank() }.forEach { tech ->
                 builder.appendLine("                            <li>${tech.escapeHtml()}</li>")
             }
             builder.appendLine("                        </ul>")

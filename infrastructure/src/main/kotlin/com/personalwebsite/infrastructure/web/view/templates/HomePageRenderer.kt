@@ -35,7 +35,7 @@ class HomePageRenderer(
             appendLine("    <main id=\"main\">")
             HeroSectionComponent.append(this, personalInfo)
             SkillsOverviewComponent.append(this)
-            BigProjectsComponent.append(this)
+            BigProjectsComponent.append(this, site.personalProjects)
             ProjectsSectionComponent.append(this, site.personalProjects)
             AboutSectionComponent.append(this, personalInfo, site.workExperience)
             SkillsSectionComponent.append(this, site.skills)

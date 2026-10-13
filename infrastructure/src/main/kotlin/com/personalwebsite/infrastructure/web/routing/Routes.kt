@@ -3,6 +3,7 @@ package com.personalwebsite.infrastructure.web.routing
 import com.personalwebsite.application.website.WebsiteQueries
 import com.personalwebsite.domain.usecases.GetPersonalProjectsUseCase
 import com.personalwebsite.infrastructure.admin.AdminContentService
+import com.personalwebsite.infrastructure.admin.AdminProjectService
 import com.personalwebsite.infrastructure.web.auth.AdminAuth
 import com.personalwebsite.infrastructure.web.auth.adminAuthRoutes
 import io.ktor.http.ContentType
@@ -33,7 +34,7 @@ fun Application.registerRoutes(
         )
         if (adminAuth != null) {
             adminAuthRoutes(adminAuth)
-            adminRoutes(adminContentService)
+            adminRoutes(adminContentService, AdminProjectService(adminContentService))
         }
     }
 }
