@@ -23,6 +23,7 @@ import kotlinx.html.ButtonType
 import kotlinx.html.FormEncType
 import kotlinx.html.FormMethod
 import kotlinx.html.InputType
+import kotlinx.html.a
 import kotlinx.html.body
 import kotlinx.html.button
 import kotlinx.html.classes
@@ -31,14 +32,16 @@ import kotlinx.html.form
 import kotlinx.html.h1
 import kotlinx.html.h2
 import kotlinx.html.head
-import kotlinx.html.html
 import kotlinx.html.id
+import kotlinx.html.img
 import kotlinx.html.input
 import kotlinx.html.label
 import kotlinx.html.link
+import kotlinx.html.main
 import kotlinx.html.meta
 import kotlinx.html.p
-import kotlinx.html.style
+import kotlinx.html.section
+import kotlinx.html.span
 import kotlinx.html.textArea
 import kotlinx.html.title
 import java.net.URLEncoder
@@ -55,72 +58,68 @@ fun Routing.adminRoutes(adminContentService: AdminContentService) {
                 head {
                     title("Admin panel")
                     meta { charset = "UTF-8" }
+                    meta(name = "viewport", content = "width=device-width, initial-scale=1")
+                    meta(name = "robots", content = "noindex")
                     link(rel = "icon", href = "/static/images/favicon-portrait.png", type = "image/png")
-                    style {
-                        +"""
-                        |body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background: #0a0c10; color: #e4ecff; margin: 0; padding: 24px; }
-                        |.layout { max-width: 1200px; margin: 0 auto; display: grid; gap: 20px; }
-                        |.card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.35); }
-                        |h1, h2 { margin: 0 0 12px 0; letter-spacing: 0.3px; }
-                        |textarea { width: 100%; min-height: 220px; background: rgba(0,0,0,0.35); color: #e4ecff; border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; padding: 12px; font-family: 'JetBrains Mono', 'SFMono-Regular', ui-monospace, monospace; font-size: 14px; }
-                        |label { display: block; margin-bottom: 8px; font-weight: 600; }
-                        |button { background: linear-gradient(135deg, #00e0ff, #7c3aed); color: #0a0c10; border: none; border-radius: 10px; padding: 12px 16px; font-weight: 700; cursor: pointer; box-shadow: 0 12px 30px rgba(124, 58, 237, 0.35); }
-                        |button:hover { transform: translateY(-1px); transition: 150ms ease-in-out; }
-                        |.status { padding: 12px 14px; border-radius: 10px; font-weight: 600; }
-                        |.status.success { background: rgba(16, 185, 129, 0.16); border: 1px solid rgba(16, 185, 129, 0.35); color: #bbf7d0; }
-                        |.status.error { background: rgba(248, 113, 113, 0.16); border: 1px solid rgba(248, 113, 113, 0.35); color: #fecdd3; }
-                        |.section-meta { display: flex; gap: 8px; font-size: 12px; opacity: 0.8; margin-top: 6px; }
-                        |.upload-input { display: block; margin: 10px 0; color: #e4ecff; }
-                        |.header { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-                        """.trimMargin()
-                    }
+                    link(rel = "stylesheet", href = "/static/css/style.css")
                 }
-                body {
-                    div("layout") {
-                        div("header") {
-                            h1 { +"Admin panel" }
-                            p { +"Signed in as ${call.sessions.get<AdminSession>()?.email.orEmpty()}" }
-                            form(action = "/admin/logout", method = FormMethod.post) {
-                                button(type = ButtonType.submit) { +"Sign out" }
+                body("admin-page") {
+                    div("admin-bar") {
+                        div("admin-bar-inner") {
+                            a(href = "/", classes = "admin-brand") {
+                                img(src = "/static/images/logo-badge.svg", alt = "") { classes = setOf("admin-brand-logo") }
+                                span { +"Mohamed ElSherbini" }
+                            }
+                            div("admin-bar-actions") {
+                                span("admin-user") { +call.sessions.get<AdminSession>()?.email.orEmpty() }
+                                form(action = "/admin/logout", method = FormMethod.post) {
+                                    button(type = ButtonType.submit, classes = "ds-button ds-button--outline admin-small") { +"Sign out" }
+                                }
+                            }
+                        }
+                    }
+                    main("admin-main") {
+                        h1 { +"Admin panel" }
+                        p("admin-intro") { +"Edit the site content as JSON, or replace the résumé PDF." }
+
+                        if (!message.isNullOrBlank()) {
+                            div("admin-status admin-status--success") {
+                                attributes["role"] = "status"
+                                span("admin-status-label") { +"Saved" }
+                                span { +message }
+                            }
+                        }
+                        if (!error.isNullOrBlank()) {
+                            div("admin-status admin-status--error") {
+                                attributes["role"] = "alert"
+                                span("admin-status-label") { +"Error" }
+                                span { +error }
                             }
                         }
 
-                        if (!message.isNullOrBlank()) {
-                            div("status success") { +message }
-                        }
-                        if (!error.isNullOrBlank()) {
-                            div("status error") { +error }
-                        }
-
                         content.forEach { payload ->
-                            div("card") {
+                            section("admin-card") {
                                 h2 { +payload.section.label }
-                                p(classes = "section-meta") {
-                                    +"${payload.section.fileName} - ${payload.section.path}"
-                                }
+                                p("admin-meta") { +"${payload.section.fileName} · ${payload.section.path}" }
                                 form {
                                     action = "/admin/content/${payload.section.id}"
                                     method = FormMethod.post
                                     textArea {
+                                        classes = setOf("admin-textarea")
                                         name = "json"
+                                        attributes["aria-label"] = "${payload.section.label} JSON"
                                         +payload.json
                                     }
-                                    div {
-                                        style = "margin-top: 12px;"
-                                        button {
-                                            type = kotlinx.html.ButtonType.submit
-                                            +"Save ${payload.section.label}"
-                                        }
+                                    button(type = ButtonType.submit, classes = "ds-button ds-button--primary") {
+                                        +"Save ${payload.section.label}"
                                     }
                                 }
                             }
                         }
 
-                        div("card") {
-                            h2 { +"Upload resume" }
-                            p(classes = "section-meta") {
-                                +"Replaces ${adminContentService.resumeTargetPath()}"
-                            }
+                        section("admin-card") {
+                            h2 { +"Upload résumé" }
+                            p("admin-meta") { +"Replaces ${adminContentService.resumeTargetPath()}" }
                             form {
                                 action = "/admin/resume"
                                 method = FormMethod.post
@@ -128,18 +127,16 @@ fun Routing.adminRoutes(adminContentService: AdminContentService) {
 
                                 label {
                                     attributes["for"] = "resume"
-                                    +"PDF only"
+                                    +"PDF file"
                                 }
                                 input {
                                     id = "resume"
-                                    type = kotlinx.html.InputType.file
+                                    type = InputType.file
                                     name = "resume"
-                                    classes = setOf("upload-input")
+                                    classes = setOf("admin-file")
+                                    attributes["accept"] = "application/pdf"
                                 }
-                                button {
-                                    type = kotlinx.html.ButtonType.submit
-                                    +"Upload resume"
-                                }
+                                button(type = ButtonType.submit, classes = "ds-button ds-button--primary") { +"Upload résumé" }
                             }
                         }
                     }
