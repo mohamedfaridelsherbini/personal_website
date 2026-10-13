@@ -10,6 +10,7 @@ dependencies {
     implementation(libs.ktor.server.core)
     implementation(libs.ktor.server.auth)
     implementation("io.ktor:ktor-server-sessions-jvm:${libs.versions.ktor.get()}")
+    implementation("io.ktor:ktor-server-forwarded-header-jvm:${libs.versions.ktor.get()}")
     implementation("io.ktor:ktor-client-core-jvm:${libs.versions.ktor.get()}")
     implementation("io.ktor:ktor-client-cio-jvm:${libs.versions.ktor.get()}")
     implementation(libs.ktor.server.html.builder)
