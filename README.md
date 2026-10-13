@@ -27,7 +27,7 @@ Need the full development walkthrough (tests, lint, fat JAR, snapshot updates)? 
 
 ## Admin Panel
 
-- Protected at `/admin` with HTTP Basic auth — set `ADMIN_USER` and `ADMIN_PASSWORD` before running.
+- Protected at `/admin` with Google sign-in — set `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `ADMIN_GOOGLE_EMAIL` and `SESSION_SECRET` before running (disabled otherwise). See `DEPLOYMENT.md`.
 - Edit the JSON content files directly from the browser; saves to `infrastructure/src/main/resources/content/` (override with `CONTENT_DIR`).
 - Upload a new résumé PDF to replace `bootstrap/src/main/resources/static/files/Mohamed_ElSherbini_Resume.pdf` (override with `RESUME_DIR`/`RESUME_FILENAME`).
 - Saving clears the render + content caches so changes appear immediately.
@@ -63,7 +63,7 @@ This GitHub repository stays **public**, so never commit API keys, service-accou
 Environment secrets (Settings → Environments → `Deploy info` → Secrets):
 - `GCP_SA_KEY` – JSON key for the `gh-deployer` service account (Cloud Run admin, Artifact Registry writer, Firebase Hosting admin, Cloud Build editor)
 - `GCP_PROJECT_ID` – `personal-website-d0cd0`
-- `ADMIN_USER` / `ADMIN_PASSWORD` – protects `/admin` on the deployed service
+- `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` / `ADMIN_GOOGLE_EMAIL` / `SESSION_SECRET` – Google sign-in for `/admin` on the deployed service
 
 ## Tech Stack
 
