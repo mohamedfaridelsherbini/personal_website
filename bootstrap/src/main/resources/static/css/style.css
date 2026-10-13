@@ -2243,14 +2243,6 @@ a.big-project { text-decoration: none; justify-content: space-between; }
 header { padding: 0 max(24px, calc((100% - 1200px) / 2)); }
 .admin-bar-inner, .admin-main { max-width: 1248px; }
 .more-projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 24px; }
-.more-project-card { display: flex; flex-direction: column; gap: 12px; padding: 32px; background: var(--ds-surface); border: 1px solid var(--ds-border); border-radius: 16px; color: var(--ds-graphite); text-decoration: none; transition: border-color 0.2s ease; }
-.more-project-card:hover, .more-project-card:focus-visible { border-color: var(--ds-graphite); }
-.more-project-category { font-size: 14px; font-weight: 600; color: var(--ds-blue); }
-.more-project-card h3 { margin: 0; font-family: var(--ds-heading); font-weight: 600; font-size: 24px; letter-spacing: -0.01em; text-transform: none; color: var(--ds-graphite); }
-.more-project-card p { margin: 0; color: var(--ds-slate); line-height: 1.6; }
-.more-project-tags { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
-.more-project-tags li { padding: 6px 12px; border: 1px solid var(--ds-border); border-radius: 8px; background: var(--ds-bg); font-size: 14px; color: var(--ds-graphite); }
-.more-project-action { margin-top: auto; padding-top: 12px; font-weight: 600; color: var(--ds-graphite); }
 .site-footer a { color: var(--ds-mist); text-decoration: underline; }
 .big-project--light { background: var(--ds-surface); border: 1px solid var(--ds-border); color: var(--ds-graphite); }
 .big-project--light .big-project-status { color: var(--ds-blue); }
@@ -2312,4 +2304,27 @@ header { padding: 0 max(24px, calc((100% - 1200px) / 2)); }
 .admin-placement-options .admin-placement-option { flex: 1; }
 @media (max-width: 700px) {
   .admin-placement-options { flex-direction: column; }
+}
+
+/* More projects: richer cards */
+.more-projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 24px; }
+.more-project-card { display: flex; flex-direction: column; gap: 12px; padding: 32px; background: var(--ds-surface); border: 1px solid var(--ds-border); border-radius: 16px; color: var(--ds-graphite); text-decoration: none; transition: border-color 0.2s ease, transform 0.2s ease; }
+.more-project-card:hover, .more-project-card:focus-visible { border-color: var(--ds-blue); transform: translateY(-2px); }
+.more-project-card:focus-visible { outline: 3px solid var(--ds-blue); outline-offset: 2px; }
+.more-project-category { align-self: flex-start; padding: 4px 12px; border-radius: 8px; background: #eef3fb; font-size: 13px; font-weight: 600; color: var(--ds-blue); }
+.more-project-card h3 { margin: 4px 0 0; font-family: var(--ds-heading); font-weight: 600; font-size: 26px; line-height: 1.15; letter-spacing: -0.01em; text-transform: none; color: var(--ds-graphite); }
+.more-project-meta { margin: 0; font-size: 14px; font-weight: 500; color: var(--ds-slate); }
+.more-project-desc { margin: 0; color: var(--ds-slate); line-height: 1.6; }
+.more-project-tags { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.more-project-tags li { padding: 6px 12px; border: 1px solid var(--ds-border); border-radius: 8px; background: var(--ds-bg); font-size: 14px; color: var(--ds-graphite); }
+.more-project-action { display: flex; align-items: center; justify-content: space-between; min-height: 48px; margin-top: auto; padding-top: 16px; border-top: 1px solid var(--ds-border); font-weight: 600; color: var(--ds-graphite); }
+.more-project-action span:last-child { font-size: 20px; transition: transform 0.2s ease; }
+.more-project-card:hover .more-project-action span:last-child { transform: translate(3px, -3px); color: var(--ds-blue); }
+@media (prefers-reduced-motion: reduce) {
+  .more-project-card, .more-project-action span:last-child { transition: none; }
+  .more-project-card:hover { transform: none; }
+}
+@media (max-width: 600px) {
+  .more-project-card { padding: 24px; }
+  .more-project-card h3 { font-size: 24px; }
 }
