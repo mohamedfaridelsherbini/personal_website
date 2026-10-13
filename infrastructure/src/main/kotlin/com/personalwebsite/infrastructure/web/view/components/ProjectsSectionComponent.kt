@@ -1,10 +1,11 @@
 @file:Suppress("ktlint:standard:max-line-length")
 
 package com.personalwebsite.infrastructure.web.view.components
+
 import com.personalwebsite.domain.entities.PersonalProject
 
 /**
- * Personal projects grid on the home page.
+ * "More projects": a flat grid of white cards for everything that is not a big project.
  */
 object ProjectsSectionComponent {
     private val excludedSlugs = BigProjectsComponent.SLUGS
@@ -21,41 +22,19 @@ object ProjectsSectionComponent {
         builder.appendLine("                    <h2 class=\"ds-h2 ds-h2--xl\">More projects</h2>")
         builder.appendLine("                    <p class=\"ds-muted\">Apps, reusable libraries, and engineering tools.</p>")
         builder.appendLine("                </div>")
-        builder.appendLine("                <div class=\"projects-category-grid\">")
-        val groupedProjects = projects.filterNot { it.slug in excludedSlugs }.groupBy { it.category }
-
-        groupedProjects.forEach { (category, items) ->
-            val categoryClass =
-                "category-" +
-                    category.lowercase()
-                        .replace(" / ", "-")
-                        .replace(" & ", "-")
-                        .replace(" ", "-")
-
-            builder.appendLine("                    <div class=\"project-group $categoryClass\">")
-            builder.appendLine("                        <div class=\"project-group-header\">")
-            builder.appendLine("                            <h3 class=\"project-group-title\">$category</h3>")
-            builder.appendLine("                        </div>")
-            builder.appendLine("                        <div class=\"project-cards\">")
-
-            items.forEach { project ->
-                builder.appendLine(
-                    "                            <a href=\"/projects/${project.slug}\" class=\"minimal-project-card $categoryClass\" data-project-reveal>",
-                )
-                builder.appendLine("                                <div class=\"project-header\">")
-                builder.appendLine("                                    <h3 class=\"project-title\">${project.name}</h3>")
-                // Category badge removed as it is now in the group header
-                builder.appendLine("                                </div>")
-                builder.appendLine("                                <p class=\"project-description\">${project.description}</p>")
-                builder.appendLine("                                <div class=\"project-tech-stack\">")
-                project.techStack.split(" • ").forEach { tech ->
-                    builder.appendLine("                                    <span class=\"tech-tag\">$tech</span>")
-                }
-                builder.appendLine("                                </div>")
-                builder.appendLine("                            </a>")
+        builder.appendLine("                <div class=\"more-projects-grid\">")
+        projects.filterNot { it.slug in excludedSlugs }.forEach { project ->
+            builder.appendLine("                    <a class=\"more-project-card\" href=\"/projects/${project.slug.escapeHtml()}\">")
+            builder.appendLine("                        <span class=\"more-project-category\">${project.category.escapeHtml()}</span>")
+            builder.appendLine("                        <h3>${project.name.escapeHtml()}</h3>")
+            builder.appendLine("                        <p>${project.description.escapeHtml()}</p>")
+            builder.appendLine("                        <ul class=\"more-project-tags\">")
+            project.techStack.split(" • ").forEach { tech ->
+                builder.appendLine("                            <li>${tech.escapeHtml()}</li>")
             }
-            builder.appendLine("                        </div>")
-            builder.appendLine("                    </div>")
+            builder.appendLine("                        </ul>")
+            builder.appendLine("                        <span class=\"more-project-action\">Explore project ↗</span>")
+            builder.appendLine("                    </a>")
         }
         builder.appendLine("                </div>")
         builder.appendLine("            </div>")

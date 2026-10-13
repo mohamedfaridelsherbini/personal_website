@@ -12,7 +12,9 @@ object FooterComponent {
         personalInfo: PersonalInfo,
     ) {
         builder.appendLine("    <footer class=\"site-footer\">")
-        builder.appendLine("        <p>© 2026 ${personalInfo.name} · Built with Kotlin &amp; Ktor</p>")
+        builder.appendLine(
+            "        <p>© 2026 ${personalInfo.name} · Built with Kotlin &amp; Ktor · <a href=\"/static/files/Mohamed_ElSherbini_Resume.pdf\" target=\"_blank\" rel=\"noopener\">Résumé</a></p>",
+        )
         builder.appendLine("    </footer>")
     }
 }
