@@ -2,15 +2,17 @@
 
 package com.personalwebsite.infrastructure.web.view.components
 
+import com.personalwebsite.domain.entities.PersonalProject
+
 /**
- * Big projects area: AlaBal (featured) and Aldaem (coming soon).
- * AlaBal links to its project page; Aldaem has no page yet, so no details are invented.
+ * Big projects area: every project placed as "Master" in the admin (`featured`) gets a large card,
+ * followed by the Aldaem "coming soon" announcement. No details are invented for Aldaem.
  */
 object BigProjectsComponent {
-    /** Slugs shown here, so the "More projects" grid does not repeat them. */
-    val SLUGS = setOf("alabal")
-
-    fun append(builder: StringBuilder) {
+    fun append(
+        builder: StringBuilder,
+        projects: List<PersonalProject>,
+    ) {
         builder.appendLine(
             "        <section class=\"page-section big-projects\" id=\"big-projects\" data-scroll-target=\"big-projects\">",
         )
@@ -20,14 +22,19 @@ object BigProjectsComponent {
         builder.appendLine("                    <p class=\"ds-muted\">Products I own end to end</p>")
         builder.appendLine("                </div>")
         builder.appendLine("                <div class=\"big-project-grid\">")
-        builder.appendLine("                    <a class=\"big-project big-project--featured\" href=\"/projects/alabal\">")
-        builder.appendLine("                        <div>")
-        builder.appendLine("                            <p class=\"big-project-status\">Featured · Personal project</p>")
-        builder.appendLine("                            <h3>AlaBal</h3>")
-        builder.appendLine("                            <p class=\"big-project-desc\">A private place-sharing app for family.</p>")
-        builder.appendLine("                        </div>")
-        builder.appendLine("                        <span class=\"big-project-action\">Explore AlaBal ↗</span>")
-        builder.appendLine("                    </a>")
+        projects.filter { it.featured }.forEachIndexed { index, project ->
+            val tone = if (index == 0) "big-project--featured" else "big-project--light"
+            builder.appendLine("                    <a class=\"big-project $tone\" href=\"/projects/${project.slug.escapeHtml()}\">")
+            builder.appendLine("                        <div>")
+            builder.appendLine(
+                "                            <p class=\"big-project-status\">Featured · ${project.category.escapeHtml()}</p>",
+            )
+            builder.appendLine("                            <h3>${project.name.escapeHtml()}</h3>")
+            builder.appendLine("                            <p class=\"big-project-desc\">${project.description.escapeHtml()}</p>")
+            builder.appendLine("                        </div>")
+            builder.appendLine("                        <span class=\"big-project-action\">Explore ${project.name.escapeHtml()} ↗</span>")
+            builder.appendLine("                    </a>")
+        }
         builder.appendLine("                    <article class=\"big-project big-project--soon\">")
         builder.appendLine("                        <div>")
         builder.appendLine("                            <p class=\"big-project-status\">Coming soon</p>")
