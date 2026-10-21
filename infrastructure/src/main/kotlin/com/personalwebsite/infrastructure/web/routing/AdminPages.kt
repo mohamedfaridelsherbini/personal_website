@@ -4,6 +4,7 @@ package com.personalwebsite.infrastructure.web.routing
 
 import com.personalwebsite.infrastructure.admin.AdminContentService
 import com.personalwebsite.infrastructure.admin.AdminProjectService
+import com.personalwebsite.infrastructure.admin.AdminSectionService
 import kotlinx.html.ButtonType
 import kotlinx.html.FlowContent
 import kotlinx.html.FormEncType
@@ -15,6 +16,7 @@ import kotlinx.html.a
 import kotlinx.html.body
 import kotlinx.html.button
 import kotlinx.html.classes
+import kotlinx.html.details
 import kotlinx.html.div
 import kotlinx.html.fieldSet
 import kotlinx.html.form
@@ -36,6 +38,7 @@ import kotlinx.html.script
 import kotlinx.html.section
 import kotlinx.html.span
 import kotlinx.html.strong
+import kotlinx.html.summary
 import kotlinx.html.textArea
 import kotlinx.html.title
 import kotlinx.html.ul
@@ -386,30 +389,78 @@ private val PROJECT_FORM_SCRIPT =
     })();
     """.trimIndent()
 
+private fun FlowContent.sectionFields(
+    sectionId: String,
+    prefix: String,
+    fields: List<AdminSectionService.Field>,
+    values: Map<String, String>,
+) {
+    fields.forEach { field ->
+        val fieldId = "$sectionId-$prefix-${field.key}"
+        div("admin-field") {
+            label {
+                attributes["for"] = fieldId
+                +(field.label + if (field.required) " *" else "")
+            }
+            if (field.kind == AdminSectionService.Kind.TEXT) {
+                input(type = InputType.text, name = "f_${field.key}") {
+                    id = fieldId
+                    value = values[field.key].orEmpty()
+                    if (field.required) attributes["required"] = "required"
+                }
+            } else {
+                textArea(rows = if (field.kind == AdminSectionService.Kind.LINES) "5" else "3") {
+                    id = fieldId
+                    name = "f_${field.key}"
+                    +values[field.key].orEmpty()
+                }
+            }
+        }
+    }
+}
+
 internal fun HTML.contentPage(
     email: String,
-    content: List<AdminContentService.ContentPayload>,
+    sections: List<AdminSectionService.SectionView>,
     resumePath: String,
     banner: AdminBanner?,
 ) = adminShell("Content & résumé", email, AdminNav.CONTENT) {
     p("admin-eyebrow") { +"Protected admin · Content" }
     h1 { +"Content & résumé" }
-    p("admin-intro") { +"Edit the site content as JSON, or replace the résumé PDF." }
+    p("admin-intro") { +"Add, edit or delete items. Projects are managed on the Projects tab." }
     banner?.let { adminBanner(it) }
-    content.forEach { payload ->
+    sections.forEach { view ->
+        val schema = view.schema
         section("admin-card") {
-            h2 { +payload.section.label }
-            p("admin-meta") { +"${payload.section.fileName} · ${payload.section.path}" }
-            form {
-                action = "/admin/content/${payload.section.id}"
-                method = FormMethod.post
-                textArea {
-                    classes = setOf("admin-textarea")
-                    name = "json"
-                    attributes["aria-label"] = "${payload.section.label} JSON"
-                    +payload.json
+            id = "section-${schema.id}"
+            h2 { +schema.label }
+            if (schema.single) {
+                val entry = view.entries.first()
+                form(action = "/admin/content/${schema.id}/0/update", method = FormMethod.post, classes = "admin-form") {
+                    sectionFields(schema.id, "0", schema.fields, entry.values)
+                    button(type = ButtonType.submit, classes = "ds-button ds-button--primary") { +"Save ${schema.label.lowercase()}" }
                 }
-                button(type = ButtonType.submit, classes = "ds-button ds-button--primary") { +"Save ${payload.section.label}" }
+            } else {
+                view.entries.forEach { entry ->
+                    details("admin-entry") {
+                        summary { +entry.title }
+                        form(action = "/admin/content/${schema.id}/${entry.index}/update", method = FormMethod.post, classes = "admin-form") {
+                            sectionFields(schema.id, entry.index.toString(), schema.fields, entry.values)
+                            button(type = ButtonType.submit, classes = "ds-button ds-button--primary admin-small") { +"Save changes" }
+                        }
+                        form(action = "/admin/content/${schema.id}/${entry.index}/delete", method = FormMethod.post, classes = "admin-delete-form") {
+                            attributes["onsubmit"] = "return confirm('Delete this ${schema.itemLabel}? This cannot be undone.');"
+                            button(type = ButtonType.submit, classes = "ds-button ds-button--outline admin-small admin-danger") { +"Delete" }
+                        }
+                    }
+                }
+                details("admin-entry admin-entry--new") {
+                    summary { +"+ Add ${schema.itemLabel}" }
+                    form(action = "/admin/content/${schema.id}/add", method = FormMethod.post, classes = "admin-form") {
+                        sectionFields(schema.id, "new", schema.fields, emptyMap())
+                        button(type = ButtonType.submit, classes = "ds-button ds-button--primary admin-small") { +"Add ${schema.itemLabel}" }
+                    }
+                }
             }
         }
     }

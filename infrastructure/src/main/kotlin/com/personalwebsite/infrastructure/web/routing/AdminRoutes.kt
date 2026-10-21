@@ -2,6 +2,7 @@ package com.personalwebsite.infrastructure.web.routing
 
 import com.personalwebsite.infrastructure.admin.AdminContentService
 import com.personalwebsite.infrastructure.admin.AdminProjectService
+import com.personalwebsite.infrastructure.admin.AdminSectionService
 import com.personalwebsite.infrastructure.web.auth.ADMIN_SESSION_AUTH
 import com.personalwebsite.infrastructure.web.auth.AdminSession
 import io.ktor.http.HttpStatusCode
@@ -65,6 +66,7 @@ fun Routing.adminRoutes(
     adminContentService: AdminContentService,
     adminProjectService: AdminProjectService,
 ) {
+    val sectionService = AdminSectionService(adminContentService)
     val adminRoutes: Route.() -> Unit = {
         get("/admin") {
             val saved = call.request.queryParameters["saved"]
@@ -160,34 +162,28 @@ fun Routing.adminRoutes(
             call.respondHtml(HttpStatusCode.OK) {
                 contentPage(
                     call.adminEmail(),
-                    adminContentService.loadContent(),
+                    sectionService.view(),
                     adminContentService.resumeTargetPath().toString(),
                     call.banner(),
                 )
             }
         }
 
-        post("/admin/content/{id}") {
-            val id = call.parameters["id"]
-            if (id.isNullOrBlank()) {
-                call.respondText("Missing content section id", status = HttpStatusCode.BadRequest)
-                return@post
-            }
+        post("/admin/content/{id}/add") {
+            val id = call.parameters["id"].orEmpty()
+            sectionResult(call, id, "Added", sectionService.add(id, call.receiveParameters().toValues()))
+        }
 
-            val params = call.receiveParameters()
-            val json = params["json"]
+        post("/admin/content/{id}/{index}/update") {
+            val id = call.parameters["id"].orEmpty()
+            val index = call.parameters["index"]?.toIntOrNull() ?: -1
+            sectionResult(call, id, "Saved", sectionService.update(id, index, call.receiveParameters().toValues()))
+        }
 
-            if (json.isNullOrBlank()) {
-                call.respondText("JSON payload required", status = HttpStatusCode.BadRequest)
-                return@post
-            }
-
-            try {
-                adminContentService.updateContent(id, json)
-                call.respondRedirect("/admin/content?message=${encode("Updated $id")}")
-            } catch (exception: Exception) {
-                call.respondRedirect("/admin/content?error=${encode(exception.message ?: "Failed to update $id")}")
-            }
+        post("/admin/content/{id}/{index}/delete") {
+            val id = call.parameters["id"].orEmpty()
+            val index = call.parameters["index"]?.toIntOrNull() ?: -1
+            sectionResult(call, id, "Deleted", sectionService.delete(id, index))
         }
 
         post("/admin/resume") {
@@ -223,6 +219,21 @@ fun Routing.adminRoutes(
 
     authenticate(ADMIN_SESSION_AUTH) {
         adminRoutes()
+    }
+}
+
+private fun Parameters.toValues(): Map<String, String> =
+    names().filter { it.startsWith("f_") }.associate { it.removePrefix("f_") to get(it).orEmpty() }
+
+private suspend fun sectionResult(
+    call: ApplicationCall,
+    id: String,
+    verb: String,
+    result: AdminSectionService.Result,
+) {
+    when (result) {
+        is AdminSectionService.Result.Saved -> call.respondRedirect("/admin/content?message=${encode(verb)}#section-$id")
+        is AdminSectionService.Result.Invalid -> call.respondRedirect("/admin/content?error=${encode(result.message)}#section-$id")
     }
 }
 

@@ -2336,3 +2336,7 @@ header { padding: 0 max(24px, calc((100% - 1200px) / 2)); }
 .admin-move[disabled] { opacity: .35; cursor: not-allowed; }
 .admin-delete-form { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--ds-border); }
 .admin-danger { color: #b3261e; border-color: #b3261e; }
+.admin-entry { border: 1px solid var(--ds-border); border-radius: 8px; padding: 0 16px; margin: 8px 0; }
+.admin-entry[open] { padding-bottom: 16px; }
+.admin-entry > summary { cursor: pointer; padding: 14px 0; font-weight: 600; }
+.admin-entry--new > summary { color: var(--ds-slate); }
