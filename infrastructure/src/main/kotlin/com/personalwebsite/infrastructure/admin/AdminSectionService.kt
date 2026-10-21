@@ -109,7 +109,16 @@ class AdminSectionService(
     private fun entries(schema: Schema): List<Entry> {
         val json = content.loadContent().first { it.section.id == schema.id }.json
         val element = JsonParser.parseString(json)
-        val objects = if (schema.single) listOf(element.takeIf { it.isJsonObject }?.asJsonObject ?: JsonObject()) else element.asJsonArray.map { it.asJsonObject }
+        val objects =
+            if (schema.single) {
+                listOf(
+                    element.takeIf {
+                        it.isJsonObject
+                    }?.asJsonObject ?: JsonObject(),
+                )
+            } else {
+                element.asJsonArray.map { it.asJsonObject }
+            }
         return objects.mapIndexed { index, obj ->
             Entry(index, obj.text(schema.titleKey).ifBlank { "Item ${index + 1}" }, schema.fields.associate { it.key to obj.read(it) })
         }
@@ -123,7 +132,10 @@ class AdminSectionService(
             Kind.LINES -> get(field.key)?.takeIf { it.isJsonArray }?.asJsonArray?.joinToString("\n") { it.asString }.orEmpty()
         }
 
-    private fun loadArray(id: String): JsonArray = JsonParser.parseString(content.loadContent().first { it.section.id == id }.json).asJsonArray
+    private fun loadArray(id: String): JsonArray =
+        JsonParser.parseString(
+            content.loadContent().first { it.section.id == id }.json,
+        ).asJsonArray
 
     private fun save(
         id: String,

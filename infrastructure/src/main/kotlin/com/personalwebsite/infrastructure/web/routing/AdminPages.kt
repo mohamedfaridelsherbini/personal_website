@@ -2,7 +2,6 @@
 
 package com.personalwebsite.infrastructure.web.routing
 
-import com.personalwebsite.infrastructure.admin.AdminContentService
 import com.personalwebsite.infrastructure.admin.AdminProjectService
 import com.personalwebsite.infrastructure.admin.AdminSectionService
 import kotlinx.html.ButtonType
@@ -444,13 +443,24 @@ internal fun HTML.contentPage(
                 view.entries.forEach { entry ->
                     details("admin-entry") {
                         summary { +entry.title }
-                        form(action = "/admin/content/${schema.id}/${entry.index}/update", method = FormMethod.post, classes = "admin-form") {
+                        form(
+                            action = "/admin/content/${schema.id}/${entry.index}/update",
+                            method = FormMethod.post,
+                            classes = "admin-form",
+                        ) {
                             sectionFields(schema.id, entry.index.toString(), schema.fields, entry.values)
                             button(type = ButtonType.submit, classes = "ds-button ds-button--primary admin-small") { +"Save changes" }
                         }
-                        form(action = "/admin/content/${schema.id}/${entry.index}/delete", method = FormMethod.post, classes = "admin-delete-form") {
+                        form(
+                            action = "/admin/content/${schema.id}/${entry.index}/delete",
+                            method = FormMethod.post,
+                            classes = "admin-delete-form",
+                        ) {
                             attributes["onsubmit"] = "return confirm('Delete this ${schema.itemLabel}? This cannot be undone.');"
-                            button(type = ButtonType.submit, classes = "ds-button ds-button--outline admin-small admin-danger") { +"Delete" }
+                            button(
+                                type = ButtonType.submit,
+                                classes = "ds-button ds-button--outline admin-small admin-danger",
+                            ) { +"Delete" }
                         }
                     }
                 }
@@ -458,7 +468,10 @@ internal fun HTML.contentPage(
                     summary { +"+ Add ${schema.itemLabel}" }
                     form(action = "/admin/content/${schema.id}/add", method = FormMethod.post, classes = "admin-form") {
                         sectionFields(schema.id, "new", schema.fields, emptyMap())
-                        button(type = ButtonType.submit, classes = "ds-button ds-button--primary admin-small") { +"Add ${schema.itemLabel}" }
+                        button(
+                            type = ButtonType.submit,
+                            classes = "ds-button ds-button--primary admin-small",
+                        ) { +"Add ${schema.itemLabel}" }
                     }
                 }
             }
