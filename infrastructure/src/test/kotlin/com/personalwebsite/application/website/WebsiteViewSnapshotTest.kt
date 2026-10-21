@@ -88,7 +88,7 @@ class WebsiteViewSnapshotTest {
     fun homePageShowsBigProjectsAndProfileLinks() =
         runBlocking {
             val html = websiteQueries.renderHome()
-            listOf("AlaBal", "Aldaem", "What I build with", "github.com", "linkedin.com").forEach {
+            listOf("AlaBal", "Eldaem", "What I build with", "github.com", "linkedin.com").forEach {
                 assertTrue(html.contains(it), "$it should appear on the home page")
             }
             listOf("craftmind-agentic-ai", "familyhub").forEach {

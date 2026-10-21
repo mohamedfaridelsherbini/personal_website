@@ -5,8 +5,7 @@ package com.personalwebsite.infrastructure.web.view.components
 import com.personalwebsite.domain.entities.PersonalProject
 
 /**
- * Big projects area: every project placed as "Master" in the admin (`featured`) gets a large card,
- * followed by the Aldaem "coming soon" announcement. No details are invented for Aldaem.
+ * Big projects area: every project placed as "Master" in the admin (`featured`) gets a large card.
  */
 object BigProjectsComponent {
     fun append(
@@ -35,13 +34,6 @@ object BigProjectsComponent {
             builder.appendLine("                        <span class=\"big-project-action\">Explore ${project.name.escapeHtml()} ↗</span>")
             builder.appendLine("                    </a>")
         }
-        builder.appendLine("                    <article class=\"big-project big-project--soon\">")
-        builder.appendLine("                        <div>")
-        builder.appendLine("                            <p class=\"big-project-status\">Coming soon</p>")
-        builder.appendLine("                            <h3>Aldaem</h3>")
-        builder.appendLine("                            <p class=\"big-project-desc\">Next big project — details to be announced.</p>")
-        builder.appendLine("                        </div>")
-        builder.appendLine("                    </article>")
         builder.appendLine("                </div>")
         builder.appendLine("            </div>")
         builder.appendLine("        </section>")

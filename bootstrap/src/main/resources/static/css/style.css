@@ -1861,12 +1861,9 @@ main {
 .big-project-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 .big-project { min-height: 440px; padding: 40px; border-radius: 24px; display: flex; flex-direction: column; justify-content: flex-start; }
 .big-project--featured { background: var(--ds-graphite); color: #fff; }
-.big-project--soon { background: var(--ds-surface); border: 1px solid var(--ds-border); color: var(--ds-graphite); }
 .big-project-status { margin: 0 0 16px; font-size: 13px; font-weight: 600; letter-spacing: 1.3px; text-transform: uppercase; color: var(--ds-mist); }
-.big-project--soon .big-project-status { color: var(--ds-blue); }
 .big-project h3 { margin: 0 0 16px; font-family: var(--ds-heading); font-weight: 600; font-size: clamp(48px, 5vw, 72px); letter-spacing: -0.02em; line-height: 1.05; color: inherit; }
 .big-project-desc { margin: 0; font-size: 20px; line-height: 1.5; color: var(--ds-mist); }
-.big-project--soon .big-project-desc { color: var(--ds-slate); }
 
 .about-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; margin-top: 40px; }
 .about-summary { margin: 0; font-size: 20px; line-height: 1.55; color: var(--ds-graphite); }
