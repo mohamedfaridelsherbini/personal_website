@@ -96,6 +96,46 @@ class AdminProjectService(
         form: Form,
     ): Result = save(form.copy(slug = slug), existingSlug = slug)
 
+    fun delete(slug: String): Result {
+        val items = load().toMutableList()
+        val item = items.firstOrNull { it.text("slug") == slug } ?: return Result.Failed("Project not found")
+        items.remove(item)
+        return persist(items, slug, item.isMaster(), created = false)
+    }
+
+    /** Swaps a project with its neighbour in the same placement group; no-op at the ends. */
+    fun move(
+        slug: String,
+        up: Boolean,
+    ): Result {
+        val items = load().toMutableList()
+        val item = items.firstOrNull { it.text("slug") == slug } ?: return Result.Failed("Project not found")
+        val group = items.filter { it.isMaster() == item.isMaster() }
+        val neighbour = group.getOrNull(group.indexOf(item) + if (up) -1 else 1)
+        if (neighbour != null) {
+            val a = items.indexOf(item)
+            val b = items.indexOf(neighbour)
+            items[a] = neighbour
+            items[b] = item
+        }
+        return persist(items, slug, item.isMaster(), created = false)
+    }
+
+    private fun persist(
+        items: List<JsonObject>,
+        slug: String,
+        master: Boolean,
+        created: Boolean,
+    ): Result =
+        try {
+            val array = JsonArray().also { out -> items.forEach { out.add(it) } }
+            content.updateContent(SECTION_ID, array.toString())
+            Result.Saved(slug = slug, master = master, created = created)
+        } catch (error: Exception) {
+            logger.error(error) { "Failed to save project $slug" }
+            Result.Failed(error.message ?: "Changes were not saved")
+        }
+
     private fun save(
         form: Form,
         existingSlug: String?,
@@ -129,14 +169,7 @@ class AdminProjectService(
             items.add(item)
         }
 
-        return try {
-            val array = JsonArray().also { out -> items.forEach { out.add(it) } }
-            content.updateContent(SECTION_ID, array.toString())
-            Result.Saved(slug = form.slug, master = form.master, created = existing == null)
-        } catch (error: Exception) {
-            logger.error(error) { "Failed to save project ${form.slug}" }
-            Result.Failed(error.message ?: "Changes were not saved")
-        }
+        return persist(items, form.slug, form.master, created = existing == null)
     }
 
     private fun validate(

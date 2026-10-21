@@ -2328,3 +2328,11 @@ header { padding: 0 max(24px, calc((100% - 1200px) / 2)); }
   .more-project-card { padding: 24px; }
   .more-project-card h3 { font-size: 24px; }
 }
+
+.admin-group-title { margin: 32px 0 8px; font-size: 20px; }
+.admin-row-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+.admin-inline-form { margin: 0; }
+.admin-move { padding: 0 14px; }
+.admin-move[disabled] { opacity: .35; cursor: not-allowed; }
+.admin-delete-form { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--ds-border); }
+.admin-danger { color: #b3261e; border-color: #b3261e; }

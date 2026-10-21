@@ -47,8 +47,6 @@ internal data class AdminBanner(val kind: Kind, val title: String, val detail: S
     enum class Kind { SUCCESS, ERROR }
 }
 
-private fun placementLabel(master: Boolean) = if (master) "Master — Big projects" else "Normal — More projects"
-
 internal fun HTML.adminShell(
     pageTitle: String,
     email: String,
@@ -121,22 +119,49 @@ internal fun HTML.projectCollectionPage(
     }
     p("admin-note") { +"Changes are saved on the running server. Commit content changes to keep them across redeploys." }
     banner?.let { adminBanner(it) }
-    ul("admin-rows") {
-        rows.forEach { row ->
-            li("admin-row") {
-                div("admin-row-main") {
-                    strong { +row.name }
-                    span("admin-row-sub") { +row.category }
-                }
-                div("admin-row-placement") {
-                    span { +placementLabel(row.master) }
-                    span("admin-row-sub") { +"Order in section: ${row.order}" }
-                }
-                a(href = "/admin/projects/${row.slug}/edit", classes = "ds-button ds-button--outline admin-small") {
-                    attributes["aria-label"] = "Edit ${row.name}"
-                    +"Edit"
+    listOf(true to "Big projects", false to "More projects").forEach { (master, heading) ->
+        val group = rows.filter { it.master == master }
+        h2("admin-group-title") { +"$heading (${group.size})" }
+        ul("admin-rows") {
+            group.forEachIndexed { index, row ->
+                li("admin-row") {
+                    id = "project-${row.slug}"
+                    div("admin-row-main") {
+                        strong { +row.name }
+                        span("admin-row-sub") { +row.category }
+                    }
+                    div("admin-row-actions") {
+                        moveButton(row, "up", "↑", disabled = index == 0)
+                        moveButton(row, "down", "↓", disabled = index == group.lastIndex)
+                        a(href = "/projects/${row.slug}", classes = "ds-button ds-button--outline admin-small") {
+                            attributes["target"] = "_blank"
+                            attributes["rel"] = "noopener"
+                            attributes["aria-label"] = "View ${row.name}"
+                            +"View ↗"
+                        }
+                        a(href = "/admin/projects/${row.slug}/edit", classes = "ds-button ds-button--outline admin-small") {
+                            attributes["aria-label"] = "Edit ${row.name}"
+                            +"Edit"
+                        }
+                    }
                 }
             }
+        }
+    }
+}
+
+private fun FlowContent.moveButton(
+    row: AdminProjectService.Row,
+    dir: String,
+    glyph: String,
+    disabled: Boolean,
+) {
+    form(action = "/admin/projects/${row.slug}/move", method = FormMethod.post, classes = "admin-inline-form") {
+        input(type = InputType.hidden, name = "dir") { value = dir }
+        button(type = ButtonType.submit, classes = "ds-button ds-button--outline admin-small admin-move") {
+            attributes["aria-label"] = "Move ${row.name} ${if (dir == "up") "up" else "down"}"
+            if (disabled) attributes["disabled"] = "disabled"
+            +glyph
         }
     }
 }
@@ -314,6 +339,12 @@ internal fun HTML.projectFormPage(
                     +(if (editing) "Save changes" else "Add project")
                 }
                 a(href = "/admin", classes = "admin-cancel") { +"Cancel" }
+            }
+        }
+        if (editing) {
+            form(action = "/admin/projects/$editSlug/delete", method = FormMethod.post, classes = "admin-delete-form") {
+                attributes["onsubmit"] = "return confirm('Delete this project? This cannot be undone.');"
+                button(type = ButtonType.submit, classes = "ds-button ds-button--outline admin-small admin-danger") { +"Delete project" }
             }
         }
         script {

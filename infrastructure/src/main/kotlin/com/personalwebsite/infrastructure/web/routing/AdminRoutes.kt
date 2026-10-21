@@ -138,6 +138,24 @@ fun Routing.adminRoutes(
             }
         }
 
+        post("/admin/projects/{slug}/delete") {
+            val slug = call.parameters["slug"].orEmpty()
+            when (val result = adminProjectService.delete(slug)) {
+                is AdminProjectService.Result.Saved -> call.respondRedirect("/admin?message=${encode("Project deleted")}")
+                is AdminProjectService.Result.Failed -> call.respondRedirect("/admin?error=${encode(result.message)}")
+                is AdminProjectService.Result.Invalid -> call.respondRedirect("/admin")
+            }
+        }
+
+        post("/admin/projects/{slug}/move") {
+            val slug = call.parameters["slug"].orEmpty()
+            val up = call.receiveParameters()["dir"] == "up"
+            when (val result = adminProjectService.move(slug, up)) {
+                is AdminProjectService.Result.Failed -> call.respondRedirect("/admin?error=${encode(result.message)}")
+                else -> call.respondRedirect("/admin#project-$slug")
+            }
+        }
+
         get("/admin/content") {
             call.respondHtml(HttpStatusCode.OK) {
                 contentPage(

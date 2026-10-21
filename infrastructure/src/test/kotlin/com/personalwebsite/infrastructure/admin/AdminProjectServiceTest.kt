@@ -90,4 +90,22 @@ class AdminProjectServiceTest {
         assertEquals("Beta 2", service.find("beta")?.name)
         assertEquals(null, service.find("hijacked"))
     }
+
+    @Test
+    fun movesWithinItsSectionAndStopsAtTheEnds() {
+        val service = service()
+        assertIs<Result.Saved>(service.move("gamma", up = true))
+        assertEquals(listOf("gamma", "beta"), service.rows().filter { !it.master }.map { it.slug })
+        service.move("gamma", up = true)
+        assertEquals(listOf("gamma", "beta"), service.rows().filter { !it.master }.map { it.slug })
+        assertEquals(listOf("alpha"), service.rows().filter { it.master }.map { it.slug })
+    }
+
+    @Test
+    fun deletesAProjectAndReportsUnknownSlugs() {
+        val service = service()
+        assertIs<Result.Saved>(service.delete("beta"))
+        assertEquals(listOf("alpha", "gamma"), service.rows().map { it.slug })
+        assertIs<Result.Failed>(service.delete("beta"))
+    }
 }
